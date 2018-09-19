@@ -10,6 +10,7 @@ class ModuleAudio : public Module
 {
 public:
 
+	/*
 	ModuleAudio(Application* app, bool start_enabled = true);
 	~ModuleAudio();
 
@@ -28,7 +29,8 @@ public:
 private:
 
 	Mix_Music*			music;
-	p2List<Mix_Chunk*>	fx;
+	std::list<Mix_Chunk*>	fx;
+	*/
 };
 
 #endif // __ModuleAudio_H__

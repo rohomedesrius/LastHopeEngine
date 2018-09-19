@@ -10,8 +10,7 @@ Application::Application()
 
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
-	audio = new ModuleAudio(this, true);
-	scene_intro = new ModuleSceneIntro(this);
+	//audio = new ModuleAudio(this, true);
 	//physics3D = new ModulePhysics3D(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
@@ -26,21 +25,18 @@ Application::Application()
 	AddModule(renderer3D);
 	AddModule(camera);
 	AddModule(input);
-	AddModule(audio);
-	
-	// Scenes
-	AddModule(scene_intro);
+	//AddModule(audio);
 	
 }
 
 Application::~Application()
 {
-	p2List_item<Module*>* item = list_modules.getLast();
+	std::vector<Module*>::iterator item = list_modules.end();
 
-	while(item != NULL)
+	while(item != list_modules.begin())
 	{
-		delete item->data;
-		item = item->prev;
+		--item;
+		delete (*item);
 	}
 }
 
@@ -49,23 +45,16 @@ bool Application::Init()
 	bool ret = true;
 
 	// Call Init() in all modules
-	p2List_item<Module*>* item = list_modules.getFirst();
-
-	while(item != NULL && ret == true)
+	for (std::vector<Module*>::iterator item = list_modules.begin(); ret == true && item != list_modules.end(); item++)
 	{
-		ret = item->data->Init();
-		item = item->next;
+		(*item)->Init();
 	}
 
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");
-	item = list_modules.getFirst();
-
-	while(item != NULL && ret == true)
+	for(std::vector<Module*>::iterator item = list_modules.begin(); ret == true && item != list_modules.end(); item++)
 	{
-		if(item->data->IsEnabled())
-			ret = item->data->Start();
-		item = item->next;
+		(*item)->Start();
 	}
 	
 	return ret;
@@ -112,31 +101,21 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 	
-	p2List_item<Module*>* item = list_modules.getFirst();
+	std::vector<Module*>::iterator item = list_modules.begin();
 	
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	for (; ret == UPDATE_CONTINUE && item != list_modules.end(); item++)
 	{
-		if(item->data->IsEnabled())
-			ret = item->data->PreUpdate(dt);
-		item = item->next;
+		ret = (*item)->PreUpdate(dt);
 	}
 
-	item = list_modules.getFirst();
-
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	for (item = list_modules.begin(); ret == UPDATE_CONTINUE && item != list_modules.end(); item++)
 	{
-		if(item->data->IsEnabled())
-  			ret = item->data->Update(dt);
-		item = item->next;
+		ret = (*item)->Update(dt);
 	}
 
-	item = list_modules.getFirst();
-
-	while(item != NULL && ret == UPDATE_CONTINUE)
+	for (item = list_modules.begin(); ret == UPDATE_CONTINUE && item != list_modules.end(); item++)
 	{
-		if(item->data->IsEnabled())
-			ret = item->data->PostUpdate(dt);
-		item = item->next;
+		ret = (*item)->PostUpdate(dt);
 	}
 
 	FinishUpdate();
@@ -146,17 +125,17 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
-	p2List_item<Module*>* item = list_modules.getLast();
 
-	while(item != NULL && ret == true)
+	for (std::vector<Module*>::reverse_iterator item = list_modules.rbegin(); ret == true && item != list_modules.rend(); item++)
 	{
-		ret = item->data->CleanUp();
-		item = item->prev;
+		ret = (*item)->CleanUp();
+		delete (*item);
+		*item = NULL;
 	}
 	return ret;
 }
 
 void Application::AddModule(Module* mod)
 {
-	list_modules.add(mod);
+	list_modules.push_back(mod);
 }

@@ -7,18 +7,18 @@
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics3D.h"
-#include "ModuleSceneIntro.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+
+#include <vector>
 
 class Application
 {
 public:
 	ModuleWindow* window;
 	ModuleInput* input;
-	ModuleAudio* audio;
+	//ModuleAudio* audio;
 
-	ModuleSceneIntro* scene_intro;
 	//ModulePhysics3D* physics3D;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
@@ -33,7 +33,7 @@ private:
 	int		last_frame_ms;
 	int		last_fps;
 	int		capped_ms;
-	p2List<Module*> list_modules;
+	std::vector<Module*> list_modules;
 
 public:
 

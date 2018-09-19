@@ -13,8 +13,6 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = vec3(0.0f, 0.0f, 5.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
-
-	following = NULL;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -40,32 +38,6 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	// Follow code
-	if(following != NULL)
-	{
-		mat4x4 m;
-		following->GetTransform(&m);
-
-		Look(Position, m.translation(), true);
-
-		// Correct height
-		Position.y = (15.0*Position.y + Position.y + following_height) / 16.0;
-
-		// Correct distance
-		vec3 cam_to_target = m.translation() - Position;
-		float dist = length(cam_to_target);
-		float correctionFactor = 0.f;
-		if(dist < min_following_dist)
-		{
-			correctionFactor = 0.15*(min_following_dist - dist) / dist;
-		}
-		if(dist > max_following_dist)
-		{
-			correctionFactor = 0.15*(max_following_dist - dist) / dist;
-		}
-		Position -= correctionFactor * cam_to_target;
-	}
-
 	// Implement a debug camera with keys and mouse
 
 	// OnKeys WASD keys -----------------------------------
@@ -197,19 +169,4 @@ void ModuleCamera3D::CalculateViewMatrix()
 {
 	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
 	ViewMatrixInverse = inverse(ViewMatrix);
-}
-
-// -----------------------------------------------------------------
-void ModuleCamera3D::Follow(PhysBody3D* body, float min, float max, float height)
-{
-	min_following_dist = min;
-	max_following_dist = max;
-	following_height = height;
-	following = body;
-}
-
-// -----------------------------------------------------------------
-void ModuleCamera3D::UnFollow()
-{
-	following = NULL;
 }
