@@ -1,3 +1,4 @@
+/*
 #include "Globals.h"
 #include "Application.h"
 #include "ModulePhysics3D.h"
@@ -300,7 +301,7 @@ void ModulePhysics3D::DeleteBody(PhysBody3D* pbody)
 
 	delete pbody->collision_shape;
 	pbody->collision_shape = NULL;
-	*/
+	
 	// TODO: remove from the array "bodies"
 }
 
@@ -481,3 +482,4 @@ int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
 }
+*/

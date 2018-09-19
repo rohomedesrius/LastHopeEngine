@@ -11,9 +11,8 @@ Application::Application()
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	audio = new ModuleAudio(this, true);
-	player = new ModulePlayer(this);
 	scene_intro = new ModuleSceneIntro(this);
-	physics3D = new ModulePhysics3D(this);
+	//physics3D = new ModulePhysics3D(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 
@@ -23,7 +22,7 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
-	AddModule(physics3D);
+	//AddModule(physics3D);
 	AddModule(renderer3D);
 	AddModule(camera);
 	AddModule(input);
@@ -32,8 +31,6 @@ Application::Application()
 	// Scenes
 	AddModule(scene_intro);
 	
-	// Characters
-	AddModule(player);
 }
 
 Application::~Application()
