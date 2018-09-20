@@ -6,6 +6,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleAudio.h"
+#include "ModuleEditor.h"
 #include "ModulePhysics3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
@@ -13,7 +14,7 @@
 #include <vector>
 
 // Temporary Placement
-#include "ImGui\imgui.h"
+#include "ImGui/imgui.h"
 
 class Application
 {
@@ -21,6 +22,7 @@ public:
 	ModuleWindow* window;
 	ModuleInput* input;
 	//ModuleAudio* audio;
+	ModuleEditor* editor;
 
 	//ModulePhysics3D* physics3D;
 	ModuleRenderer3D* renderer3D;
