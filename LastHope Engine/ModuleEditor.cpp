@@ -2,8 +2,9 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 
-#include "ImGui/imgui_impl_sdl.h"
-#include "ImGui/imgui_impl_opengl2.h"
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_sdl_gl3.h"
+#include "glew/include/glew.h"
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -24,20 +25,14 @@ bool ModuleEditor::Start()
 	SDL_GLContext gl_context = SDL_GL_CreateContext(App->window->window);
 	
 
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-	ImGui_ImplSDL2_InitForOpenGL(App->window->window, gl_context);
-	ImGui_ImplOpenGL2_Init();
+	ImGui_ImplSdlGL3_Init(App->window->window);
 
 	return ret;
 }
 
 update_status ModuleEditor::PreUpdate(float dt)
 {
-	ImGui_ImplOpenGL2_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->window->window);
-	ImGui::NewFrame();
+	ImGui_ImplSdlGL3_NewFrame(App->window->window);
 
 	return UPDATE_CONTINUE;
 }
@@ -46,9 +41,7 @@ bool ModuleEditor::CleanUp()
 {
 	LOG("Unloading Editor stuff");
 
-	ImGui_ImplOpenGL2_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
+	ImGui_ImplSdlGL3_Shutdown();
 
 	return true;
 }
@@ -58,13 +51,39 @@ update_status ModuleEditor::Update(float dt)
 {
 	if (ImGui::BeginMainMenuBar())
 	{
+		// FILE
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem(" Exit", "	Esc"))
+			{
+				bExit = true;
+			}
+			ImGui::EndMenu();
+		}
+
+		// WINDOW
+		if (ImGui::BeginMenu("Window"))
+		{
+			if (ImGui::Checkbox("ImGui Test Window", &bShowExample))
+			{
+			}
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMainMenuBar();
+	}
+
+	if (bShowExample)
+	{
+		ImGui::ShowTestWindow();
 	}
 
 	// Rendering
 	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-	ImGui::EndFrame();
-
+	
+	if (bExit == true)
+	{
+		return UPDATE_STOP;
+	}
 	return UPDATE_CONTINUE;
 }

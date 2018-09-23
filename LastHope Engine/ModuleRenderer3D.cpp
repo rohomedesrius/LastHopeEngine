@@ -1,12 +1,15 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderer3D.h"
-#include "SDL\include\SDL_opengl.h"
+
+#include "glew/include/glew.h"
+#include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+#pragma comment (lib, "glew/libx86/glew32.lib")
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -59,6 +62,16 @@ bool ModuleRenderer3D::Init()
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
+
+		//Initialize glew and check for errors
+		GLenum err = glewInit();
+		if (err != 0)
+		{
+			LOG("Error initializing Glew! %s\n", glewGetErrorString(err));
+			ret = false;
+		}
+		else
+			LOG("Using Glew %s", glewGetString(GLEW_VERSION));
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);

@@ -13,9 +13,6 @@
 
 #include <vector>
 
-// Temporary Placement
-#include "ImGui/imgui.h"
-
 class Application
 {
 public:

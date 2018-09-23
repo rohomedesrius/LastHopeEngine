@@ -16,8 +16,11 @@
     <Filter Include="Sources\Helpers">
       <UniqueIdentifier>{121f8e6b-df36-4ab0-be0d-601ddfc9e503}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\glew">
+      <UniqueIdentifier>{4830609b-0d9d-4d26-ad8e-999d5dc77424}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Sources\Tools\ImGui">
-      <UniqueIdentifier>{2e0b747d-6e90-4c6d-826c-005b9605f559}</UniqueIdentifier>
+      <UniqueIdentifier>{feb954d9-458e-4915-9ead-00c98938bf27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +252,21 @@
     <ClInclude Include="MathGeoLib\include\Time\Clock.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleEditor.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="glew\include\eglew.h">
+      <Filter>Sources\Tools\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="glew\include\glew.h">
+      <Filter>Sources\Tools\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="glew\include\glxew.h">
+      <Filter>Sources\Tools\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="glew\include\wglew.h">
+      <Filter>Sources\Tools\glew</Filter>
+    </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>Sources\Tools\ImGui</Filter>
     </ClInclude>
@@ -258,22 +276,7 @@
     <ClInclude Include="ImGui\imgui_internal.h">
       <Filter>Sources\Tools\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="ImGui\imstb_rectpack.h">
-      <Filter>Sources\Tools\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_textedit.h">
-      <Filter>Sources\Tools\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_truetype.h">
-      <Filter>Sources\Tools\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleEditor.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_sdl.h">
-      <Filter>Sources\Tools\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_opengl2.h">
+    <ClInclude Include="ImGui\imgui_impl_sdl_gl3.h">
       <Filter>Sources\Tools\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -428,6 +431,9 @@
     <ClCompile Include="MathGeoLib\include\Time\Clock.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleEditor.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>Sources\Tools\ImGui</Filter>
     </ClCompile>
@@ -437,16 +443,7 @@
     <ClCompile Include="ImGui\imgui_draw.cpp">
       <Filter>Sources\Tools\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>Sources\Tools\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleEditor.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_sdl.cpp">
-      <Filter>Sources\Tools\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_opengl2.cpp">
+    <ClCompile Include="ImGui\imgui_impl_sdl_gl3.cpp">
       <Filter>Sources\Tools\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
