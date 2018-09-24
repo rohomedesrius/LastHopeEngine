@@ -19,4 +19,8 @@ private:
 	bool bExit = false;
 
 	bool bShowExample = false;
+	bool bShowApplication = false;
+
+public:
+	void ApplicationWindow(bool wActive);
 };

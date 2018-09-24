@@ -64,9 +64,10 @@ update_status ModuleEditor::Update(float dt)
 		// WINDOW
 		if (ImGui::BeginMenu("Window"))
 		{
-			if (ImGui::Checkbox("ImGui Test Window", &bShowExample))
-			{
-			}
+			if (ImGui::Checkbox("ImGui Test Window", &bShowExample));
+
+			if (ImGui::Checkbox("Application Window", &bShowApplication));
+		
 			ImGui::EndMenu();
 		}
 
@@ -114,11 +115,14 @@ update_status ModuleEditor::Update(float dt)
 
 		ImGui::EndMainMenuBar();
 	}
-
+	
+	//Test ImGui Window
 	if (bShowExample)
-	{
 		ImGui::ShowTestWindow();
-	}
+
+	//Application Window
+	if (bShowApplication)
+		ApplicationWindow(true);
 
 	// Rendering
 	ImGui::Render();
@@ -128,4 +132,20 @@ update_status ModuleEditor::Update(float dt)
 		return UPDATE_STOP;
 	}
 	return UPDATE_CONTINUE;
+}
+
+
+void ModuleEditor::ApplicationWindow(bool wActive)
+{
+	/*
+	ImGuiWindowFlags window_flags = 0;
+
+	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+	if (!ImGui::Begin("Application", &wActive, window_flags))
+	{
+		// Early out if the window is collapsed, as an optimization.
+		ImGui::End();
+		return;
+	}
+	*/
 }
