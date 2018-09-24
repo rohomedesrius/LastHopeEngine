@@ -70,6 +70,48 @@ update_status ModuleEditor::Update(float dt)
 			ImGui::EndMenu();
 		}
 
+		// WINDOW
+		if (ImGui::BeginMenu("About.."))
+		{
+			ImGui::Text("Last Hope Engine");
+			ImGui::Separator();
+
+			ImGui::Text("3D engine for educational purposes");
+			ImGui::Text("Developed in CITM, Terrassa");
+			ImGui::Separator();
+
+			ImGui::Text("Samuel Navarro & Roger Homedes");
+			ImGui::Separator();
+
+			if (ImGui::BeginMenu("Libraries"))
+			{
+				if (ImGui::MenuItem("ImGui Version:", ImGui::GetVersion()))
+				{
+					App->RequestBrowser("https://github.com/ocornut/imgui");
+				}
+
+				if (ImGui::MenuItem("MathGeoLib Version:"))
+				{
+					App->RequestBrowser("https://github.com/juj/MathGeoLib");
+				}
+
+				if (ImGui::MenuItem("SDL Version:"))
+				{
+					App->RequestBrowser("https://www.libsdl.org/");
+				}
+
+				ImGui::EndMenu();
+			}
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("License"))
+			{
+				//App->RequestBrowser("");
+			}
+
+			ImGui::EndMenu();
+		}
+
 		ImGui::EndMainMenuBar();
 	}
 

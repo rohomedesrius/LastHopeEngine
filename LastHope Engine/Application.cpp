@@ -141,3 +141,10 @@ void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
 }
+
+//--------------------------------------------------------------------------------
+
+void Application::RequestBrowser(const char* link)
+{
+	ShellExecute(0, 0, link, 0, 0, SW_SHOW);
+}

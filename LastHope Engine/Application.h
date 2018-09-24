@@ -46,6 +46,9 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	//Links request
+	void RequestBrowser(const char* link);
+
 private:
 
 	void AddModule(Module* mod);
