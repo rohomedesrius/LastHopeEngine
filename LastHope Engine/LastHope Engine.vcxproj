@@ -109,6 +109,7 @@
     <ClInclude Include="MathGeoLib\include\Geometry\Plane.h" />
     <ClInclude Include="MathGeoLib\include\Geometry\Polygon.h" />
     <ClInclude Include="MathGeoLib\include\Geometry\Polyhedron.h" />
+    <ClInclude Include="MathGeoLib\include\Geometry\QuadTree.h" />
     <ClInclude Include="MathGeoLib\include\Geometry\Ray.h" />
     <ClInclude Include="MathGeoLib\include\Geometry\Sphere.h" />
     <ClInclude Include="MathGeoLib\include\Geometry\Triangle.h" />
