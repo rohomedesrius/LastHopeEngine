@@ -86,6 +86,12 @@ void Application::FinishUpdate()
 
 	last_frame_ms = ms_timer.Read();
 
+	int fps_cap_ms = (1000 / fps_cap);
+	if (capped_ms != fps_cap_ms)
+	{
+		capped_ms = fps_cap_ms;
+	}
+
 	// cap fps
 	if(last_frame_ms < capped_ms)
 	{
@@ -147,18 +153,20 @@ void Application::DrawUI()
 		{
 			if (i == 99)
 			{
-				//msArr[i] = (startUp.Read() - millisec);
-				//fpsArr[i] = capFramerate;
+				msArr[i] = last_frame_ms;
+				if (fps_counter == 0)
+					fpsArr[i] = (float)last_fps;
 			}
 			else
 			{
 				msArr[i] = msArr[i + 1];
-				fpsArr[i] = fpsArr[i + 1];
+				if (fps_counter == 0)
+					fpsArr[i] = fpsArr[i + 1];
 			}
 		}
 	}
 
-	if (ImGui::CollapsingHeader("Application"))
+	if (ImGui::CollapsingHeader("Application", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		static char input[100];
 		int size = sizeof(input) / sizeof(char);
@@ -177,21 +185,19 @@ void Application::DrawUI()
 			organization.assign(input);
 		}
 
-		/*ImGui::Checkbox("VSync", &vsync);
+		ImGui::Checkbox("VSync", &vsync);
 
 		ImGui::PushItemWidth(250);
-		ImGui::SliderFloat("Max FPS", &capFramerate, 20.0f, 144.0f, "%.1f");
-		fps = (capFramerate > 0) ? 1000 / capFramerate : 0;
-
-		millisec = startUp.Read();
+		ImGui::SliderInt("Max FPS", &fps_cap, 20.0f, 144.0f, "%.1f");
+		fps = (fps_cap > 0) ? 1000 / fps_cap : 0;
 
 		char title[25];
 		sprintf_s(title, 25, "Framerate %.1f", fpsArr[99]);
 		ImGui::PlotHistogram("##framerate", fpsArr, ((int)(sizeof(fpsArr) / sizeof(*fpsArr))), 0, title, 0.0f, 150.0f, ImVec2(310, 100));
 		sprintf_s(title, 25, "Milliseconds %.1f", msArr[99]);
-		ImGui::PlotHistogram("##milliseconds", msArr, ((int)(sizeof(msArr) / sizeof(*msArr))), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
+		ImGui::PlotHistogram("##milliseconds", msArr, ((int)(sizeof(msArr) / sizeof(*msArr))), 0, title, 0.0f, 9.0f, ImVec2(310, 100));
 
-		ImGui::Checkbox("< Freeze Framerate Display", &bFreeze);*/
+		ImGui::Checkbox("< Freeze Framerate Display", &bFreeze);
 	}
 
 	for (item = list_modules.begin(); item != list_modules.end(); item++)

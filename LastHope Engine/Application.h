@@ -42,9 +42,11 @@ private:
 	std::vector<Module*> list_modules;
 
 	// Config Temporal
+	bool vsync = false;
+	int fps_cap = 60.0f;
+
 	float fpsArr[100] = {};
 	float msArr[100] = {};
-	float millisec = 0.0f;
 	float fps = 60.0f;
 	bool bFreeze = false;
 
