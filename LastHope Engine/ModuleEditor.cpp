@@ -91,7 +91,7 @@ update_status ModuleEditor::Update(float dt)
 					App->RequestBrowser("https://github.com/ocornut/imgui");
 				}
 
-				if (ImGui::MenuItem("MathGeoLib Version:"))
+				if (ImGui::MenuItem("MathGeoLib Version:", "2.0"))
 				{
 					App->RequestBrowser("https://github.com/juj/MathGeoLib");
 				}
@@ -137,15 +137,15 @@ update_status ModuleEditor::Update(float dt)
 
 void ModuleEditor::ApplicationWindow(bool wActive)
 {
-	/*
-	ImGuiWindowFlags window_flags = 0;
+	float size_x = 370.f;
 
-	ImGui::SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
-	if (!ImGui::Begin("Application", &wActive, window_flags))
+	ImGui::SetNextWindowPos(ImVec2(App->window->screen_surface->w - size_x, 18.f));
+
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoFocusOnAppearing;
+	ImGui::Begin("Configuration", 0, ImVec2(size_x, App->window->screen_surface->h - 560.f), 0.8f, flag);
 	{
-		// Early out if the window is collapsed, as an optimization.
-		ImGui::End();
-		return;
+		App->DrawUI();
 	}
-	*/
+
+	ImGui::End();
 }

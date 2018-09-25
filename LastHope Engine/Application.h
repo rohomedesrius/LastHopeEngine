@@ -11,6 +11,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 
+#include "ImGui/imgui.h"
 #include <vector>
 
 class Application
@@ -25,6 +26,9 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 
+	std::string name = "LastHope Engine";
+	std::string organization = "UPC";
+
 private:
 
 	Timer	ms_timer;
@@ -37,6 +41,13 @@ private:
 	int		capped_ms;
 	std::vector<Module*> list_modules;
 
+	// Config Temporal
+	float fpsArr[100] = {};
+	float msArr[100] = {};
+	float millisec = 0.0f;
+	float fps = 60.0f;
+	bool bFreeze = false;
+
 public:
 
 	Application();
@@ -45,6 +56,8 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+
+	void DrawUI();
 
 	//Links request
 	void RequestBrowser(const char* link);

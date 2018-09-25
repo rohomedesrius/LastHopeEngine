@@ -68,4 +68,9 @@ public:
 	{ 
 		return true; 
 	}
+
+	virtual void DrawUI()
+	{
+
+	}
 };
