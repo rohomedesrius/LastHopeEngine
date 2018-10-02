@@ -20,6 +20,8 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	void DrawUI();
+
 	void OnResize(int width, int height);
 
 public:
@@ -29,4 +31,14 @@ public:
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix;
 	mat4x4 ProjectionMatrix;
+
+private:
+
+	bool vsync = true;
+
+	bool enable_depth_test = true;
+	bool enable_cull_face = true;
+	bool enable_lighting = true;
+	bool enable_color_material = true;
+	bool enable_gl_texture = true;
 };

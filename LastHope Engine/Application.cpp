@@ -145,7 +145,7 @@ bool Application::CleanUp()
 	return ret;
 }
 
-void Application::ConfigurationPanel()
+void Application::DrawAllModules()
 {
 	std::vector<Module*>::iterator item = list_modules.begin();
 
@@ -200,8 +200,6 @@ void Application::DrawUI()
 			organization.assign(input);
 		}
 
-		ImGui::Checkbox("VSync", &vsync);
-
 		ImGui::PushItemWidth(250);
 		ImGui::SliderInt("Max FPS", &fps_cap, 20.0f, 144.0f, "%.1f");
 		fps = (fps_cap > 0) ? 1000 / fps_cap : 0;
@@ -212,24 +210,26 @@ void Application::DrawUI()
 		sprintf_s(title, 25, "Milliseconds %.1f", msArr[99]);
 		ImGui::PlotHistogram("##milliseconds", msArr, ((int)(sizeof(msArr) / sizeof(*msArr))), 0, title, 0.0f, 9.0f, ImVec2(310, 100));
 
-		ImGui::Checkbox(" Freeze Framerate Display", &bFreeze);
+		// Memory
+		sMStats stats = m_getMemoryStatistics();
+
+		if (!bFreeze)
+		{
+			for (int i = 0; i <= 99; i++)
+			{
+				if (i == 99)
+					memory[i] = (float)stats.totalReportedMemory;
+				else
+					memory[i] = memory[i + 1];
+			}
+		}
+
+		sprintf_s(title, 25, "Memory Usage %i", (int)memory[99]);
+		ImGui::PlotHistogram("##memory", memory, sizeof(memory) / sizeof(float), 0, title, 0.0f, (float)stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
+
+		// Freeze Displays
+		ImGui::Checkbox(" Freeze Histograms", &bFreeze);
 	}
-
-	// Memory
-	sMStats stats = m_getMemoryStatistics();
-
-	for (int i = 0; i <= 99; i++)
-	{
-		if (i == 99)
-			memory[i] = (float)stats.totalReportedMemory;
-		else
-			memory[i] = memory[i + 1];
-	}
-
-	char title[25];
-	sprintf_s(title, 25, "Memory Usage %i", (int)memory[99]);
-	ImGui::PlotHistogram("##memory", memory, 100, 0, title, 0.0f, (float)stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
-
 }
 
 void Application::AddModule(Module* mod)

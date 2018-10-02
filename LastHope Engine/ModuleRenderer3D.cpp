@@ -36,7 +36,7 @@ bool ModuleRenderer3D::Init()
 	if(ret == true)
 	{
 		//Use Vsync
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if(vsync && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
@@ -102,11 +102,14 @@ bool ModuleRenderer3D::Init()
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
+		glEnable(GL_ALPHA_TEST);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_TEXTURE_2D);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
 	// Projection matrix for
@@ -158,6 +161,56 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
+void ModuleRenderer3D::DrawUI()
+{
+	if (ImGui::CollapsingHeader("Renderer"))
+	{
+		if (ImGui::Checkbox("VSYNC", &vsync))
+		{
+			if (vsync)
+				SDL_GL_SetSwapInterval(1);
+			else
+				SDL_GL_SetSwapInterval(0);
+		}
+		int a = SDL_GL_GetSwapInterval();
+		ImGui::Spacing(); ImGui::Spacing();
+		if (ImGui::Checkbox("GL Depth Test", &enable_depth_test))
+		{
+			if (enable_depth_test)
+				glEnable(GL_DEPTH_TEST);
+			else
+				glDisable(GL_DEPTH_TEST);
+		}
+		if (ImGui::Checkbox("GL Cull Face", &enable_cull_face))
+		{
+			if (enable_cull_face)
+				glEnable(GL_CULL_FACE);
+			else
+				glDisable(GL_CULL_FACE);
+		}
+		if (ImGui::Checkbox("GL Lighting", &enable_lighting))
+		{
+			if (enable_lighting)
+				glEnable(GL_LIGHTING);
+			else
+				glDisable(GL_LIGHTING);
+		}
+		if (ImGui::Checkbox("GL Color Material", &enable_color_material))
+		{
+			if (enable_color_material)
+				glEnable(GL_COLOR_MATERIAL);
+			else
+				glDisable(GL_COLOR_MATERIAL);
+		}
+		if (ImGui::Checkbox("GL Texture 2D", &enable_gl_texture))
+		{
+			if (enable_gl_texture)
+				glEnable(GL_TEXTURE_2D);
+			else
+				glDisable(GL_TEXTURE_2D);
+		}
+	}
+}
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {

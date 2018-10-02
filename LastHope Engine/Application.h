@@ -46,7 +46,6 @@ private:
 	std::vector<Module*> list_modules;
 
 	// Config Temporal
-	bool vsync = false;
 	int fps_cap = 60.0f;
 
 	float fpsArr[100] = {};
@@ -66,7 +65,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void ConfigurationPanel();
+	void DrawAllModules();
 	void DrawUI();
 
 	//Links request
