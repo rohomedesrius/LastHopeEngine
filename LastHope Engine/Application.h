@@ -10,6 +10,7 @@
 #include "ModulePhysics3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleScene.h"
 
 #include "ImGui/imgui.h"
 #include <vector>
@@ -25,6 +26,9 @@ public:
 	//ModulePhysics3D* physics3D;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
+
+	//Scene
+	ModuleScene* scene;
 
 	std::string name = "LastHope Engine";
 	std::string organization = "UPC";

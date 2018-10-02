@@ -2,11 +2,13 @@
 
 Application::Application()
 {
+	//FPS Stuff--------------------
 	frames = 0;
 	last_frame_ms = -1;
 	last_fps = -1;
 	capped_ms = 1000 / 60;
 	fps_counter = 0;
+	//-----------------------------
 
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
@@ -15,6 +17,7 @@ Application::Application()
 	//physics3D = new ModulePhysics3D(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
+	scene = new ModuleScene(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -24,10 +27,12 @@ Application::Application()
 	AddModule(window);
 	//AddModule(physics3D);
 	AddModule(editor);
-	AddModule(renderer3D);
 	AddModule(camera);
 	AddModule(input);
 	//AddModule(audio);
+	AddModule(scene);
+
+	AddModule(renderer3D);
 	
 }
 
