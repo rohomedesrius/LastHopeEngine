@@ -288,6 +288,9 @@
     <ClInclude Include="glmath.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleHardware.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -454,6 +457,9 @@
     </ClCompile>
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleHardware.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
