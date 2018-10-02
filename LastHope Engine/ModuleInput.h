@@ -23,6 +23,8 @@ public:
 	update_status PreUpdate(float dt);
 	bool CleanUp();
 
+	void DrawUI();
+
 	KEY_STATE GetKey(int id) const
 	{
 		return keyboard[id];
@@ -58,6 +60,10 @@ public:
 		return mouse_y_motion;
 	}
 
+	bool has_dropped = false;
+
+	const char* GetFileDropped();
+
 	float Sensitivity = 0.25f;
 
 private:
@@ -68,4 +74,5 @@ private:
 	int mouse_z;
 	int mouse_x_motion;
 	int mouse_y_motion;
+	char* file_path = NULL;
 };

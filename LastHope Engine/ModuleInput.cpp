@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ImGui/imgui_impl_sdl_gl3.h"
 
 #define MAX_KEYS 300
 
@@ -85,8 +86,10 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	bool quit = false;
 	SDL_Event e;
+
 	while(SDL_PollEvent(&e))
 	{
+		ImGui_ImplSdlGL3_ProcessEvent(&e);
 		switch(e.type)
 		{
 			case SDL_MOUSEWHEEL:
@@ -99,6 +102,12 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			mouse_x_motion = e.motion.xrel / SCREEN_SIZE;
 			mouse_y_motion = e.motion.yrel / SCREEN_SIZE;
+			break;
+
+			case SDL_DROPFILE:
+			file_path = e.drop.file;
+			has_dropped = true;
+			SDL_free(e.drop.file);
 			break;
 
 			case SDL_QUIT:
@@ -125,4 +134,51 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
+}
+
+void ModuleInput::DrawUI()
+{
+	static char* name = "";
+	if (GetFileDropped() != nullptr)
+	{
+		name = (char*)GetFileDropped();
+	}
+
+	if (ImGui::CollapsingHeader("Input"))
+	{
+		if (ImGui::TreeNodeEx("Mouse", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::BeginGroup();
+			{
+				ImGui::Text("Mouse position:");
+				ImGui::Text("Mouse motion:");
+				ImGui::Text("Mouse wheel:");
+				ImGui::EndGroup();
+			}
+			ImGui::SameLine();
+			ImGui::BeginGroup();
+			{
+				ImGui::Text("%i, %i", GetMouseX(), GetMouseY());
+				ImGui::Text("%i, %i", GetMouseXMotion(), GetMouseYMotion());
+				ImGui::Text("%i", GetMouseZ());
+				ImGui::EndGroup();
+			}
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNodeEx("Files", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::TextWrapped("Latest dropped file:\n%s", name);
+			ImGui::TreePop();
+		}
+	}
+}
+
+const char * ModuleInput::GetFileDropped()
+{
+	if (has_dropped)
+	{
+		return file_path;
+	}
+	else return nullptr;
+	return nullptr;
 }
