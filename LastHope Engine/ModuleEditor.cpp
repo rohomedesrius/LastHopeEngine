@@ -144,7 +144,7 @@ void ModuleEditor::ApplicationWindow(bool wActive)
 	ImGuiWindowFlags flag = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoFocusOnAppearing;
 	ImGui::Begin("Configuration", 0, ImVec2(size_x, App->window->screen_surface->h - 560.f), 0.8f, flag);
 	{
-		App->DrawUI();
+		App->ConfigurationPanel();
 	}
 
 	ImGui::End();
