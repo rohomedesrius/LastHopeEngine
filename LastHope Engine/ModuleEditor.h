@@ -19,7 +19,7 @@ private:
 	bool bExit = false;
 
 	bool bShowExample = false;
-	bool bShowApplication = false;
+	bool bShowApplication = true;
 	bool bShowRandomWindow = false;
 
 public:
