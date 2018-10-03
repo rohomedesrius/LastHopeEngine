@@ -17,4 +17,6 @@ public:
 	bool CleanUp();
 
 	void Draw();
+
+	void DrawGrid(int size);
 };
