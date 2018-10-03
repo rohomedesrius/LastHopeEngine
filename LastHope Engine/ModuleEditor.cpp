@@ -143,6 +143,7 @@ void ModuleEditor::RegisterLog(const char * log)
 
 void ModuleEditor::ShowEngineConsole(bool* show)
 {
+	ImGui::SetNextWindowPos(ImVec2(0.f, 500.f));
 	console.Draw("LastHope Engine Console", show);
 }
 

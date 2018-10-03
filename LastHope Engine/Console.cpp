@@ -45,8 +45,9 @@ void EngineConsole::AddLog(const char* fmt, ...) IM_FMTARGS(2)
 void EngineConsole::Draw(const char * title, bool * p_open)
 {
 	// Console Temporary Initial Position
-	ImGui::SetNextWindowSize(ImVec2(0, 600), ImGuiCond_FirstUseEver);
-	if (!ImGui::Begin(title, p_open))
+	ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings;
+	if (!ImGui::Begin(title, p_open, flag))
 	{
 		ImGui::End();
 		return;
@@ -61,15 +62,12 @@ void EngineConsole::Draw(const char * title, bool * p_open)
 		ImGui::EndPopup();
 	}
 
-	// TODO: display items starting from the bottom
-
-	//if (ImGui::SmallButton("Add Dummy Text")) { AddLog("%d some text", Items.Size); AddLog("some more text"); AddLog("display very important message here!"); } ImGui::SameLine();
-	//if (ImGui::SmallButton("Add Dummy Error")) { AddLog("[error] something went wrong"); } ImGui::SameLine();
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.6f, 0.1f, 0.1f, 1.0f));
 	if (ImGui::SmallButton(" Clear LOGs ")) { ClearLog(); } ImGui::SameLine();
 	ImGui::PopStyleColor();
+	if (ImGui::SmallButton("Separator")) { AddLog(" "); AddLog(" "); } ImGui::SameLine();
 	bool copy_to_clipboard = ImGui::SmallButton("Copy"); ImGui::SameLine();
-	if (ImGui::SmallButton("Scroll to bottom")) ScrollToBottom = true;
+	if (ImGui::SmallButton("Scroll to bottom")) ScrollToBottom = true; 
 	//static float t = 0.0f; if (ImGui::GetTime() - t > 0.02f) { t = ImGui::GetTime(); AddLog("Spam %f", t); }
 
 	ImGui::Separator();
