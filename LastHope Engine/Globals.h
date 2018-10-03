@@ -33,4 +33,4 @@ enum update_status
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true
 #define WIN_BORDERLESS false
-#define WIN_FULLSCREEN_DESKTOP false
+#define WIN_FULLSCREEN_DESKTOP true
