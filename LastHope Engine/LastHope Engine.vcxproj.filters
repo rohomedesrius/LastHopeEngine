@@ -31,6 +31,9 @@
     <Filter Include="Sources\Tools\mmgr">
       <UniqueIdentifier>{6d79b89b-a7f2-402f-9a8a-54370f39fb99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\Scenes">
+      <UniqueIdentifier>{90a9c7eb-ee96-4038-bfff-74bc4a2c9293}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -303,6 +306,9 @@
     <ClInclude Include="Console.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleScene.h">
+      <Filter>Sources\Modules\Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -478,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="Console.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleScene.cpp">
+      <Filter>Sources\Modules\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
