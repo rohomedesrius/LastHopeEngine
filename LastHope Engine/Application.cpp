@@ -16,6 +16,7 @@ Application::Application()
 	//physics3D = new ModulePhysics3D(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
+	scene = new ModuleScene(this);
 	hardware = new ModuleHardware(this);
 
 	// The order of calls is very important!
@@ -27,6 +28,7 @@ Application::Application()
 	//AddModule(physics3D);
 	AddModule(editor);
 	AddModule(renderer3D);
+	AddModule(scene);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(hardware);

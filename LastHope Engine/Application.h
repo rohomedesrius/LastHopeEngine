@@ -10,6 +10,7 @@
 #include "ModulePhysics3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleScene.h"
 #include "ModuleHardware.h"
 
 #include "ImGui/imgui.h"
@@ -25,6 +26,7 @@ public:
 	//ModulePhysics3D* physics3D;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
+	ModuleScene* scene;
 	ModuleHardware* hardware;
 
 	std::string name = "LastHope Engine";

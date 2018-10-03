@@ -130,7 +130,7 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	
-	App->camera->Look(float3(1.75f, 1.75f, 5.0f), float3(0.0f, 0.0f, 0.0f));
+	App->camera->Look(vec3(1.75f, 1.75f, 5.0f), vec3(0.0f, 0.0f, 0.0f));
 
 	return ret;
 }
@@ -138,22 +138,19 @@ bool ModuleRenderer3D::Init()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	// glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// glLoadIdentity();
-
 	Color c = App->camera->background;
 	glClearColor(c.r, c.g, c.b, c.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrixFloat());
+	glLoadMatrixf(App->camera->GetViewMatrix());
 
 	// light 0 on cam pos
-	// lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
-	/* for(uint i = 0; i < MAX_LIGHTS; ++i)
-		  lights[i].Render();
-	*/
+	for(uint i = 0; i < MAX_LIGHTS; ++i)
+		lights[i].Render();
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -171,7 +168,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	// Debug draw would go here
+	App->scene->Draw();
 
 	App->editor->Draw();
 
