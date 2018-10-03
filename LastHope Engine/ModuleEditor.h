@@ -21,7 +21,9 @@ private:
 	bool bShowExample = false;
 	bool bShowApplication = true;
 	bool bShowRandomWindow = false;
+	bool bShowConsole = true;
 
-public:
+private:
+	static void ShowEngineConsole(bool* show);
 	void ApplicationWindow(bool wActive);
 };

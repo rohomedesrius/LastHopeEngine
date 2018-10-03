@@ -6,6 +6,8 @@
 #include "ImGui/imgui_impl_sdl_gl3.h"
 #include "glew/include/glew.h"
 
+#include "Console.h"
+
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
@@ -64,6 +66,8 @@ update_status ModuleEditor::Update(float dt)
 		// WINDOW
 		if (ImGui::BeginMenu("Window"))
 		{
+			if (ImGui::Checkbox("Engine Console", &bShowConsole));
+
 			if (ImGui::Checkbox("ImGui Test Window", &bShowExample));
 
 			if (ImGui::Checkbox("Application Window", &bShowApplication));
@@ -116,11 +120,15 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::EndMainMenuBar();
 	}
 	
-	//Test ImGui Window
+	// Engine Console
+	if (bShowConsole)
+		ShowEngineConsole(&bShowConsole);
+
+	// Test ImGui Window
 	if (bShowExample)
 		ImGui::ShowTestWindow();
 
-	//Application Window
+	// Application Window
 	if (bShowApplication)
 		ApplicationWindow(true);
 
@@ -134,6 +142,11 @@ update_status ModuleEditor::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
+void ModuleEditor::ShowEngineConsole(bool* show)
+{
+	static EngineConsole console;
+	console.Draw("LastHope Engine Console", show);
+}
 
 void ModuleEditor::ApplicationWindow(bool wActive)
 {

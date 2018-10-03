@@ -69,7 +69,7 @@ void ModuleHardware::DrawUI()
 
 			ImGui::Spacing(); ImGui::Spacing(); ImGui::Spacing();
 
-			ImGui::Text("Capacities:");
+			ImGui::Text("Capabilities:");
 			ImGui::BeginGroup();
 			{
 				if (ImGui::Checkbox("RDTSC", &rdtsc))
