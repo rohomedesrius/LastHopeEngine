@@ -23,7 +23,6 @@ int main(int argc, char ** argv)
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
-	Application* App = NULL;
 
 	while (state != MAIN_EXIT)
 	{
@@ -83,8 +82,8 @@ int main(int argc, char ** argv)
 
 		}
 	}
+	LOG("Exiting %s...\n", App->name.c_str());
 
 	delete App;
-	LOG("Exiting LastHope Engine...\n");
 	return main_return;
 }

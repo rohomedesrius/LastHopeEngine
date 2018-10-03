@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "mmgr/mmgr.h"
 
 Application::Application()
 {
@@ -129,12 +130,19 @@ update_status Application::Update()
 	}
 
 	FinishUpdate();
+
+	if (exit)
+		ret = UPDATE_STOP;
+
 	return ret;
 }
 
 bool Application::CleanUp()
 {
 	bool ret = true;
+
+	LOG("Starting CleanUP: Closing Console");
+	console_enabled = false;
 
 	for (std::vector<Module*>::reverse_iterator item = list_modules.rbegin(); ret == true && item != list_modules.rend(); item++)
 	{
@@ -242,4 +250,9 @@ void Application::AddModule(Module* mod)
 void Application::RequestBrowser(const char* link)
 {
 	ShellExecute(0, 0, link, 0, 0, SW_SHOW);
+}
+
+void Application::ExitRequest()
+{
+	exit = true;
 }

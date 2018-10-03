@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Module.h"
+#include "Console.h"
 
 class GameObject;
 
@@ -16,14 +17,18 @@ public:
 	bool CleanUp();
 
 private:
-	bool bExit = false;
+
+	EngineConsole console;
 
 	bool bShowExample = false;
 	bool bShowApplication = true;
 	bool bShowRandomWindow = false;
 	bool bShowConsole = true;
 
+public:
+	void RegisterLog(const char* log);
+
 private:
-	static void ShowEngineConsole(bool* show);
+	void ShowEngineConsole(bool* show);
 	void ApplicationWindow(bool wActive);
 };

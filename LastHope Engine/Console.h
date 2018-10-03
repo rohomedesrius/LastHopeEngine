@@ -23,11 +23,10 @@ public:
 
 	void    Draw(const char* title, bool* p_open);
 
+	void    AddLog(const char* fmt, ...) IM_FMTARGS(2);
 	void    ClearLog();
 
 private:
-
-	void    AddLog(const char* fmt, ...) IM_FMTARGS(2);
 	void    ExecCommand(const char* command_line);
 
 	// ImGui stuff

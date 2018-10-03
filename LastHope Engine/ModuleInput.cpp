@@ -84,7 +84,6 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	mouse_x_motion = mouse_y_motion = 0;
 
-	bool quit = false;
 	SDL_Event e;
 
 	while(SDL_PollEvent(&e))
@@ -111,7 +110,8 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 
 			case SDL_QUIT:
-			quit = true;
+			App->ExitRequest();
+			LOG("Input(SDL): Requested to Exit");
 			break;
 
 			case SDL_WINDOWEVENT:
@@ -122,8 +122,11 @@ update_status ModuleInput::PreUpdate(float dt)
 		}
 	}
 
-	if(quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
-		return UPDATE_STOP;
+	if (keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
+	{
+		App->ExitRequest();
+		LOG("Input(ESC): Requested to Exit");
+	}
 
 	return UPDATE_CONTINUE;
 }

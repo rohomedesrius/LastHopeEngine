@@ -6,8 +6,6 @@
 #include "ImGui/imgui_impl_sdl_gl3.h"
 #include "glew/include/glew.h"
 
-#include "Console.h"
-
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
@@ -58,7 +56,8 @@ update_status ModuleEditor::Update(float dt)
 		{
 			if (ImGui::MenuItem(" Exit", "	Esc"))
 			{
-				bExit = true;
+				App->ExitRequest();
+				LOG("Editor: Requested to Exit");
 			}
 			ImGui::EndMenu();
 		}
@@ -131,20 +130,19 @@ update_status ModuleEditor::Update(float dt)
 	// Application Window
 	if (bShowApplication)
 		ApplicationWindow(true);
-
 	// Rendering
 	ImGui::Render();
-	
-	if (bExit == true)
-	{
-		return UPDATE_STOP;
-	}
+
 	return UPDATE_CONTINUE;
+}
+
+void ModuleEditor::RegisterLog(const char * log)
+{
+	console.AddLog(log);
 }
 
 void ModuleEditor::ShowEngineConsole(bool* show)
 {
-	static EngineConsole console;
 	console.Draw("LastHope Engine Console", show);
 }
 

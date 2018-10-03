@@ -13,7 +13,6 @@
 #include "ModuleHardware.h"
 
 #include "ImGui/imgui.h"
-#include "mmgr/mmgr.h"
 
 class Application
 {
@@ -71,9 +70,19 @@ public:
 	//Links request
 	void RequestBrowser(const char* link);
 
+	// Exit request
+	void ExitRequest();
+
+	// Console
+	bool console_enabled = true;
+
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
+	bool exit = false;
 };
+
+extern Application* App;

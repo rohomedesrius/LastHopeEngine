@@ -1,4 +1,5 @@
 #include "Console.h"
+#include "Application.h"
 
 EngineConsole::EngineConsole()
 {
@@ -43,7 +44,8 @@ void EngineConsole::AddLog(const char* fmt, ...) IM_FMTARGS(2)
 
 void EngineConsole::Draw(const char * title, bool * p_open)
 {
-	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
+	// Console Temporary Initial Position
+	ImGui::SetNextWindowSize(ImVec2(0, 600), ImGuiCond_FirstUseEver);
 	if (!ImGui::Begin(title, p_open))
 	{
 		ImGui::End();
@@ -63,15 +65,24 @@ void EngineConsole::Draw(const char * title, bool * p_open)
 
 	//if (ImGui::SmallButton("Add Dummy Text")) { AddLog("%d some text", Items.Size); AddLog("some more text"); AddLog("display very important message here!"); } ImGui::SameLine();
 	//if (ImGui::SmallButton("Add Dummy Error")) { AddLog("[error] something went wrong"); } ImGui::SameLine();
-	if (ImGui::SmallButton("Clear")) { ClearLog(); } ImGui::SameLine();
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.6f, 0.1f, 0.1f, 1.0f));
+	if (ImGui::SmallButton(" Clear LOGs ")) { ClearLog(); } ImGui::SameLine();
+	ImGui::PopStyleColor();
 	bool copy_to_clipboard = ImGui::SmallButton("Copy"); ImGui::SameLine();
 	if (ImGui::SmallButton("Scroll to bottom")) ScrollToBottom = true;
 	//static float t = 0.0f; if (ImGui::GetTime() - t > 0.02f) { t = ImGui::GetTime(); AddLog("Spam %f", t); }
 
 	ImGui::Separator();
 
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 0));
 	static ImGuiTextFilter filter;
+	if (ImGui::Button("Clear Filter"))
+	{
+		filter.Clear();
+	}
+	ImGui::PopStyleVar();
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+	ImGui::SameLine();
 	filter.Draw("Search (Filter)", 180);
 	ImGui::PopStyleVar();
 	ImGui::Separator();
@@ -175,7 +186,8 @@ void EngineConsole::ExecCommand(const char * command_line)
 	}
 	else if (Stricmp(command_line, "QUIT") == 0)
 	{
-
+		App->ExitRequest();
+		LOG("Engine Console: Requested to Exit");
 	}
 	else
 	{
