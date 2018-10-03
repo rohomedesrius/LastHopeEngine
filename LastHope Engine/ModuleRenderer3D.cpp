@@ -166,6 +166,11 @@ update_status ModuleRenderer3D::Update(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	if (enable_wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	// Debug draw would go here
 
 	App->editor->Draw();
@@ -231,6 +236,10 @@ void ModuleRenderer3D::DrawUI()
 				glEnable(GL_TEXTURE_2D);
 			else
 				glDisable(GL_TEXTURE_2D);
+		}
+		if (ImGui::Checkbox("Wireframe Mode", &enable_wireframe))
+		{
+
 		}
 	}
 }

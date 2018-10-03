@@ -41,4 +41,5 @@ private:
 	bool enable_lighting = true;
 	bool enable_color_material = true;
 	bool enable_gl_texture = true;
+	bool enable_wireframe = false;
 };
