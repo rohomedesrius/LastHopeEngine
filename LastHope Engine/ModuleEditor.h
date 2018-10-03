@@ -26,6 +26,9 @@ private:
 	bool bShowConsole = true;
 
 public:
+
+	void Draw();
+
 	void RegisterLog(const char* log);
 
 private:

@@ -130,10 +130,14 @@ update_status ModuleEditor::Update(float dt)
 	// Application Window
 	if (bShowApplication)
 		ApplicationWindow(true);
-	// Rendering
-	ImGui::Render();
 
 	return UPDATE_CONTINUE;
+}
+
+void ModuleEditor::Draw()
+{
+	// Rendering
+	ImGui::Render();
 }
 
 void ModuleEditor::RegisterLog(const char * log)
