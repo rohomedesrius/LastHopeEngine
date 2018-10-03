@@ -18,6 +18,8 @@ public:
 	bool Init();
 	bool CleanUp();
 
+	void DrawUI();
+
 	void SetTitle(const char* title);
 
 public:
@@ -26,6 +28,13 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
+
+private:
+
+	bool fullscreen = false;
+	bool fullscreen_desktop = false;
+	bool maximize = false;
+	bool borderless = false;
 };
 
 #endif // __ModuleWindow_H__

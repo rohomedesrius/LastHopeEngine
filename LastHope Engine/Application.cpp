@@ -195,6 +195,7 @@ void Application::DrawUI()
 		int size = sizeof(input) / sizeof(char);
 		sprintf_s(input, size, "%s", name.c_str());
 
+		ImGui::PushItemWidth(200);
 		if (ImGui::InputText("App Name", input, size))
 		{
 			name.assign(input);
@@ -208,7 +209,6 @@ void Application::DrawUI()
 			organization.assign(input);
 		}
 
-		ImGui::PushItemWidth(250);
 		ImGui::SliderInt("Max FPS", &fps_cap, 20.0f, 144.0f, "%.1f");
 		fps = (fps_cap > 0) ? 1000 / fps_cap : 0;
 

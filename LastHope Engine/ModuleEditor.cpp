@@ -149,12 +149,11 @@ void ModuleEditor::ShowEngineConsole(bool* show)
 
 void ModuleEditor::ApplicationWindow(bool wActive)
 {
-	float size_x = 370.f;
-
-	ImGui::SetNextWindowPos(ImVec2(App->window->screen_surface->w - size_x, 18.f));
+	//ImGui::SetNextWindowPos(ImVec2(1000.f, 18.f));
+	//ImGui::SetNextWindowSize(ImVec2(0.f, App->window->screen_surface->h - 18.f));
 
 	ImGuiWindowFlags flag = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoFocusOnAppearing;
-	ImGui::Begin("Configuration", 0, ImVec2(size_x, App->window->screen_surface->h - 560.f), 0.8f, flag);
+	ImGui::Begin("Configuration", 0, ImVec2(0.f, 0.f), 0.8f, flag);
 	{
 		App->DrawAllModules();
 	}

@@ -88,6 +88,99 @@ bool ModuleWindow::CleanUp()
 	return true;
 }
 
+void ModuleWindow::DrawUI()
+{
+	if (ImGui::CollapsingHeader("Window"))
+	{
+		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+		
+		ImGui::Text("Current Size: %i x %i", screen_surface->w, screen_surface->h);
+
+		if (!maximize && !fullscreen && !fullscreen_desktop)
+		{
+			// WIDTH
+			if (ImGui::SliderInt("##Width", &screen_surface->w, 600, 1920))
+			{
+				if (!maximize && !fullscreen && !fullscreen_desktop)
+					SDL_SetWindowSize(window, screen_surface->w, screen_surface->h);
+			}
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Width");
+
+
+			// HEIGHT
+			if (ImGui::SliderInt("##Height", &screen_surface->h, 400, 1440))
+			{
+				SDL_SetWindowSize(window, screen_surface->w, screen_surface->h);
+			}
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Height");
+		}
+		else
+			ImGui::Text("Can't modify current Resolution!");
+
+		ImGui::Separator();
+
+		// CHECKBOX
+		if (ImGui::Checkbox("FullScreen", &fullscreen))
+		{
+			if (fullscreen)
+			{
+				flags |= SDL_WINDOW_FULLSCREEN;
+				SDL_SetWindowFullscreen(window, flags);
+			}
+			else
+			{
+				flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+				SDL_SetWindowFullscreen(window, flags);
+				fullscreen_desktop = maximize = false;
+			}
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("FullScreen Desktop", &fullscreen_desktop))
+		{
+			if (fullscreen_desktop) {
+				flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+				SDL_SetWindowFullscreen(window, flags);
+				fullscreen = true;
+			}
+			else
+			{
+				flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+				SDL_SetWindowFullscreen(window, flags);
+				fullscreen = maximize = false;
+			}
+		}
+
+		if (ImGui::Checkbox("Borderless", &borderless))
+		{
+			if (borderless)
+			{
+				SDL_SetWindowBordered(window, SDL_FALSE);
+			}
+			else
+			{
+				SDL_SetWindowBordered(window, SDL_TRUE);
+			}
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Checkbox("Maximize", &maximize))
+		{
+			if (maximize) {
+				SDL_MaximizeWindow(window);
+			}
+			else
+			{
+				SDL_RestoreWindow(window);
+			}
+		}
+
+		screen_surface = SDL_GetWindowSurface(window);
+	}
+}
+
 void ModuleWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
