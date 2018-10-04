@@ -158,5 +158,38 @@ unsigned int ModuleFileSystem::Save(const char* file, const char* buffer, unsign
 
 void ModuleFileSystem::DrawUI()
 {
+	if (ImGui::CollapsingHeader("File System"))
+	{
+		ImVec4 col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
 
+		ImGui::Text("Base Path:");
+		ImGui::PushStyleColor(ImGuiCol_Text, col);
+		ImGui::Text(GetExecutableDirectory());
+		ImGui::PopStyleColor();
+
+		ImGui::Text("Write Path:");
+		ImGui::PushStyleColor(ImGuiCol_Text, col);
+		ImGui::Text(PHYSFS_getWriteDir());
+		ImGui::PopStyleColor();
+
+		ImGui::Text("Read Path:");
+		ImGui::PushStyleColor(ImGuiCol_Text, col);
+		ImGui::Text(PHYSFS_getUserDir());
+		ImGui::PopStyleColor();
+
+		ImGui::Text("Last Error:");
+		if (PHYSFS_getLastError())
+		{
+			col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
+			ImGui::PushStyleColor(ImGuiCol_Text, col);
+			ImGui::Text(PHYSFS_getLastError());
+			ImGui::PopStyleColor();
+		}
+		else
+		{
+			ImGui::PushStyleColor(ImGuiCol_Text, col);
+			ImGui::Text("No Errors!");
+			ImGui::PopStyleColor();
+		}
+	}
 }
