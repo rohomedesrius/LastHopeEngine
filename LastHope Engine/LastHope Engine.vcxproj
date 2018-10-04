@@ -211,6 +211,7 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="PhysBody3D.h" />
     <ClInclude Include="PhysFS\include\physfs.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +294,12 @@
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="MathGeoLib\include\Math\float2.inl" />
     <None Include="MathGeoLib\include\Math\Matrix.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastHopeEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="logo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

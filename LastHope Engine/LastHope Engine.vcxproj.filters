@@ -43,6 +43,9 @@
     <Filter Include="Sources\Tools\DevIL">
       <UniqueIdentifier>{cc9a35e9-3b80-4d01-bf3a-eca31a1a50d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{7ee5d013-dec0-408a-9ec1-b9f4c776d813}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -450,6 +453,9 @@
     <ClInclude Include="DevIL\include\ilut_config.h">
       <Filter>Sources\Tools\DevIL</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -685,5 +691,15 @@
     <None Include="DevIL\include\config.h.win">
       <Filter>Sources\Tools\DevIL</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LastHopeEngine.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="logo.ico">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>
