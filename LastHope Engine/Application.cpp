@@ -18,6 +18,7 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	scene = new ModuleScene(this);
 	hardware = new ModuleHardware(this);
+	filesys = new ModuleFileSystem(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -32,6 +33,7 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(hardware);
+	AddModule(filesys);
 	//AddModule(audio);
 	
 }

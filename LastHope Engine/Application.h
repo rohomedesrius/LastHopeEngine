@@ -12,6 +12,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleScene.h"
 #include "ModuleHardware.h"
+#include "ModuleFileSystem.h"
 
 #include "ImGui/imgui.h"
 
@@ -28,6 +29,7 @@ public:
 	ModuleCamera3D* camera;
 	ModuleScene* scene;
 	ModuleHardware* hardware;
+	ModuleFileSystem* filesys;
 
 	std::string name = "LastHope Engine";
 	std::string organization = "UPC";
