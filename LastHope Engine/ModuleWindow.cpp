@@ -101,8 +101,8 @@ void ModuleWindow::DrawUI()
 			// WIDTH
 			if (ImGui::SliderInt("##Width", &screen_surface->w, 600, 1920))
 			{
-				if (!maximize && !fullscreen && !fullscreen_desktop)
-					SDL_SetWindowSize(window, screen_surface->w, screen_surface->h);
+				SDL_SetWindowSize(window, screen_surface->w, screen_surface->h);
+				App->renderer3D->OnResize(screen_surface->w, screen_surface->h);
 			}
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip("Width");
@@ -112,6 +112,7 @@ void ModuleWindow::DrawUI()
 			if (ImGui::SliderInt("##Height", &screen_surface->h, 400, 1440))
 			{
 				SDL_SetWindowSize(window, screen_surface->w, screen_surface->h);
+				App->renderer3D->OnResize(screen_surface->w, screen_surface->h);
 			}
 			if (ImGui::IsItemHovered())
 				ImGui::SetTooltip("Height");
