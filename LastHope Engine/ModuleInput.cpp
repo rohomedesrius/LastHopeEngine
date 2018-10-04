@@ -141,10 +141,10 @@ bool ModuleInput::CleanUp()
 
 void ModuleInput::DrawUI()
 {
-	static char* name = "";
+	static char* file_name = "";
 	if (GetFileDropped() != nullptr)
 	{
-		name = (char*)GetFileDropped();
+		file_name = (char*)GetFileDropped();
 	}
 
 	if (ImGui::CollapsingHeader("Input"))
@@ -170,7 +170,11 @@ void ModuleInput::DrawUI()
 		}
 		if (ImGui::TreeNodeEx("Files", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			ImGui::TextWrapped("Latest dropped file:\n%s", name);
+			ImGui::TextWrapped("Latest dropped file:");
+			ImVec4 col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
+			ImGui::PushStyleColor(ImGuiCol_Text, col);
+			ImGui::TextWrapped("%s", file_name);
+			ImGui::PopStyleColor();
 			ImGui::TreePop();
 		}
 	}

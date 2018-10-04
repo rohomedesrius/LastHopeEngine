@@ -164,17 +164,12 @@ void ModuleFileSystem::DrawUI()
 
 		ImGui::Text("Base Path:");
 		ImGui::PushStyleColor(ImGuiCol_Text, col);
-		ImGui::Text(GetExecutableDirectory());
+		ImGui::TextWrapped(GetExecutableDirectory());
 		ImGui::PopStyleColor();
 
 		ImGui::Text("Write Path:");
 		ImGui::PushStyleColor(ImGuiCol_Text, col);
-		ImGui::Text(PHYSFS_getWriteDir());
-		ImGui::PopStyleColor();
-
-		ImGui::Text("Read Path:");
-		ImGui::PushStyleColor(ImGuiCol_Text, col);
-		ImGui::Text(PHYSFS_getUserDir());
+		ImGui::TextWrapped(PHYSFS_getWriteDir());
 		ImGui::PopStyleColor();
 
 		ImGui::Text("Last Error:");
@@ -182,13 +177,13 @@ void ModuleFileSystem::DrawUI()
 		{
 			col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
 			ImGui::PushStyleColor(ImGuiCol_Text, col);
-			ImGui::Text(PHYSFS_getLastError());
+			ImGui::TextWrapped(PHYSFS_getLastError());
 			ImGui::PopStyleColor();
 		}
 		else
 		{
 			ImGui::PushStyleColor(ImGuiCol_Text, col);
-			ImGui::Text("No Errors!");
+			ImGui::TextWrapped("No Errors!");
 			ImGui::PopStyleColor();
 		}
 	}

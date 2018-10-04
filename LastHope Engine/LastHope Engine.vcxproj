@@ -113,6 +113,14 @@
     <ClInclude Include="Assimp\include\version.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="DevIL\include\config.h" />
+    <ClInclude Include="DevIL\include\devil_internal_exports.h" />
+    <ClInclude Include="DevIL\include\il.h" />
+    <ClInclude Include="DevIL\include\ilu.h" />
+    <ClInclude Include="DevIL\include\ilut.h" />
+    <ClInclude Include="DevIL\include\ilut_config.h" />
+    <ClInclude Include="DevIL\include\ilu_region.h" />
+    <ClInclude Include="DevIL\include\il_wrap.h" />
     <ClInclude Include="glew\include\eglew.h" />
     <ClInclude Include="glew\include\glew.h" />
     <ClInclude Include="glew\include\glxew.h" />
@@ -123,6 +131,7 @@
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_sdl_gl3.h" />
     <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="Importer.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\GJK.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\Random\LCG.h" />
@@ -213,6 +222,7 @@
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
     <ClCompile Include="ImGui\imgui_impl_sdl_gl3.cpp" />
+    <ClCompile Include="Importer.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -275,6 +285,7 @@
     <None Include="Assimp\include\quaternion.inl" />
     <None Include="Assimp\include\vector2.inl" />
     <None Include="Assimp\include\vector3.inl" />
+    <None Include="DevIL\include\config.h.win" />
     <None Include="MathGeoLib\include\Geometry\KDTree.inl" />
     <None Include="MathGeoLib\include\Geometry\QuadTree.inl" />
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />

@@ -40,6 +40,9 @@
     <Filter Include="Sources\Tools\PhysFS">
       <UniqueIdentifier>{58841538-0d4d-40a1-af17-efc122e1fc4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\DevIL">
+      <UniqueIdentifier>{cc9a35e9-3b80-4d01-bf3a-eca31a1a50d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -420,6 +423,33 @@
     <ClInclude Include="PhysFS\include\physfs.h">
       <Filter>Sources\Tools\PhysFS</Filter>
     </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\config.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\devil_internal_exports.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\il.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\il_wrap.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilu.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilu_region.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilut.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
+    <ClInclude Include="DevIL\include\ilut_config.h">
+      <Filter>Sources\Tools\DevIL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -602,6 +632,9 @@
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Importer.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="MathGeoLib\include\Geometry\KDTree.inl">
@@ -648,6 +681,9 @@
     </None>
     <None Include="Assimp\include\vector3.inl">
       <Filter>Sources\Tools\Assimp</Filter>
+    </None>
+    <None Include="DevIL\include\config.h.win">
+      <Filter>Sources\Tools\DevIL</Filter>
     </None>
   </ItemGroup>
 </Project>
