@@ -60,8 +60,6 @@ public:
 		return mouse_y_motion;
 	}
 
-	bool has_dropped = false;
-
 	const char* GetFileDropped();
 
 	float Sensitivity = 0.25f;

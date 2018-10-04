@@ -105,7 +105,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			case SDL_DROPFILE:
 			file_path = e.drop.file;
-			has_dropped = true;
+			LOG("Input: Dropped File detected!");
 			SDL_free(e.drop.file);
 			break;
 
@@ -141,7 +141,7 @@ bool ModuleInput::CleanUp()
 
 void ModuleInput::DrawUI()
 {
-	static char* file_name = "";
+	static char* file_name = "-";
 	if (GetFileDropped() != nullptr)
 	{
 		file_name = (char*)GetFileDropped();
@@ -170,7 +170,7 @@ void ModuleInput::DrawUI()
 		}
 		if (ImGui::TreeNodeEx("Files", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			ImGui::TextWrapped("Latest dropped file:");
+			ImGui::Text("Latest dropped file:");
 			ImVec4 col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
 			ImGui::PushStyleColor(ImGuiCol_Text, col);
 			ImGui::TextWrapped("%s", file_name);
@@ -182,10 +182,7 @@ void ModuleInput::DrawUI()
 
 const char * ModuleInput::GetFileDropped()
 {
-	if (has_dropped)
-	{
+	if (file_path != NULL)
 		return file_path;
-	}
 	else return nullptr;
-	return nullptr;
 }
