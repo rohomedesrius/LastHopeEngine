@@ -10,6 +10,10 @@
 #pragma	comment (lib, "DevIL/libx86/ILU.lib")
 #pragma	comment (lib, "DevIL/libx86/ILUT.lib")
 
+Mesh::~Mesh()
+{
+}
+
 GLuint Importer::LoadImageFile(const char * file)
 {
 	if (!bDevilInit)
