@@ -41,7 +41,7 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::Draw()
 {
-	DrawGrid(7);
+	DrawGrid(10);
 }
 
 void ModuleScene::DrawGrid(int size)

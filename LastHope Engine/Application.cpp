@@ -28,14 +28,14 @@ Application::Application()
 	AddModule(window);
 	//AddModule(physics3D);
 	AddModule(editor);
-	AddModule(renderer3D);
 	AddModule(scene);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(hardware);
 	AddModule(filesys);
 	//AddModule(audio);
-	
+
+	AddModule(renderer3D);
 }
 
 Application::~Application()

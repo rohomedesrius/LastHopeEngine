@@ -59,10 +59,6 @@ bool ModuleRenderer3D::Init()
 			ret = false;
 		}
 
-		//Initialize Modelview Matrix
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-
 		//Check for error
 		error = glGetError();
 		if(error != GL_NO_ERROR)
@@ -102,6 +98,10 @@ bool ModuleRenderer3D::Init()
 			LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 		}
 
+		//Initialize Modelview Matrix
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
 		GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 		
@@ -130,7 +130,7 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	
-	App->camera->Look(vec3(1.75f, 1.75f, 5.0f), vec3(0.0f, 0.0f, 0.0f));
+	//App->camera->Look(vec3(1.75f, 1.75f, 5.0f), vec3(0.0f, 0.0f, 0.0f));
 
 	return ret;
 }
@@ -163,13 +163,16 @@ update_status ModuleRenderer3D::Update(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	// Wireframe Mode
 	if (enable_wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	// Render Scene
 	App->scene->Draw();
 
+	// Render Engine UI
 	App->editor->Draw();
 
 	SDL_GL_SwapWindow(App->window->window);
@@ -179,7 +182,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 // Called before quitting
 bool ModuleRenderer3D::CleanUp()
 {
-	LOG("Destroying 3D Renderer");
+	LOG("Cleaning up 3D Renderer");
 
 	SDL_GL_DeleteContext(context);
 
