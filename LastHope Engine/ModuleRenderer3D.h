@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "Light.h"
+#include "Importer.h"
 
 #include "glmath.h"
 
@@ -24,6 +25,10 @@ public:
 
 	void OnResize(int width, int height);
 
+	void Dropped();
+	void LoadMeshes(char* path);
+	void CleanScene();
+
 public:
 
 	Light lights[MAX_LIGHTS];
@@ -31,6 +36,8 @@ public:
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix;
 	mat4x4 ProjectionMatrix;
+
+	std::vector<Mesh*> meshes;
 
 private:
 
@@ -42,4 +49,6 @@ private:
 	bool enable_color_material = true;
 	bool enable_gl_texture = true;
 	bool enable_wireframe = false;
+
+	Importer importer;
 };

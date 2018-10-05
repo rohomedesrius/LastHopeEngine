@@ -169,6 +169,53 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
+	{
+		if (((*it)->buffTexture) > 0)
+		{
+			glEnableClientState(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, (*it)->buffTexture);
+		}
+
+		if (((*it)->buffVertex) > 0)
+		{
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffVertex);
+			glVertexPointer(3, GL_FLOAT, 0, NULL);
+		}
+
+		if (((*it)->buffNormals) > 0)
+		{
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffNormals);
+			glNormalPointer(GL_FLOAT, 0, NULL);
+		}
+
+		if (((*it)->buffUv) > 0)
+		{
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffUv);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		}
+
+		if (((*it)->buffIndex) > 0)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->buffIndex);
+			glDrawElements(GL_TRIANGLES, (*it)->numIndex, GL_UNSIGNED_INT, NULL);
+		}
+
+		// CleanUp
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_TEXTURE_2D);
+
+	}
+
 	// Render Scene
 	App->scene->Draw();
 
@@ -255,4 +302,51 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::Dropped()
+{
+	FileExtensions extension = importer.GetExtension(App->input->GetFileDropped());
+
+	switch (extension)
+	{
+	case FileExtensions::Scene3D:
+	{
+		LOG("Importing 3D Scene...");
+		LoadMeshes((char*)App->input->GetFileDropped());
+		break;
+	}
+	case FileExtensions::Image:
+	{
+		LOG("Error: Not yet supported");
+		break;
+	}
+	case FileExtensions::Unsupported:
+	{
+		LOG("Error: File Type not supported");
+		break;
+	}
+	}
+}
+
+void ModuleRenderer3D::LoadMeshes(char* path)
+{
+	CleanScene();
+
+	std::vector<Mesh*> tmp = importer.CreateMesh(path);
+
+	for (std::vector<Mesh*>::iterator it = tmp.begin(); it != tmp.end(); it++)
+	{
+		meshes.push_back(*it);
+	}
+}
+
+void ModuleRenderer3D::CleanScene()
+{
+	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
+	{
+		if ((*it) != nullptr)
+			delete (*it);
+	}
+	meshes.clear();
 }

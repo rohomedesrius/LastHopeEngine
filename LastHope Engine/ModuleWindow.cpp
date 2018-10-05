@@ -96,7 +96,7 @@ void ModuleWindow::DrawUI()
 		
 		ImGui::Text("Current Size: %i x %i", screen_surface->w, screen_surface->h);
 
-		if (!maximize && !fullscreen && !fullscreen_desktop)
+		if (!maximize && !fullscreen_desktop)
 		{
 			// WIDTH
 			if (ImGui::SliderInt("##Width", &screen_surface->w, 600, 1920))
