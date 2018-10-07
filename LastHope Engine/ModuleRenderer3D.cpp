@@ -234,6 +234,8 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Cleaning up 3D Renderer");
 
+	CleanScene();
+
 	SDL_GL_DeleteContext(context);
 
 	return true;
