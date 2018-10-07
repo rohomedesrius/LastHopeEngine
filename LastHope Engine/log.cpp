@@ -12,9 +12,17 @@ void log(const char file[], int line, const char* format, ...)
 	va_start(ap, format);
 	vsprintf_s(tmp_string, 4096, format, ap);
 	va_end(ap);
-	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", file, line, tmp_string);
+
+	// Trimming File Path
+	std::string input = file;
+	std::string output = input.substr(input.find_last_of('\\') + 1);
+	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", output.c_str(), line, tmp_string);
 	OutputDebugString(tmp_string2);
 
+	// For Console
+	sprintf_s(tmp_string2, 4096, "%s", tmp_string);
+	
+	// Sending to Console
 	if (App && App->console_enabled)
 	{
 		App->editor->RegisterLog(tmp_string2);

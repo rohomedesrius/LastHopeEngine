@@ -60,7 +60,7 @@ bool Application::Init()
 	}
 
 	// After all Init calls we call Start() in all modules
-	LOG("Application Start --------------");
+	LOG("\n-------------- Application Start --------------");
 	for(std::vector<Module*>::iterator item = list_modules.begin(); ret == true && item != list_modules.end(); item++)
 	{
 		(*item)->Start();

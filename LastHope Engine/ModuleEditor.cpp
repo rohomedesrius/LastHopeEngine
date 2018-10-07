@@ -197,7 +197,7 @@ void ModuleEditor::RandomWindow(bool active)
 				result = pcg32_boundedrand(result + 1);
 				result += min;
 
-				LOG("Random Generator: %i (Int from %i-%i)", result, min, max);
+				LOG("Random Generator: %i (%i-%i)", result, min, max);
 				sprintf_s(buffer, IM_ARRAYSIZE(buffer), "%i", result);
 			}
 			ImGui::SameLine();
@@ -219,7 +219,7 @@ void ModuleEditor::RandomWindow(bool active)
 				int tmp = pcg32_boundedrand(10000);
 				result = (float)tmp / 10000;
 
-				LOG("Random Generator: %.4f (Float from 0-1)", result);
+				LOG("Random Generator: %.4f", result);
 				sprintf_s(buffer, IM_ARRAYSIZE(buffer), "%.4f", result);
 			}
 			ImGui::SameLine();

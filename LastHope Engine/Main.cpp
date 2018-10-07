@@ -30,14 +30,14 @@ int main(int argc, char ** argv)
 		{
 		case MAIN_CREATION:
 
-			LOG("-------------- Application Creation --------------");
+			LOG("\n-------------- Application Creation --------------");
 			App = new Application();
 			state = MAIN_START;
 			break;
 
 		case MAIN_START:
 
-			LOG("-------------- Application Init --------------");
+			LOG("\n-------------- Application Init --------------");
 			if (App->Init() == false)
 			{
 				LOG("Application Init exits with ERROR");
@@ -46,7 +46,7 @@ int main(int argc, char ** argv)
 			else
 			{
 				state = MAIN_UPDATE;
-				LOG("-------------- Application Update --------------");
+				LOG("\n-------------- Application Update -------------");
 			}
 
 			break;
@@ -68,7 +68,7 @@ int main(int argc, char ** argv)
 
 		case MAIN_FINISH:
 
-			LOG("-------------- Application CleanUp --------------");
+			LOG("\n-------------- Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
 				LOG("Application CleanUp exits with ERROR");

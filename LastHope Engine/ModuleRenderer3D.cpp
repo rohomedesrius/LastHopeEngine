@@ -74,8 +74,6 @@ bool ModuleRenderer3D::Init()
 			LOG("Error initializing Glew! %s\n", glewGetErrorString(err));
 			ret = false;
 		}
-		else
-			LOG("Using Glew %s", glewGetString(GLEW_VERSION));
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
@@ -92,10 +90,15 @@ bool ModuleRenderer3D::Init()
 		}
 		else
 		{
-			LOG("Vendor: %s", glGetString(GL_VENDOR));
-			LOG("Renderer: %s", glGetString(GL_RENDERER));
-			LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-			LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			LOG("Renderer Specifications ...");
+
+			LOG("	Vendor: %s", glGetString(GL_VENDOR));
+			LOG("	Renderer: %s", glGetString(GL_RENDERER));
+			LOG("	OpenGL version supported %s", glGetString(GL_VERSION));
+			LOG("	GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+			if (err == 0)
+				LOG("	Glew: %s", glewGetString(GLEW_VERSION));
 		}
 
 		//Initialize Modelview Matrix

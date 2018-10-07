@@ -6,7 +6,7 @@
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	LOG("Creating Main Scene");
+	
 }
 
 ModuleScene::~ModuleScene()
@@ -16,6 +16,8 @@ ModuleScene::~ModuleScene()
 
 bool ModuleScene::Start()
 {
+	LOG("Creating Main Scene");
+
 	return false;
 }
 
