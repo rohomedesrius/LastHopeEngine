@@ -11,8 +11,8 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	Y = vec3(0.0f, 1.0f, 0.0f);
 	Z = vec3(0.0f, 0.0f, 1.0f);
 
-Position = vec3(0.0f, 0.0f, 5.0f);
-Reference = vec3(0.0f, 0.0f, 0.0f);
+	Position = vec3(0.0f, 3.0f, 10.0f);
+	Reference = vec3(0.0f, 0.0f, 0.0f);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -58,10 +58,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	vec3 Movement;
 
-	// Mouse motion ----------------
-
 	//ALT rotation-----------------------
-
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
@@ -168,6 +165,12 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 	}
 
+	//Focus on geometry-------------------
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		FocusGeometry();
+	}
+
 	// Mouse wheel -----------------------
 
 	float zDelta = (float)App->input->GetMouseZ();
@@ -234,4 +237,9 @@ void ModuleCamera3D::CalculateViewMatrix()
 {
 	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
 	ViewMatrixInverse = inverse(ViewMatrix);
+}
+
+void ModuleCamera3D::FocusGeometry()
+{
+
 }
