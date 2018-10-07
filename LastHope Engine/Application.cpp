@@ -217,9 +217,9 @@ void Application::DrawUI()
 		fps = (fps_cap > 0) ? 1000 / fps_cap : 0;
 
 		char title[25];
-		sprintf_s(title, 25, "Framerate %.1f", fpsArr[99]);
+		sprintf_s(title, IM_ARRAYSIZE(title), "Framerate %.1f", fpsArr[99]);
 		ImGui::PlotHistogram("##framerate", fpsArr, ((int)(sizeof(fpsArr) / sizeof(*fpsArr))), 0, title, 0.0f, 150.0f, ImVec2(310, 100));
-		sprintf_s(title, 25, "Milliseconds %.1f", msArr[99]);
+		sprintf_s(title, IM_ARRAYSIZE(title), "Milliseconds %.1f", msArr[99]);
 		ImGui::PlotHistogram("##milliseconds", msArr, ((int)(sizeof(msArr) / sizeof(*msArr))), 0, title, 0.0f, 9.0f, ImVec2(310, 100));
 
 		// Memory
@@ -236,7 +236,7 @@ void Application::DrawUI()
 			}
 		}
 
-		sprintf_s(title, 25, "Memory Usage %i", (int)memory[99]);
+		sprintf_s(title, IM_ARRAYSIZE(title), "Memory Usage %i", (int)memory[99]);
 		ImGui::PlotHistogram("##memory", memory, sizeof(memory) / sizeof(float), 0, title, 0.0f, (float)stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
 
 		// Freeze Displays

@@ -34,4 +34,5 @@ public:
 private:
 	void ShowEngineConsole(bool* show);
 	void ApplicationWindow(bool wActive);
+	void RandomWindow(bool active);
 };

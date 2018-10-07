@@ -46,6 +46,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{7ee5d013-dec0-408a-9ec1-b9f4c776d813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\PCG">
+      <UniqueIdentifier>{9bc3413e-b841-43ca-8dea-5d383669c289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -456,6 +459,9 @@
     <ClInclude Include="resource.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="PCG\pcg_basic.h">
+      <Filter>Sources\Tools\PCG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -640,6 +646,9 @@
     </ClCompile>
     <ClCompile Include="Importer.cpp">
       <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="PCG\pcg_basic.c">
+      <Filter>Sources\Tools\PCG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
