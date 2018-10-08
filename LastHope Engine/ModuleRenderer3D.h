@@ -31,6 +31,11 @@ public:
 
 public:
 
+	void EnableDepthTest(bool enable);
+	void EnableCullFace(bool enable);
+	void EnableGLLighting(bool enable);
+	void EnableWireframeMode(bool enable);
+
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	float3x3 NormalMatrix;

@@ -121,7 +121,6 @@ bool ModuleRenderer3D::Init()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		lights[0].Active(true);
 		glEnable(GL_LIGHTING);
@@ -166,11 +165,11 @@ update_status ModuleRenderer3D::Update(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	// Wireframe Mode
-	if (enable_wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	// Render Configuration
+	EnableDepthTest(enable_depth_test);
+	EnableCullFace(enable_cull_face);
+	EnableGLLighting(enable_lighting);
+	EnableWireframeMode(enable_wireframe);
 
 	LoadCheckers();
 
@@ -260,24 +259,15 @@ void ModuleRenderer3D::DrawUI()
 		ImGui::Spacing(); ImGui::Spacing();
 		if (ImGui::Checkbox("GL Depth Test", &enable_depth_test))
 		{
-			if (enable_depth_test)
-				glEnable(GL_DEPTH_TEST);
-			else
-				glDisable(GL_DEPTH_TEST);
+
 		}
 		if (ImGui::Checkbox("GL Cull Face", &enable_cull_face))
 		{
-			if (enable_cull_face)
-				glEnable(GL_CULL_FACE);
-			else
-				glDisable(GL_CULL_FACE);
+
 		}
 		if (ImGui::Checkbox("GL Lighting", &enable_lighting))
 		{
-			if (enable_lighting)
-				glEnable(GL_LIGHTING);
-			else
-				glDisable(GL_LIGHTING);
+
 		}
 		if (ImGui::Checkbox("GL Color Material", &enable_color_material))
 		{
@@ -358,6 +348,63 @@ void ModuleRenderer3D::CleanScene()
 			delete (*it);
 	}
 	meshes.clear();
+}
+
+void ModuleRenderer3D::EnableDepthTest(bool enable)
+{
+	if (enable && !glIsEnabled(GL_DEPTH_TEST))
+	{
+		glEnable(GL_DEPTH_TEST);
+		LOG("Renderer: Enabling Depth Test");
+	}
+	else if (!enable && glIsEnabled(GL_DEPTH_TEST))
+	{
+		glDisable(GL_DEPTH_TEST);
+		LOG("Renderer: Disabling Depth Test");
+	}
+}
+
+void ModuleRenderer3D::EnableCullFace(bool enable)
+{
+
+	if (enable && !glIsEnabled(GL_CULL_FACE))
+	{
+		glEnable(GL_CULL_FACE);
+		LOG("Renderer: Enabling Cull Face");
+	}
+	else if(!enable && glIsEnabled(GL_CULL_FACE))
+	{
+		glDisable(GL_CULL_FACE);
+		LOG("Renderer: Disabling Cull Face");
+	}
+}
+
+void ModuleRenderer3D::EnableGLLighting(bool enable)
+{
+	if (enable && !glIsEnabled(GL_LIGHTING))
+	{
+		glEnable(GL_LIGHTING);
+		LOG("Renderer: Enabling GL Lighting");
+	}
+	else if (!enable && glIsEnabled(GL_LIGHTING))
+	{
+		glDisable(GL_LIGHTING);
+		LOG("Renderer: Disabling GL Lighting");
+	}
+}
+
+void ModuleRenderer3D::EnableWireframeMode(bool enable)
+{
+	if (false)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		LOG("Renderer: On Progress");
+	}
+	/*else
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		LOG("Renderer: Disabling Wireframe Mode");
+	}*/
 }
 
 void ModuleRenderer3D::LoadCheckers()
