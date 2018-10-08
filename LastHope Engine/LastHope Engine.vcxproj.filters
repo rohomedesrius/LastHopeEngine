@@ -49,6 +49,9 @@
     <Filter Include="Sources\Tools\PCG">
       <UniqueIdentifier>{9bc3413e-b841-43ca-8dea-5d383669c289}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\Parson">
+      <UniqueIdentifier>{79918639-f330-4178-ae0f-d800bc164690}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -462,6 +465,12 @@
     <ClInclude Include="PCG\pcg_basic.h">
       <Filter>Sources\Tools\PCG</Filter>
     </ClInclude>
+    <ClInclude Include="Parson\parson.h">
+      <Filter>Sources\Tools\Parson</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -649,6 +658,12 @@
     </ClCompile>
     <ClCompile Include="PCG\pcg_basic.c">
       <Filter>Sources\Tools\PCG</Filter>
+    </ClCompile>
+    <ClCompile Include="Parson\parson.c">
+      <Filter>Sources\Tools\Parson</Filter>
+    </ClCompile>
+    <ClCompile Include="JSON.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
