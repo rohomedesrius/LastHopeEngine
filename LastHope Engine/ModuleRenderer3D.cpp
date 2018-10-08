@@ -121,12 +121,13 @@ bool ModuleRenderer3D::Init()
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_CULL_FACE);
+		//glEnable(GL_DEPTH_TEST);
+		//glEnable(GL_CULL_FACE);
 		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
-		glEnable(GL_TEXTURE_2D);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glEnable(GL_LIGHTING);
+		//glEnable(GL_COLOR_MATERIAL);
+		//glEnable(GL_TEXTURE_2D);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
 	// Projection matrix for
@@ -168,19 +169,26 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	// Render Configuration
 	EnableDepthTest(enable_depth_test);
 	EnableCullFace(enable_cull_face);
-	EnableGLLighting(enable_lighting);
+	EnableLighting(enable_lighting);
+	EnableColorMaterial(enable_color_material);
+	EnableTexture2D(enable_gl_texture);
 	EnableWireframeMode(enable_wireframe);
 
 	LoadCheckers();
 
 	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
-		(*it)->buffTexture = checkers;
-
-		if (((*it)->buffTexture) > 0)
+		if (enable_checkers)
 		{
-			glEnableClientState(GL_TEXTURE_2D);
-			glBindTexture(GL_TEXTURE_2D, (*it)->buffTexture);
+			glBindTexture(GL_TEXTURE_2D, checkers);
+		}
+		else
+		{
+			if (((*it)->buffTexture) > 0)
+			{
+				glEnableClientState(GL_TEXTURE_2D);
+				glBindTexture(GL_TEXTURE_2D, (*it)->buffTexture);
+			}
 		}
 
 		if (((*it)->buffVertex) > 0)
@@ -250,12 +258,8 @@ void ModuleRenderer3D::DrawUI()
 	{
 		if (ImGui::Checkbox("VSYNC", &vsync))
 		{
-			if (vsync)
-				SDL_GL_SetSwapInterval(1);
-			else
-				SDL_GL_SetSwapInterval(0);
+			EnableVSync(vsync);
 		}
-		int a = SDL_GL_GetSwapInterval();
 		ImGui::Spacing(); ImGui::Spacing();
 		if (ImGui::Checkbox("GL Depth Test", &enable_depth_test))
 		{
@@ -271,17 +275,16 @@ void ModuleRenderer3D::DrawUI()
 		}
 		if (ImGui::Checkbox("GL Color Material", &enable_color_material))
 		{
-			if (enable_color_material)
-				glEnable(GL_COLOR_MATERIAL);
-			else
-				glDisable(GL_COLOR_MATERIAL);
+
 		}
 		if (ImGui::Checkbox("GL Texture 2D", &enable_gl_texture))
 		{
-			if (enable_gl_texture)
-				glEnable(GL_TEXTURE_2D);
-			else
-				glDisable(GL_TEXTURE_2D);
+
+		}
+		if (ImGui::Checkbox("Use Only Checkers", &enable_checkers))
+		{
+			if (enable_checkers && !enable_gl_texture)
+				LOG("Warning! You won't see Checkers if \"GL Texture 2D\" is disabled!");		
 		}
 		if (ImGui::Checkbox("Wireframe Mode", &enable_wireframe))
 		{
@@ -350,18 +353,28 @@ void ModuleRenderer3D::CleanScene()
 	meshes.clear();
 }
 
+void ModuleRenderer3D::EnableVSync(bool enable)
+{
+	if (enable)
+		SDL_GL_SetSwapInterval(1);
+	else
+		SDL_GL_SetSwapInterval(0);
+	vsync = enable;
+}
+
 void ModuleRenderer3D::EnableDepthTest(bool enable)
 {
 	if (enable && !glIsEnabled(GL_DEPTH_TEST))
 	{
 		glEnable(GL_DEPTH_TEST);
-		LOG("Renderer: Enabling Depth Test");
+		LOG("Renderer - Enabling Depth Test");
 	}
 	else if (!enable && glIsEnabled(GL_DEPTH_TEST))
 	{
 		glDisable(GL_DEPTH_TEST);
-		LOG("Renderer: Disabling Depth Test");
+		LOG("Renderer - Disabling Depth Test");
 	}
+	enable_depth_test = enable;
 }
 
 void ModuleRenderer3D::EnableCullFace(bool enable)
@@ -370,41 +383,77 @@ void ModuleRenderer3D::EnableCullFace(bool enable)
 	if (enable && !glIsEnabled(GL_CULL_FACE))
 	{
 		glEnable(GL_CULL_FACE);
-		LOG("Renderer: Enabling Cull Face");
+		LOG("Renderer - Enabling Cull Face");
 	}
 	else if(!enable && glIsEnabled(GL_CULL_FACE))
 	{
 		glDisable(GL_CULL_FACE);
-		LOG("Renderer: Disabling Cull Face");
+		LOG("Renderer - Disabling Cull Face");
 	}
+	enable_cull_face = enable;
 }
 
-void ModuleRenderer3D::EnableGLLighting(bool enable)
+void ModuleRenderer3D::EnableLighting(bool enable)
 {
 	if (enable && !glIsEnabled(GL_LIGHTING))
 	{
 		glEnable(GL_LIGHTING);
-		LOG("Renderer: Enabling GL Lighting");
+		LOG("Renderer - Enabling Lighting");
 	}
 	else if (!enable && glIsEnabled(GL_LIGHTING))
 	{
 		glDisable(GL_LIGHTING);
-		LOG("Renderer: Disabling GL Lighting");
+		LOG("Renderer - Disabling Lighting");
 	}
+	enable_lighting = enable;
+}
+
+void ModuleRenderer3D::EnableColorMaterial(bool enable)
+{
+	if (enable && !glIsEnabled(GL_COLOR_MATERIAL))
+	{
+		glEnable(GL_COLOR_MATERIAL);
+		LOG("Renderer - Enabling Color Material");
+	}
+	else if(!enable && glIsEnabled(GL_COLOR_MATERIAL))
+	{
+		glDisable(GL_COLOR_MATERIAL);
+		LOG("Renderer - Disabling Color Material");
+	}
+	enable_color_material = enable;
+}
+
+void ModuleRenderer3D::EnableTexture2D(bool enable)
+{
+	if (enable && !glIsEnabled(GL_TEXTURE_2D))
+	{
+		glEnable(GL_TEXTURE_2D);
+		LOG("Renderer - Enabling Texture2D");
+	}
+	else if (!enable && glIsEnabled(GL_TEXTURE_2D))
+	{
+		glDisable(GL_TEXTURE_2D);
+		LOG("Renderer - Disabling Texture2D");
+	}
+	enable_gl_texture = enable;
 }
 
 void ModuleRenderer3D::EnableWireframeMode(bool enable)
 {
-	if (false)
+	GLint polyMode[2];
+	glGetIntegerv(GL_POLYGON_MODE, polyMode);
+
+	if (enable && polyMode[1] == GL_FILL)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		LOG("Renderer: On Progress");
+		LOG("Renderer - Enabling Wireframe Mode");
 	}
-	/*else
+	else if (!enable && polyMode[1] == GL_LINE)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		LOG("Renderer: Disabling Wireframe Mode");
-	}*/
+		LOG("Renderer - Disabling Wireframe Mode");
+	}
+	enable_wireframe = enable;
 }
 
 void ModuleRenderer3D::LoadCheckers()
@@ -432,4 +481,7 @@ void ModuleRenderer3D::LoadCheckers()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+
+	// CleanUp
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

@@ -118,6 +118,8 @@ void EngineConsole::Draw(const char * title, bool * p_open)
 		else if (strstr(item, "error")) col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
 		else if (strstr(item, "ERROR")) col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
 		else if (strstr(item, "Error")) col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
+		else if (strstr(item, "warning")) col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
+		else if (strstr(item, "Warning")) col = ImColor(1.0f, 0.78f, 0.58f, 1.0f);
 		else if (strstr(item, "Unknown")) col = ImColor(1.0f, 0.4f, 0.4f, 1.0f);
 
 		ImGui::PushStyleColor(ImGuiCol_Text, col);

@@ -31,9 +31,13 @@ public:
 
 public:
 
+	void EnableVSync(bool enable);
+
 	void EnableDepthTest(bool enable);
 	void EnableCullFace(bool enable);
-	void EnableGLLighting(bool enable);
+	void EnableLighting(bool enable);
+	void EnableColorMaterial(bool enable);
+	void EnableTexture2D(bool enable);
 	void EnableWireframeMode(bool enable);
 
 	Light lights[MAX_LIGHTS];
@@ -49,11 +53,12 @@ private:
 	bool vsync = true;
 
 	bool enable_depth_test = true;
-	bool enable_cull_face = true;
-	bool enable_lighting = true;
-	bool enable_color_material = true;
-	bool enable_gl_texture = true;
+	bool enable_cull_face = false;
+	bool enable_lighting = false;
+	bool enable_color_material = false;
+	bool enable_gl_texture = false;
 	bool enable_wireframe = false;
+	bool enable_checkers = false;
 
 	Importer importer;
 
