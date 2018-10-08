@@ -107,7 +107,10 @@ update_status ModuleEditor::Update(float dt)
 				{
 					App->RequestBrowser("https://www.libsdl.org/");
 				}
-
+				if (ImGui::MenuItem("Assimp Version:", "3.3.0"))
+				{
+					App->RequestBrowser("https://github.com/assimp/assimp/releases/tag/v3.3/");
+				}
 				ImGui::EndMenu();
 			}
 			ImGui::Separator();
