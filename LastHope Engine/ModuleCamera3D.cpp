@@ -104,15 +104,22 @@ update_status ModuleCamera3D::Update(float dt)
 			float Sensitivity = 0.25f;
 
 			Position -= Reference;
-
+			
+			//TEMPORAL
 			if (dx != 0)
 			{
-				//TODO
+				if(dx > 0)
+					Movement += Up;
+				else
+					Movement -= Up;
 			}
 
 			if (dy != 0)
 			{
-				//TODO
+				if (dy > 0)
+					Movement -= Up;
+				else
+					Movement += Up;
 			}
 
 			Position = Reference + Z * length(Position);
@@ -188,7 +195,6 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	Position += Reference;
-
 	Position += Movement;
 	Reference += Movement;
 
