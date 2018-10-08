@@ -38,7 +38,7 @@ JSONFile::JSONFile()
 JSONFile::JSONFile(JSON_Value * _value, JSON_Object * _object, const char* _path)
 {
 	value = _value;
-	object = _object;
+	info = _object;
 	root = _object;
 	path = _path;
 }
@@ -46,11 +46,22 @@ JSONFile::JSONFile(JSON_Value * _value, JSON_Object * _object, const char* _path
 JSONFile::JSONFile(JSONFile & doc)
 {
 	value = doc.value;
-	object = doc.object;
+	info = doc.info;
 	path = doc.path;
-	root = object;
+	root = info;
 }
 
 JSONFile::~JSONFile()
 {
+}
+
+void JSONFile::SetInfoString(const char* name, const char* n_info)
+{
+	json_object_dotset_string(info, name, n_info);
+}
+
+const char* JSONFile::GetInfoString(const char* n_info)
+{
+	return (json_object_dotget_string(info, n_info));
+
 }

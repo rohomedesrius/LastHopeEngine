@@ -16,6 +16,9 @@
 
 #include "ImGui/imgui.h"
 
+class JSON;
+class JSONFile;
+
 class Application
 {
 public:
@@ -31,8 +34,8 @@ public:
 	ModuleHardware* hardware;
 	ModuleFileSystem* filesys;
 
-	std::string name = "LastHope Engine";
-	std::string organization = "UPC";
+	std::string name = "No name";
+	std::string organization = "No org";
 
 private:
 
@@ -80,6 +83,14 @@ public:
 	// Console
 	bool console_enabled = true;
 
+	//App Info
+	void SetAppTitle(const char* title);
+	void SetAppOrg(const char* org);
+	void SetAppVer(const char* version);
+
+	//JSON
+	void LoadAppConfig();
+
 private:
 
 	void AddModule(Module* mod);
@@ -87,6 +98,10 @@ private:
 	void FinishUpdate();
 
 	bool exit = false;
+
+	JSON* json = nullptr;
+	JSONFile* configJSON = nullptr;
+
 };
 
 extern Application* App;

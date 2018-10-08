@@ -9,9 +9,14 @@ public:
 	JSONFile(JSONFile& doc);
 	~JSONFile();
 
+public:
+
+	void SetInfoString(const char* name, const char* n_info);
+	const char* GetInfoString(const char* n_info);
+
 private:
 	JSON_Value*  value = nullptr;
-	JSON_Object* object = nullptr;
+	JSON_Object* info = nullptr;
 	JSON_Object* root = nullptr;
 	const char* path = nullptr;
 };

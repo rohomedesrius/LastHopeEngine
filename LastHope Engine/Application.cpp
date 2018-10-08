@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "mmgr/mmgr.h"
 
+#include "JSON.h"
+
 Application::Application()
 {
 	frames = 0;
@@ -65,7 +67,10 @@ bool Application::Init()
 	{
 		(*item)->Start();
 	}
-	
+
+	//Loading config file
+	LoadAppConfig();
+
 	return ret;
 }
 
@@ -259,4 +264,34 @@ void Application::RequestBrowser(const char* link)
 void Application::ExitRequest()
 {
 	exit = true;
+}
+
+void Application::LoadAppConfig()
+{
+	configJSON = json->LoadJSON("config.json");
+
+	if (configJSON != nullptr)
+	{
+		const char* title = configJSON->GetInfoString("app.title");
+		const char* org = configJSON->GetInfoString("app.org");
+
+		SetAppTitle(title);
+		SetAppOrg(org);
+	}
+}
+
+void Application::SetAppTitle(const char* title)
+{
+	if (name != title)
+	{
+		name = title;
+	}
+}
+
+void Application::SetAppOrg(const char* org)
+{
+	if (organization != org)
+	{
+		organization = org;
+	}
 }
