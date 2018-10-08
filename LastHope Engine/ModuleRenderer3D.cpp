@@ -172,8 +172,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	LoadCheckers();
+
 	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
+		(*it)->buffTexture = checkers;
+
 		if (((*it)->buffTexture) > 0)
 		{
 			glEnableClientState(GL_TEXTURE_2D);
@@ -354,4 +358,31 @@ void ModuleRenderer3D::CleanScene()
 			delete (*it);
 	}
 	meshes.clear();
+}
+
+void ModuleRenderer3D::LoadCheckers()
+{
+	GLsizei CHECKERS_HEIGHT = 64;
+	GLsizei CHECKERS_WIDTH = 64;
+
+	GLubyte checkImage[64][64][4];
+	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
+		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &checkers);
+	glBindTexture(GL_TEXTURE_2D, checkers);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 }

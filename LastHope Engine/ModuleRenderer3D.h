@@ -51,4 +51,7 @@ private:
 	bool enable_wireframe = false;
 
 	Importer importer;
+
+	GLuint checkers;
+	void LoadCheckers();
 };
