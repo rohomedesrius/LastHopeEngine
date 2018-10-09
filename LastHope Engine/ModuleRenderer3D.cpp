@@ -130,8 +130,6 @@ bool ModuleRenderer3D::Init()
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-	LoadCheckers();
-
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	
@@ -175,6 +173,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	EnableColorMaterial(enable_color_material);
 	EnableTexture2D(enable_gl_texture);
 	EnableWireframeMode(enable_wireframe);
+
+	if (enable_checkers)
+		LoadCheckers();
 
 	if (enable_antisotropic)
 		glBindSampler(NULL, current_sampler);
@@ -507,10 +508,10 @@ void ModuleRenderer3D::EnableWireframeMode(bool enable)
 
 void ModuleRenderer3D::LoadCheckers()
 {
-	GLsizei CHECKERS_HEIGHT = 64;
-	GLsizei CHECKERS_WIDTH = 64;
+	GLsizei CHECKERS_HEIGHT = 128;
+	GLsizei CHECKERS_WIDTH = 128;
 
-	GLubyte checkImage[64][64][4];
+	GLubyte checkImage[128][128][4];
 	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
 		for (int j = 0; j < CHECKERS_WIDTH; j++) {
 			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
