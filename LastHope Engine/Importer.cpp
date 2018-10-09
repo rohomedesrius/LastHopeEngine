@@ -136,6 +136,8 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 				glGenBuffers(1, (GLuint*) &(mesh->buffUv));
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->buffUv);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * scene->mMeshes[i]->mNumVertices * 2, uv, GL_STATIC_DRAW);
+
+				delete[] uv;
 			}
 
 
@@ -157,6 +159,8 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffIndex);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * scene->mMeshes[i]->mNumFaces * 3, index, GL_STATIC_DRAW);
 			LOG("Importer - Loading %i index succesful!", (uint)scene->mMeshes[i]->mNumFaces * 3);
+
+			delete[] index;
 
 			//mesh->aabbBox.SetNegativeInfinity();
 			//mesh->aabbBox.Enclose(mesh->vertex.data(), scene->mMeshes[i]->mNumVertices);
