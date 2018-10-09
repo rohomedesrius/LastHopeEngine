@@ -320,7 +320,8 @@ void ModuleRenderer3D::Dropped()
 	}
 	case FileExtensions::Image:
 	{
-		LOG("Error: Not yet supported");
+		LOG("Importing Image...");
+		LoadImages((char*)App->input->GetFileDropped());
 		break;
 	}
 	case FileExtensions::Unsupported:
@@ -333,13 +334,20 @@ void ModuleRenderer3D::Dropped()
 
 void ModuleRenderer3D::LoadMeshes(char* path)
 {
-	CleanScene();
-
 	std::vector<Mesh*> tmp = importer.CreateMesh(path);
 
 	for (std::vector<Mesh*>::iterator it = tmp.begin(); it != tmp.end(); it++)
 	{
 		meshes.push_back(*it);
+	}
+}
+
+void ModuleRenderer3D::LoadImages(char * path)
+{
+	std::vector<Mesh*>::iterator it = meshes.begin();
+	for (; it != meshes.end(); it++)
+	{
+		(*it)->buffTexture = importer.LoadImageFile(path);
 	}
 }
 
