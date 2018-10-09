@@ -11,8 +11,17 @@ public:
 
 public:
 
+	//Strings
 	void SetInfoString(const char* name, const char* n_info);
 	const char* GetInfoString(const char* n_info);
+
+	//Numbers
+	void SetInfoNum(const char* name, float num);
+	float GetInfoNum(const char* num);
+
+	//Bools
+	void SetInfoBool(const char* name, bool value);
+	bool GetInfoBool(const char* name);
 
 private:
 	JSON_Value*  value = nullptr;
