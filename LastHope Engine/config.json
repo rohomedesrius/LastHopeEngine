@@ -1,8 +1,17 @@
 {
-    "app": {
-        "title": "Last Hope Engine",
-        "org": "TEST JSON",
-        "version": "v0.5.0",
-        "max_fps": 999
-    }
+  "app": {
+    "title": "Last Hope Engine",
+    "org": "TEST JSON",
+    "version": 1.0,
+    "max_fps": 999
+  },
+  "window": {
+    "width": 1920,
+    "height": 1080,
+    "fullscreen": false,
+    "win_fullscreen": true,
+    "borderless": false,
+    "maximize": false,
+    "resizable": true
+  }
 }
