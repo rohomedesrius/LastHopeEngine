@@ -177,7 +177,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	EnableWireframeMode(enable_wireframe);
 
 	if (enable_antisotropic)
-		glDeleteSamplers(NULL, &current_sampler);
+		glBindSampler(NULL, current_sampler);
 
 	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
