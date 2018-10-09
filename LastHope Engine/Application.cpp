@@ -55,6 +55,9 @@ bool Application::Init()
 {
 	bool ret = true;
 
+	//Loading config file
+	LoadAppConfig();
+
 	// Call Init() in all modules
 	for (std::vector<Module*>::iterator item = list_modules.begin(); ret == true && item != list_modules.end(); item++)
 	{
@@ -67,9 +70,6 @@ bool Application::Init()
 	{
 		(*item)->Start();
 	}
-
-	//Loading config file
-	LoadAppConfig();
 
 	return ret;
 }
@@ -277,6 +277,9 @@ void Application::LoadAppConfig()
 
 		SetAppTitle(title);
 		SetAppOrg(org);
+
+		//Next modules
+		window->LoadWinConfig();
 	}
 }
 
@@ -288,7 +291,7 @@ void Application::SetAppTitle(const char* title)
 	}
 }
 
-void Application::SetAppOrg(const char* org)
+void Application::SetAppOrg(const char* org) 
 {
 	if (organization != org)
 	{

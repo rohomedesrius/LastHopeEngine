@@ -37,6 +37,9 @@ public:
 	std::string name = "No name";
 	std::string organization = "No org";
 
+	JSON* json = nullptr;
+	JSONFile* configJSON = nullptr;
+
 private:
 
 	Timer	ms_timer;
@@ -98,9 +101,6 @@ private:
 	void FinishUpdate();
 
 	bool exit = false;
-
-	JSON* json = nullptr;
-	JSONFile* configJSON = nullptr;
 
 };
 
