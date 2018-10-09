@@ -60,9 +60,16 @@ private:
 	bool enable_gl_texture = false;
 	bool enable_wireframe = false;
 	bool enable_checkers = false;
+	bool enable_antisotropic = false;
 
 	Importer importer;
 
+	// Checker Texture
 	GLuint checkers;
 	void LoadCheckers();
+
+	// Antisotropic Filtering
+	GLuint g_sampler;
+	GLuint current_sampler = 0;
+	void SetSampler(const int number);
 };

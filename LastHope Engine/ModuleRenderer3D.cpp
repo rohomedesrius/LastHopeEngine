@@ -130,6 +130,8 @@ bool ModuleRenderer3D::Init()
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
+	LoadCheckers();
+
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	
@@ -174,7 +176,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	EnableTexture2D(enable_gl_texture);
 	EnableWireframeMode(enable_wireframe);
 
-	LoadCheckers();
+	if (enable_antisotropic)
+		glDeleteSamplers(NULL, &current_sampler);
 
 	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
@@ -222,6 +225,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		if (enable_antisotropic)
+			glBindSampler(NULL, 0);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
@@ -289,6 +294,42 @@ void ModuleRenderer3D::DrawUI()
 		if (ImGui::Checkbox("Wireframe Mode", &enable_wireframe))
 		{
 
+		}
+		if (ImGui::TreeNodeEx("Innovation - AF", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			if (ImGui::Checkbox("Antisotropic Filtering", &enable_antisotropic))
+			{
+				if (enable_antisotropic)
+				{
+					LOG("Renderer - Enabling Antisotropic Filtering. Set as \"Nearest\" (default)");
+				}
+				else
+					LOG("Renderer - Disabling Antisotropic Filtering...");
+			}
+			
+			if (enable_antisotropic)
+			{
+				if (ImGui::SmallButton(" ##afn"))
+					SetSampler(0);
+				ImGui::SameLine(); ImGui::Text("Nearest");
+				if (ImGui::SmallButton(" ##afl"))
+					SetSampler(1);
+				ImGui::SameLine(); ImGui::Text("Linear");
+				if (ImGui::SmallButton(" ##aflmn"))
+					SetSampler(2);
+				ImGui::SameLine(); ImGui::Text("Linear Mipmap Nearest");
+				if (ImGui::SmallButton(" ##aflml"))
+					SetSampler(3);
+				ImGui::SameLine(); ImGui::Text("Linear Mipmap Linear");
+				if (ImGui::SmallButton(" ##afla"))
+					SetSampler(4);
+				ImGui::SameLine(); ImGui::Text("Low Antisotropic");
+				if (ImGui::SmallButton(" ##afma"))
+					SetSampler(5);
+				ImGui::SameLine(); ImGui::Text("Max Antisotropic ");
+			}
+
+			ImGui::TreePop();
 		}
 	}
 }
@@ -492,4 +533,54 @@ void ModuleRenderer3D::LoadCheckers()
 
 	// CleanUp
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void ModuleRenderer3D::SetSampler(const int number)
+{
+	glSamplerParameteri(g_sampler, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glSamplerParameteri(g_sampler, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	switch (number)
+	{
+	case 0: // Nearest
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		LOG("Renderer - Set AF to \"Nearest\"");
+		break;
+
+	case 1: // Linear
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		LOG("Renderer - Set AF to \"Linear\"");
+		break;
+
+	case 2: // Linear Mipmap Nearest
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		LOG("Renderer - Set AF to \"Linear Mipmap Nearest\"");
+		break;
+	
+	case 3: // Linear Mipmap Linear
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		LOG("Renderer - Set AF to \"Linear Mipmap Linear\"");
+		break;
+	
+	case 4: // Low Antisotropic
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glSamplerParameterf(g_sampler, GL_TEXTURE_MAX_ANISOTROPY_EXT, 4.0f);
+		LOG("Renderer - Set AF to \"Low Antisotropic\"");
+		break;
+	
+	case 5: // Max Antisotropic
+		GLfloat maxAniso = 0.0f;
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
+
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glSamplerParameteri(g_sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glSamplerParameterf(g_sampler, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
+		LOG("Renderer - Set AF to \"Max Antisotropic\"");
+		break;
+	}
 }
