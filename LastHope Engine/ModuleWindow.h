@@ -22,6 +22,8 @@ public:
 
 	void SetTitle(const char* title);
 
+	void LoadWinConfig();
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;
@@ -31,10 +33,14 @@ public:
 
 private:
 
-	bool fullscreen = false;
-	bool fullscreen_desktop = false;
-	bool maximize = false;
-	bool borderless = false;
+	bool fullscreen;
+	bool fullscreen_desktop;
+	bool maximize;
+	bool borderless;
+	bool resizable;
+
+	int width = 0;
+	int height = 0;
 };
 
 #endif // __ModuleWindow_H__

@@ -715,6 +715,9 @@
     <None Include="DevIL\include\config.h.win">
       <Filter>Sources\Tools\DevIL</Filter>
     </None>
+    <None Include="config.json">
+      <Filter>Sources\Containers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LastHopeEngine.rc">

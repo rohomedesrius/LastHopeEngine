@@ -292,6 +292,7 @@
     <None Include="Assimp\include\quaternion.inl" />
     <None Include="Assimp\include\vector2.inl" />
     <None Include="Assimp\include\vector3.inl" />
+    <None Include="config.json" />
     <None Include="DevIL\include\config.h.win" />
     <None Include="MathGeoLib\include\Geometry\KDTree.inl" />
     <None Include="MathGeoLib\include\Geometry\QuadTree.inl" />
