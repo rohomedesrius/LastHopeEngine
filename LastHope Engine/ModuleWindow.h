@@ -24,6 +24,8 @@ public:
 
 	void LoadWinConfig();
 
+	SDL_Window* GetWindow() const;
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;

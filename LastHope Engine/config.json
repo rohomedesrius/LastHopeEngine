@@ -9,7 +9,7 @@
     "width": 1920,
     "height": 1080,
     "fullscreen": false,
-    "win_fullscreen": true,
+    "win_fullscreen": false,
     "borderless": false,
     "maximize": false,
     "resizable": true

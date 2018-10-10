@@ -34,7 +34,7 @@ bool ModuleRenderer3D::Init()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
 	//Create context
-	context = SDL_GL_CreateContext(App->window->window);
+	context = SDL_GL_CreateContext(App->window->GetWindow());
 	if(context == NULL)
 	{
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -131,7 +131,7 @@ bool ModuleRenderer3D::Init()
 	}
 
 	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	OnResize(App->window->screen_surface->w, App->window->screen_surface->h);
 	
 	//App->camera->Look(vec3(1.75f, 1.75f, 5.0f), vec3(0.0f, 0.0f, 0.0f));
 
@@ -141,6 +141,11 @@ bool ModuleRenderer3D::Init()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+	if (!once)
+	{
+		OnResize(App->window->screen_surface->w, App->window->screen_surface->h);
+		once = true;
+	}
 	Color c = App->camera->background;
 	glClearColor(c.r, c.g, c.b, c.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -242,7 +247,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	// Render Engine UI
 	App->editor->Draw();
 
-	SDL_GL_SwapWindow(App->window->window);
+	SDL_GL_SwapWindow(App->window->GetWindow());
 	return UPDATE_CONTINUE;
 }
 
@@ -376,6 +381,8 @@ void ModuleRenderer3D::Dropped()
 
 void ModuleRenderer3D::LoadMeshes(char* path)
 {
+	CleanScene();
+
 	std::vector<Mesh*> tmp = importer.CreateMesh(path);
 
 	for (std::vector<Mesh*>::iterator it = tmp.begin(); it != tmp.end(); it++)

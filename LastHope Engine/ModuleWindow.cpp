@@ -200,3 +200,8 @@ void ModuleWindow::LoadWinConfig()
 		resizable = App->configJSON->GetInfoBool("window.resizable");
 	}
 }
+
+SDL_Window * ModuleWindow::GetWindow() const
+{
+	return window;
+}

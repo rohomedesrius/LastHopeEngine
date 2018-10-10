@@ -51,13 +51,15 @@ public:
 
 private:
 
+	bool once = false;
+
 	bool vsync = true;
 
 	bool enable_depth_test = true;
 	bool enable_cull_face = false;
 	bool enable_lighting = false;
 	bool enable_color_material = false;
-	bool enable_gl_texture = false;
+	bool enable_gl_texture = true;
 	bool enable_wireframe = false;
 	bool enable_checkers = false;
 	bool enable_antisotropic = false;
