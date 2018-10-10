@@ -15,7 +15,6 @@ Application::Application()
 	input = new ModuleInput(this);
 	//audio = new ModuleAudio(this, true);
 	editor = new ModuleEditor(this);
-	//physics3D = new ModulePhysics3D(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	scene = new ModuleScene(this);
@@ -28,7 +27,6 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
-	//AddModule(physics3D);
 	AddModule(editor);
 	AddModule(scene);
 	AddModule(camera);
