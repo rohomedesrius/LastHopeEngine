@@ -54,7 +54,7 @@ bool Application::Init()
 	bool ret = true;
 
 	//Loading config file
-	LoadAppConfig();
+	LoadConfig();
 
 	// Call Init() in all modules
 	for (std::vector<Module*>::iterator item = list_modules.begin(); ret == true && item != list_modules.end(); item++)
@@ -147,6 +147,9 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
+
+	//JSON Save Config
+	SaveConfig();
 
 	LOG("Starting CleanUP: Closing Console");
 	console_enabled = false;
@@ -264,7 +267,7 @@ void Application::ExitRequest()
 	exit = true;
 }
 
-void Application::LoadAppConfig()
+void Application::LoadConfig()
 {
 	configJSON = json->LoadJSON("config.json");
 
@@ -278,7 +281,23 @@ void Application::LoadAppConfig()
 
 		//Next modules
 		window->LoadWinConfig();
+		editor->LoadEdiConfig();
 	}
+}
+
+void Application::SaveConfig()
+{
+	if (configJSON != nullptr)
+	{
+		configJSON->SetInfoString("app.title", App->name.c_str());
+		configJSON->SetInfoString("app.org", App->organization.c_str());
+
+		//Next modules
+		//window->LoadWinConfig();
+		//editor->LoadEdiConfig();
+	}
+
+	configJSON->SaveInfo();
 }
 
 void Application::SetAppTitle(const char* title)

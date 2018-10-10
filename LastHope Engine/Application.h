@@ -87,10 +87,10 @@ public:
 	//App Info
 	void SetAppTitle(const char* title);
 	void SetAppOrg(const char* org);
-	void SetAppVer(const char* version);
 
 	//JSON
-	void LoadAppConfig();
+	void LoadConfig();
+	void SaveConfig();
 
 private:
 
