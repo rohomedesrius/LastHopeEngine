@@ -8,6 +8,8 @@
 
 #include "PCG/pcg_basic.h"
 
+#include "JSON.h"
+
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 
@@ -236,4 +238,20 @@ void ModuleEditor::RandomWindow(bool active)
 	}
 
 	ImGui::End();
+}
+
+void ModuleEditor::LoadEdiConfig()
+{
+	if (App->configJSON != nullptr)
+	{
+		bShowConsole = App->configJSON->GetInfoBool("editor.console");
+		bShowApplication = App->configJSON->GetInfoBool("editor.appli");
+		bShowExample = App->configJSON->GetInfoBool("editor.example");
+		bShowRandomWindow = App->configJSON->GetInfoBool("editor.random");
+	}
+}
+
+void ModuleEditor::ManageUI()
+{
+
 }

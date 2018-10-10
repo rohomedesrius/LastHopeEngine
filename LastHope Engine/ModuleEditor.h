@@ -20,16 +20,20 @@ private:
 
 	EngineConsole console;
 
-	bool bShowExample = false;
-	bool bShowApplication = true;
-	bool bShowRandomWindow = false;
-	bool bShowConsole = true;
+	bool bShowExample;
+	bool bShowApplication;
+	bool bShowRandomWindow;
+	bool bShowConsole;
 
 public:
 
 	void Draw();
 
 	void RegisterLog(const char* log);
+
+	void ManageUI();
+
+	void LoadEdiConfig();
 
 private:
 	void ShowEngineConsole(bool* show);
