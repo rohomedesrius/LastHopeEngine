@@ -19,16 +19,6 @@ JSONFile* JSON::LoadJSON(const char * path)
 	return jsonFile;
 }
 
-JSONFile* JSON::CreateJSON(const char * path)
-{
-	JSON_Value* root_value = json_value_init_object();
-	JSON_Object* root_object = json_value_get_object(root_value);
-
-	JSONFile* jsonFile = new JSONFile(root_value, root_object, path);
-
-	return jsonFile;
-}
-
 //JSONFile-------------------------------------------------------------------------
 
 JSONFile::JSONFile()
@@ -86,4 +76,9 @@ void JSONFile::SetInfoBool(const char* name, bool value)
 bool JSONFile::GetInfoBool(const char* name)
 {
 	return (json_object_dotget_boolean(info, name));
+}
+
+void JSONFile::SaveInfo()
+{
+	json_serialize_to_file_pretty(value, path);
 }

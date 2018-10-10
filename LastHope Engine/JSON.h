@@ -23,6 +23,9 @@ public:
 	void SetInfoBool(const char* name, bool value);
 	bool GetInfoBool(const char* name);
 
+	//Save Information
+	void SaveInfo();
+
 private:
 	JSON_Value*  value = nullptr;
 	JSON_Object* info = nullptr;
@@ -37,5 +40,4 @@ public:
 	~JSON();
 
 	JSONFile* LoadJSON(const char* path);
-	JSONFile* CreateJSON(const char * path);
 };
