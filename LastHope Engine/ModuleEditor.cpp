@@ -8,6 +8,11 @@
 
 #include "PCG/pcg_basic.h"
 
+// Engine About Versions
+#include "SDL/include/SDL_version.h"
+#include "Assimp/include/version.h"
+#include "PhysFS/include/physfs.h"
+
 #include "JSON.h"
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -95,6 +100,7 @@ update_status ModuleEditor::Update(float dt)
 
 			if (ImGui::BeginMenu("Libraries"))
 			{
+				char version[25] = "";
 				if (ImGui::MenuItem("ImGui Version:", ImGui::GetVersion()))
 				{
 					App->RequestBrowser("https://github.com/ocornut/imgui");
@@ -105,14 +111,50 @@ update_status ModuleEditor::Update(float dt)
 					App->RequestBrowser("https://github.com/juj/MathGeoLib");
 				}
 
-				if (ImGui::MenuItem("SDL Version:"))
+				sprintf_s(version, "%i.%i.%i", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+				if (ImGui::MenuItem("SDL Version:", version))
 				{
 					App->RequestBrowser("https://www.libsdl.org/");
 				}
-				if (ImGui::MenuItem("Assimp Version:", "3.3.0"))
+
+				sprintf_s(version, "%s", glewGetString(GLEW_VERSION));
+				if (ImGui::MenuItem("Glew Version:", version))
+				{
+					App->RequestBrowser("https://www.libsdl.org/");
+				}
+
+				sprintf_s(version, "%i.%i.%i", aiGetVersionMajor(), aiGetVersionMinor(), aiGetVersionRevision());
+				if (ImGui::MenuItem("Assimp Version:", version))
 				{
 					App->RequestBrowser("https://github.com/assimp/assimp/releases/tag/v3.3/");
 				}
+
+				sprintf_s(version, "%i.%i.%i", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
+				if (ImGui::MenuItem("PhysFS Version:", version))
+				{
+					App->RequestBrowser("https://icculus.org/physfs/");
+				}
+
+				if (ImGui::MenuItem("DevIL Version:", "1.7.8"))
+				{
+					App->RequestBrowser("http://openil.sourceforge.net/");
+				}
+
+				if (ImGui::MenuItem("PCG Minimal C Version:", "0.9"))
+				{
+					App->RequestBrowser("http://www.pcg-random.org/download.html");
+				}
+
+				if (ImGui::MenuItem("Parson Version:", "-"))
+				{
+					App->RequestBrowser("https://github.com/kgabis/parson");
+				}
+
+				if (ImGui::MenuItem("MMGR Version:", "-"))
+				{
+					App->RequestBrowser("http://www.flipcode.com/archives/Presenting_A_Memory_Manager.shtml");
+				}
+
 				ImGui::EndMenu();
 			}
 			ImGui::Separator();
