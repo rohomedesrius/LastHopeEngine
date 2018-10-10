@@ -1,17 +1,23 @@
 {
-  "app": {
-    "title": "Last Hope Engine",
-    "org": "TEST JSON",
-    "version": 1.0,
-    "max_fps": 999
-  },
-  "window": {
-    "width": 1920,
-    "height": 1080,
-    "fullscreen": false,
-    "win_fullscreen": false,
-    "borderless": false,
-    "maximize": false,
-    "resizable": true
-  }
+    "app": {
+        "title": "Roger TEST",
+        "org": "LOKOOO",
+        "version": 1,
+        "max_fps": 999
+    },
+    "window": {
+        "width": 1280,
+        "height": 1024,
+        "fullscreen": false,
+        "win_fullscreen": false,
+        "borderless": false,
+        "maximize": false,
+        "resizable": true
+    },
+    "editor": {
+        "console": true,
+        "appli": true,
+        "example": false,
+        "random": false
+    }
 }
