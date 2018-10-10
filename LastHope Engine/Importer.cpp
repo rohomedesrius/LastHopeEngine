@@ -1,10 +1,13 @@
 #include "Importer.h"
 
-#include "MathGeoLib/include/MathGeoLib.h"
-
 #include "DevIL/include/il.h"
 #include "DevIL/include/ilu.h"
 #include "DevIL/include/ilut.h"
+
+#include "Assimp/include/cimport.h"
+#include "Assimp/include/scene.h"
+#include "Assimp/include/postprocess.h"
+#include "Assimp/include/cfileio.h"
 
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma	comment (lib, "DevIL/libx86/ILU.lib")
@@ -83,6 +86,23 @@ GLuint Importer::LoadImageFile(const char * file)
 	LOG("Importer - Texture for mesh applied: %s", file);
 
 	return textureID;
+}
+
+void myCallback(const char *msg, char *userData)
+{
+	LOG("Assimp - %s", msg);
+}
+
+void Importer::SetCallback()
+{
+	struct aiLogStream stream;
+	stream.callback = myCallback;
+	aiAttachLogStream(&stream);
+}
+
+void Importer::CleanCallback()
+{
+	aiDetachAllLogStreams();
 }
 
 std::vector<Mesh*> Importer::CreateMesh(const char * path)
@@ -209,7 +229,6 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 	}
 	else
 		LOG("Importer - Error loading scene %s", path);
-
 
 	return ret;
 }

@@ -148,6 +148,8 @@ bool ModuleRenderer3D::Start()
 	EnableTexture2D(enable_gl_texture);
 	EnableWireframeMode(enable_wireframe);
 
+	importer.SetCallback();
+
 	// For Assigment 1
 	LoadFBX("Assets\\BakerHouse.fbx");
 
@@ -271,6 +273,8 @@ bool ModuleRenderer3D::CleanUp()
 	LOG("Cleaning up 3D Renderer");
 
 	CleanScene();
+
+	importer.CleanCallback();
 
 	SDL_GL_DeleteContext(context);
 

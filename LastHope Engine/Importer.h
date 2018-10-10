@@ -8,11 +8,6 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
-#include "Assimp/include/cimport.h"
-#include "Assimp/include/scene.h"
-#include "Assimp/include/postprocess.h"
-#include "Assimp/include/cfileio.h"
-
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
 enum FileExtensions
@@ -43,11 +38,13 @@ private:
 
 };
 
-
 class Importer
 {
 
 public:
+
+	void SetCallback();
+	void CleanCallback();
 
 	FileExtensions GetExtension(const char* path);
 	bool FileExists(const std::string& name);
