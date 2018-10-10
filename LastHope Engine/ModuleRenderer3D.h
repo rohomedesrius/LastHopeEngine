@@ -16,6 +16,7 @@ public:
 	~ModuleRenderer3D();
 
 	bool Init();
+	bool Start();
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
@@ -26,7 +27,7 @@ public:
 	void OnResize(int width, int height);
 
 	void Dropped();
-	void LoadMeshes(char* path);
+	void LoadFBX(char* path);
 	void LoadImages(char * path);
 	void CleanScene();
 
@@ -50,8 +51,6 @@ public:
 	std::vector<Mesh*> meshes;
 
 private:
-
-	bool once = false;
 
 	bool vsync = true;
 

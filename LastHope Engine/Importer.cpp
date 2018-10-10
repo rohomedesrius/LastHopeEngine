@@ -23,10 +23,10 @@ GLuint Importer::LoadImageFile(const char * file)
 		GLenum err = glewInit();
 		if (GLEW_OK != err)
 		{
-			LOG("GLEW initialization error: %s", glewGetErrorString(err));
+			LOG("Importer - GLEW initialization error: %s", glewGetErrorString(err));
 			exit(-1);
 		}
-		LOG("GLEW intialized successfully. Current GLEW version: %s", glewGetString(GLEW_VERSION));
+		LOG("Importer - GLEW intialized successfully. Current GLEW version: %s", glewGetString(GLEW_VERSION));
 
 		bDevilInit = true;
 	}
@@ -56,7 +56,7 @@ GLuint Importer::LoadImageFile(const char * file)
 		if (!success)
 		{
 			error = ilGetError();
-			LOG("Image conversion failed! IL error: %i - %s", error, iluErrorString(error));
+			LOG("Importer - Image conversion failed! IL error: %i - %s", error, iluErrorString(error));
 			return -1;
 		}
 
@@ -74,13 +74,13 @@ GLuint Importer::LoadImageFile(const char * file)
 	else
 	{
 		error = ilGetError();
-		LOG("Image loading failed! IL error: %i - %s", error, iluErrorString(error));
+		LOG("Importer - Image loading failed! IL error: %i - %s", error, iluErrorString(error));
 		return -1;
 	}
 
 	//ilDeleteImages(1, &imageID);
 
-	LOG("Texture for mesh applied: %s", file);
+	LOG("Importer - Texture for mesh applied: %s", file);
 
 	return textureID;
 }
@@ -111,7 +111,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 			}
 			else
 			{
-				LOG("WARNING, the scene has 0 vertex!");
+				LOG("Importer - WARNING, the scene has 0 vertex!");
 			}
 
 			if (scene->mMeshes[i]->HasNormals())
@@ -147,7 +147,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 			{
 				if (scene->mMeshes[i]->mFaces[j].mNumIndices != 3)
 				{
-					LOG("WARNING, geometry face with != 3 indices!");
+					LOG("Importer - WARNING, geometry face with != 3 indices!");
 				}
 				else
 				{
@@ -192,12 +192,12 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 					}
 					else
 					{
-						LOG("ERROR Image not loaded");
+						LOG("Importer - ERROR Image not loaded");
 					}
 
 					if (mesh->buffTexture == -1)
 					{
-						LOG("ERROR Creating buffer for Texture");
+						LOG("Importer - ERROR Creating buffer for Texture");
 					}
 				}
 			}
@@ -208,7 +208,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 		aiReleaseImport(scene);
 	}
 	else
-		LOG("Error loading scene %s", path);
+		LOG("Importer - Error loading scene %s", path);
 
 
 	return ret;

@@ -130,22 +130,36 @@ bool ModuleRenderer3D::Init()
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
-	// Projection matrix for
-	OnResize(App->window->screen_surface->w, App->window->screen_surface->h);
+	//OnResize(App->window->screen_surface->w, App->window->screen_surface->h);
 	
 	//App->camera->Look(vec3(1.75f, 1.75f, 5.0f), vec3(0.0f, 0.0f, 0.0f));
 
 	return ret;
 }
 
+bool ModuleRenderer3D::Start()
+{
+	bool ret = true;
+
+	EnableDepthTest(enable_depth_test);
+	EnableCullFace(enable_cull_face);
+	EnableLighting(enable_lighting);
+	EnableColorMaterial(enable_color_material);
+	EnableTexture2D(enable_gl_texture);
+	EnableWireframeMode(enable_wireframe);
+
+	// For Assigment 1
+	LoadFBX("Assets\\BakerHouse.fbx");
+
+	// Projection matrix for
+	OnResize(App->window->screen_surface->w, App->window->screen_surface->h);
+	
+	return ret;
+}
+
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	if (!once)
-	{
-		OnResize(App->window->screen_surface->w, App->window->screen_surface->h);
-		once = true;
-	}
 	Color c = App->camera->background;
 	glClearColor(c.r, c.g, c.b, c.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -362,7 +376,7 @@ void ModuleRenderer3D::Dropped()
 	case FileExtensions::Scene3D:
 	{
 		LOG("Importing 3D Scene...");
-		LoadMeshes((char*)App->input->GetFileDropped());
+		LoadFBX((char*)App->input->GetFileDropped());
 		break;
 	}
 	case FileExtensions::Image:
@@ -379,7 +393,7 @@ void ModuleRenderer3D::Dropped()
 	}
 }
 
-void ModuleRenderer3D::LoadMeshes(char* path)
+void ModuleRenderer3D::LoadFBX(char* path)
 {
 	CleanScene();
 
