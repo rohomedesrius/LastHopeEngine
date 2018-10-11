@@ -31,6 +31,8 @@ public:
 	void LoadImages(char * path);
 	void CleanScene();
 
+	void SetAABB();
+
 public:
 
 	void EnableVSync(bool enable);
@@ -49,6 +51,7 @@ public:
 	mat4x4 ProjectionMatrix;
 
 	std::vector<Mesh*> meshes;
+	AABB model_aabb;
 
 private:
 

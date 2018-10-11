@@ -407,6 +407,8 @@ void ModuleRenderer3D::LoadFBX(char* path)
 	{
 		meshes.push_back(*it);
 	}
+
+	SetAABB();
 }
 
 void ModuleRenderer3D::LoadImages(char * path)
@@ -426,6 +428,22 @@ void ModuleRenderer3D::CleanScene()
 			delete (*it);
 	}
 	meshes.clear();
+}
+
+void ModuleRenderer3D::SetAABB()
+{	
+	std::vector<float3> meshes_aabb_corners;
+
+	for (int i = 0; i < meshes.size(); i++)
+	{
+		meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.minPoint);
+		meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.maxPoint);
+	}
+
+	LOG("Created AABB for %i meshes", meshes_aabb_corners.size()/2);
+
+	model_aabb.SetNegativeInfinity();
+	model_aabb.Enclose(meshes_aabb_corners.data(), meshes_aabb_corners.size());
 }
 
 void ModuleRenderer3D::EnableVSync(bool enable)

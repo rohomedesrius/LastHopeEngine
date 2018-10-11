@@ -34,6 +34,8 @@ public:
 	uint numIndex = 0;
 	uint buffTexture = 0;
 
+	math::AABB mesh_aabb;
+
 private:
 
 };

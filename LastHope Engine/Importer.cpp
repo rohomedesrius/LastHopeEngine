@@ -181,9 +181,9 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 			LOG("Importer - Loading %i index succesful!", (uint)scene->mMeshes[i]->mNumFaces * 3);
 
 			delete[] index;
-
-			//mesh->aabbBox.SetNegativeInfinity();
-			//mesh->aabbBox.Enclose(mesh->vertex.data(), scene->mMeshes[i]->mNumVertices);
+			
+			mesh->mesh_aabb.SetNegativeInfinity();
+			mesh->mesh_aabb.Enclose(mesh->vertex.data(), scene->mMeshes[i]->mNumVertices);
 
 			if (scene->HasMaterials())
 			{
