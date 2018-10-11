@@ -551,12 +551,9 @@ void ModuleRenderer3D::EnableWireframeMode(bool enable)
 
 void ModuleRenderer3D::LoadCheckers()
 {
-	GLsizei CHECKERS_HEIGHT = 128;
-	GLsizei CHECKERS_WIDTH = 128;
-
-	GLubyte checkImage[128][128][4];
-	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
-		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+	GLubyte checkImage[CHECKERS_SIZE][CHECKERS_SIZE][4];
+	for (int i = 0; i < CHECKERS_SIZE; i++) {
+		for (int j = 0; j < CHECKERS_SIZE; j++) {
 			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
 			checkImage[i][j][0] = (GLubyte)c;
 			checkImage[i][j][1] = (GLubyte)c;
@@ -572,7 +569,7 @@ void ModuleRenderer3D::LoadCheckers()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_HEIGHT, CHECKERS_WIDTH,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_SIZE, CHECKERS_SIZE,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
 
 	// CleanUp

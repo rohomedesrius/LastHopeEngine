@@ -7,6 +7,7 @@
 
 #include "glmath.h"
 
+#define CHECKERS_SIZE 128
 #define MAX_LIGHTS 8
 
 class ModuleRenderer3D : public Module
