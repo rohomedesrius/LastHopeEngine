@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "PhysBody3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleRenderer3D.h"
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -12,7 +13,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	Z = vec3(0.0f, 0.0f, 1.0f);
 
 	Position = vec3(0.0f, 3.0f, 10.0f);
-	Reference = vec3(0.0f, 0.0f, 0.0f);
+	Reference = vec3(0.0f, 3.0f, 0.0f);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -23,6 +24,8 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
+
+	Position = Reference + Z * length(Position);
 
 	return ret;
 }
@@ -173,7 +176,7 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	//Focus on geometry-------------------
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
 		FocusGeometry();
 	}
@@ -247,5 +250,11 @@ void ModuleCamera3D::CalculateViewMatrix()
 
 void ModuleCamera3D::FocusGeometry()
 {
+	vec3 box_center = vec3(App->renderer3D->model_aabb.CenterPoint().x, App->renderer3D->model_aabb.CenterPoint().y, App->renderer3D->model_aabb.CenterPoint().z);
+	vec3 box_size = vec3(App->renderer3D->model_aabb.Size().x, App->renderer3D->model_aabb.Size().y, App->renderer3D->model_aabb.Size().z);
+	
+	Reference = box_center;
+	Position = box_center + box_size;
 
+	Position = Reference + Z * length(Position);
 }
