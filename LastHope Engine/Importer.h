@@ -17,12 +17,20 @@ enum FileExtensions
 	Unsupported
 };
 
+struct ModelTransform
+{
+	float3 position = {};
+	float3 scale = {};
+	Quat rotation = {};
+};
 
 class Mesh
 {
 public:
 
 	~Mesh();
+
+	ModelTransform transform;
 
 	std::vector<float3> normals;
 	std::vector<float3> vertex;
@@ -57,5 +65,8 @@ public:
 private:
 
 	bool bDevilInit = false;
+
+public:
+
 	ImVec2 imageDimensions;
 };

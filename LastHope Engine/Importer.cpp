@@ -117,7 +117,8 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 		for (uint i = 0; i < scene->mNumMeshes; i++)
 		{
 			Mesh* mesh = new Mesh;
-
+			
+			// VERTEX
 			mesh->vertex.reserve(scene->mMeshes[i]->mNumVertices);
 			memcpy(mesh->vertex.data(), scene->mMeshes[i]->mVertices, sizeof(float3)*scene->mMeshes[i]->mNumVertices);
 
@@ -160,7 +161,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 				delete[] uv;
 			}
 
-
+			// INDEX
 			uint* index = new uint[scene->mMeshes[i]->mNumFaces * 3];
 			mesh->numIndex = scene->mMeshes[i]->mNumFaces * 3;
 			for (uint j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
@@ -185,6 +186,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 			mesh->mesh_aabb.SetNegativeInfinity();
 			mesh->mesh_aabb.Enclose(mesh->vertex.data(), scene->mMeshes[i]->mNumVertices);
 
+			// MATERIALS
 			if (scene->HasMaterials())
 			{
 				if (scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0)
@@ -222,9 +224,20 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 				}
 			}
 
-			ret.push_back(mesh);
+			// ROOT TRANSFORM
+			aiVector3D translation;
+			aiVector3D scaling;
+			aiQuaternion rotation;
 
+			scene->mRootNode->mTransformation.Decompose(scaling, rotation, translation);
+
+			mesh->transform.position = float3(translation.x, translation.y, translation.z);
+			mesh->transform.scale = float3(scaling.x, scaling.y, scaling.z);
+			mesh->transform.rotation = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
+			
+			ret.push_back(mesh);
 		}
+
 		aiReleaseImport(scene);
 	}
 	else
