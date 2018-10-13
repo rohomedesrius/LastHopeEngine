@@ -20,7 +20,7 @@ private:
 
 	EngineConsole console;
 
-	bool show_ui = false;
+	bool show_ui = true;
 
 	bool show_properties = false;
 	bool show_example = false;
@@ -39,6 +39,7 @@ public:
 	void LoadEdiConfig();
 
 private:
+
 	void ShowEngineConsole(bool* show);
 	void ApplicationWindow();
 	void PropertiesWindow();

@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleWindow.h"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_sdl_gl3.h"
@@ -177,24 +178,7 @@ update_status ModuleEditor::Update(float dt)
 
 	if (show_ui)
 	{
-		// Application Window
-		if (show_application)
-			ApplicationWindow();
-
-		if (show_properties)
-			PropertiesWindow();
-
-		// Engine Console
-		if (show_console)
-			ShowEngineConsole(&show_console);
-
-		// Test ImGui Window
-		if (show_example)
-			ImGui::ShowTestWindow();
-
-		// Random Generator Window
-		if (show_random)
-			RandomWindow();
+		ManageUI();
 	}
 
 	return UPDATE_CONTINUE;
@@ -213,18 +197,21 @@ void ModuleEditor::RegisterLog(const char * log)
 
 void ModuleEditor::ShowEngineConsole(bool* show)
 {
-	ImGui::SetNextWindowPos(ImVec2(0.f, 500.f));
+	ImGui::SetNextWindowPos(ImVec2(App->window->screen_surface->w / 4, (App->window->screen_surface->h / 4) * 3));
+	ImGui::SetNextWindowSize(ImVec2((App->window->screen_surface->w / 4) * 2, App->window->screen_surface->h / 4));
+
 	console.Draw("LastHope Engine Console", show);
 }
 
 void ModuleEditor::ApplicationWindow()
 {
-	//ImGui::SetNextWindowPos(ImVec2(1000.f, 18.f));
-	//ImGui::SetNextWindowSize(ImVec2(0.f, App->window->screen_surface->h - 18.f));
-
-	ImGuiWindowFlags flag = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoFocusOnAppearing;
+	
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize;
 	ImGui::Begin("Configuration", 0, ImVec2(0.f, 0.f), 0.8f, flag);
 	{
+		ImGui::SetWindowPos(ImVec2((App->window->screen_surface->w / 4)*3, 19));
+		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w / 4, App->window->screen_surface->h - 19));
+		
 		App->DrawAllModules();
 	}
 
@@ -233,9 +220,12 @@ void ModuleEditor::ApplicationWindow()
 
 void ModuleEditor::PropertiesWindow()
 {
-	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar;
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize;
 	ImGui::Begin("Properties", 0, flag);
 	{
+		ImGui::SetWindowPos(ImVec2(0, 19));
+		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w / 4, App->window->screen_surface->h - 19));
+
 		App->renderer3D->DrawProperties();
 	}
 
@@ -312,10 +302,30 @@ void ModuleEditor::LoadEdiConfig()
 		show_application = App->configJSON->GetInfoBool("editor.appli");
 		show_example = App->configJSON->GetInfoBool("editor.example");
 		show_random = App->configJSON->GetInfoBool("editor.random");
+		show_properties = App->configJSON->GetInfoBool("editor.prop");
 	}
 }
 
 void ModuleEditor::ManageUI()
 {
+	App->window->screen_surface = SDL_GetWindowSurface(App->window->window);
 
+	// Application Window
+	if (show_application)
+		ApplicationWindow();
+
+	if (show_properties)
+		PropertiesWindow();
+
+	// Engine Console
+	if (show_console)
+		ShowEngineConsole(&show_console);
+
+	// Test ImGui Window
+	if (show_example)
+		ImGui::ShowTestWindow();
+
+	// Random Generator Window
+	if (show_random)
+		RandomWindow();
 }
