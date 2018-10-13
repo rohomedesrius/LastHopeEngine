@@ -44,9 +44,7 @@ void EngineConsole::AddLog(const char* fmt, ...) IM_FMTARGS(2)
 
 void EngineConsole::Draw(const char * title, bool * p_open)
 {
-	// Console Temporary Initial Position
-	ImGui::SetNextWindowSize(ImVec2(800.f, App->window->screen_surface->h - 500.f), ImGuiCond_FirstUseEver);
-	ImGuiWindowFlags flag = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing;
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize;
 	if (!ImGui::Begin(title, p_open, flag))
 	{
 		ImGui::End();

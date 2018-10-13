@@ -18,6 +18,7 @@
         "console": true,
         "appli": true,
         "example": false,
-        "random": false
+        "random": false,
+        "prop": true
     }
 }

@@ -209,7 +209,7 @@ void Application::DrawUI()
 		if (ImGui::InputText("App Name", input, size))
 		{
 			name.assign(input);
-			//App->window->SetTitle(input);
+	
 		}
 
 		sprintf_s(input, size, "%s", organization.c_str());
