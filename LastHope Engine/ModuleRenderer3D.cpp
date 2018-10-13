@@ -358,6 +358,93 @@ void ModuleRenderer3D::DrawUI()
 	}
 }
 
+void ModuleRenderer3D::DrawProperties()
+{
+
+	int a = 1;
+	if (meshes.empty())
+	{
+		ImGui::Text("You must first load a Scene!");
+	}
+	else
+	{
+		if (ImGui::CollapsingHeader("Model", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
+			{
+				char title[40];
+				sprintf_s(title, sizeof(title), "Mesh %i", a);
+				if (ImGui::CollapsingHeader(title, ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					sprintf_s(title, sizeof(title), "Transformation ##%i", a);
+					if (ImGui::TreeNodeEx(title))
+					{
+						ImVec4 col = ImVec4(1.0f, 0.78f, 0.58f, 1.0f);
+
+						// Transform Position
+						ImGui::Text("Position: "); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, col);
+						ImGui::Text("%.1f, %.1f, %.1f", meshes[a]->transform.position.x, meshes[a]->transform.position.y, meshes[a]->transform.position.z);
+						ImGui::PopStyleColor();
+
+						// Transform Scale
+						ImGui::Text("Scale: "); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, col);
+						ImGui::Text("%.1f, %.1f, %.1f", meshes[a]->transform.scale.x, meshes[a]->transform.scale.y, meshes[a]->transform.scale.z);
+						ImGui::PopStyleColor();
+
+						// Transform Rotation
+						ImGui::Text("Rotation: "); ImGui::SameLine();
+						ImGui::PushStyleColor(ImGuiCol_Text, col);
+						ImGui::Text("%.1f, %.1f, %.1f", meshes[a]->transform.rotation.x, meshes[a]->transform.rotation.y, meshes[a]->transform.rotation.z);
+						ImGui::PopStyleColor();
+
+						ImGui::TreePop();
+					}
+					ImGui::Spacing();
+
+					sprintf_s(title, sizeof(title), "Geometry ##%i", a);
+					if (ImGui::TreeNodeEx(title, ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImGui::Text("Triangle Count: %i", (*it)->numIndex / 3);
+						ImGui::TreePop();
+					}
+					ImGui::Spacing();
+
+					sprintf_s(title, sizeof(title), "Texture ##%i", a);
+					if (ImGui::TreeNodeEx(title, ImGuiTreeNodeFlags_DefaultOpen))
+					{
+						ImVec2 texScreenPos = ImGui::GetCursorScreenPos();
+						float texWidth = 200.f;
+						float texHeight = 200.f;
+						ImTextureID textureID = (ImTextureID)(*it)->buffTexture;
+
+						ImGui::Text("Currently displaying resized texture, hover to zoom");
+						ImGui::Text("Dimensions: %.0fx%.0f", importer.imageDimensions.x, importer.imageDimensions.y);
+						ImGui::Image(textureID, ImVec2(texWidth, texHeight), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+
+						if (ImGui::IsItemHovered())
+						{
+							ImGui::BeginTooltip();
+							float focus_sz = 32.0f;
+							float focusX = ImGui::GetMousePos().x - texScreenPos.x - focus_sz * 0.5f; if (focusX < 0.0f) focusX = 0.0f; else if (focusX > texWidth - focus_sz) focusX = texWidth - focus_sz;
+							float focusY = ImGui::GetMousePos().y - texScreenPos.y - focus_sz * 0.5f; if (focusY < 0.0f) focusY = 0.0f; else if (focusY > texHeight - focus_sz) focusY = texHeight - focus_sz;
+							ImGui::Text("Min: (%.2f, %.2f)", focusX, focusY);
+							ImGui::Text("Max: (%.2f, %.2f)", focusX + focus_sz, focusY + focus_sz);
+							ImVec2 uv0 = ImVec2((focusX) / texWidth, (focusY) / texHeight);
+							ImVec2 uv1 = ImVec2((focusX + focus_sz) / texWidth, (focusY + focus_sz) / texHeight);
+							ImGui::Image(textureID, ImVec2(128, 128), uv0, uv1, ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
+							ImGui::EndTooltip();
+						}
+						ImGui::TreePop();
+					}
+				}
+				a++;
+			}
+		}
+	}
+}
+
 void ModuleRenderer3D::OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);

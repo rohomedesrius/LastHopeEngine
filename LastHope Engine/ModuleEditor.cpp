@@ -74,14 +74,15 @@ update_status ModuleEditor::Update(float dt)
 		// WINDOW
 		if (ImGui::BeginMenu("Window"))
 		{
-			if (ImGui::Checkbox("Engine Console", &bShowConsole));
+			if (ImGui::Checkbox("Application", &bShowApplication));
 
-			if (ImGui::Checkbox("ImGui Test Window", &bShowExample));
+			if (ImGui::Checkbox("Properties", &show_properties));
 
+			if (ImGui::Checkbox("Console", &bShowConsole));
+			
 			if (ImGui::Checkbox("Random Generator", &bShowRandomWindow));
 
-			if (ImGui::Checkbox("Application Window", &bShowApplication));
-		
+			if (ImGui::Checkbox("ImGui Test Window", &bShowExample));
 			ImGui::EndMenu();
 		}
 
@@ -169,7 +170,14 @@ update_status ModuleEditor::Update(float dt)
 
 		ImGui::EndMainMenuBar();
 	}
-	
+
+	// Application Window
+	if (bShowApplication)
+		ApplicationWindow();
+
+	if (show_properties)
+		PropertiesWindow();
+
 	// Engine Console
 	if (bShowConsole)
 		ShowEngineConsole(&bShowConsole);
@@ -180,11 +188,7 @@ update_status ModuleEditor::Update(float dt)
 
 	// Random Generator Window
 	if (bShowRandomWindow)
-		RandomWindow(&bShowRandomWindow);
-
-	// Application Window
-	if (bShowApplication)
-		ApplicationWindow(true);
+		RandomWindow();
 
 	return UPDATE_CONTINUE;
 }
@@ -206,7 +210,7 @@ void ModuleEditor::ShowEngineConsole(bool* show)
 	console.Draw("LastHope Engine Console", show);
 }
 
-void ModuleEditor::ApplicationWindow(bool wActive)
+void ModuleEditor::ApplicationWindow()
 {
 	//ImGui::SetNextWindowPos(ImVec2(1000.f, 18.f));
 	//ImGui::SetNextWindowSize(ImVec2(0.f, App->window->screen_surface->h - 18.f));
@@ -220,7 +224,18 @@ void ModuleEditor::ApplicationWindow(bool wActive)
 	ImGui::End();
 }
 
-void ModuleEditor::RandomWindow(bool active)
+void ModuleEditor::PropertiesWindow()
+{
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar;
+	ImGui::Begin("Properties", 0, flag);
+	{
+		App->renderer3D->DrawProperties();
+	}
+
+	ImGui::End();
+}
+
+void ModuleEditor::RandomWindow()
 {
 	ImGui::Begin("Random Generator", 0, ImVec2(300.f, 125.f), 0.8f, ImGuiWindowFlags_NoResize);
 	{

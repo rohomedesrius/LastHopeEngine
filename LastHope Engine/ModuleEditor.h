@@ -20,6 +20,7 @@ private:
 
 	EngineConsole console;
 
+	bool show_properties;
 	bool bShowExample;
 	bool bShowApplication;
 	bool bShowRandomWindow;
@@ -37,6 +38,7 @@ public:
 
 private:
 	void ShowEngineConsole(bool* show);
-	void ApplicationWindow(bool wActive);
-	void RandomWindow(bool active);
+	void ApplicationWindow();
+	void PropertiesWindow();
+	void RandomWindow();
 };

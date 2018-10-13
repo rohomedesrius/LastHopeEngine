@@ -24,6 +24,7 @@ public:
 	bool CleanUp();
 
 	void DrawUI();
+	void DrawProperties();
 
 	void OnResize(int width, int height);
 
@@ -46,12 +47,13 @@ public:
 	void EnableWireframeMode(bool enable);
 
 	Light lights[MAX_LIGHTS];
-	SDL_GLContext context;
+	SDL_GLContext context = nullptr;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix;
 	mat4x4 ProjectionMatrix;
 
-	std::vector<Mesh*> meshes;
+	// MODEL
+	std::vector<Mesh*> meshes = {};
 	AABB model_aabb;
 
 private:
@@ -70,11 +72,11 @@ private:
 	Importer importer;
 
 	// Checker Texture
-	GLuint checkers;
+	GLuint checkers = NULL;
 	void LoadCheckers();
 
 	// Antisotropic Filtering
-	GLuint g_sampler;
-	GLuint current_sampler = 0;
+	GLuint g_sampler = NULL;
+	GLuint current_sampler = NULL;
 	void SetSampler(const int number);
 };
