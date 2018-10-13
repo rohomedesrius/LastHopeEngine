@@ -74,15 +74,19 @@ update_status ModuleEditor::Update(float dt)
 		// WINDOW
 		if (ImGui::BeginMenu("Window"))
 		{
-			if (ImGui::Checkbox("Application", &bShowApplication));
+			if (ImGui::Checkbox("Show UI", &show_ui));
+
+			ImGui::Separator();
+
+			if (ImGui::Checkbox("Application", &show_application));
 
 			if (ImGui::Checkbox("Properties", &show_properties));
 
-			if (ImGui::Checkbox("Console", &bShowConsole));
+			if (ImGui::Checkbox("Console", &show_console));
 			
-			if (ImGui::Checkbox("Random Generator", &bShowRandomWindow));
+			if (ImGui::Checkbox("Random Generator", &show_random));
 
-			if (ImGui::Checkbox("ImGui Test Window", &bShowExample));
+			if (ImGui::Checkbox("ImGui Test Window", &show_example));
 			ImGui::EndMenu();
 		}
 
@@ -171,24 +175,27 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::EndMainMenuBar();
 	}
 
-	// Application Window
-	if (bShowApplication)
-		ApplicationWindow();
+	if (show_ui)
+	{
+		// Application Window
+		if (show_application)
+			ApplicationWindow();
 
-	if (show_properties)
-		PropertiesWindow();
+		if (show_properties)
+			PropertiesWindow();
 
-	// Engine Console
-	if (bShowConsole)
-		ShowEngineConsole(&bShowConsole);
+		// Engine Console
+		if (show_console)
+			ShowEngineConsole(&show_console);
 
-	// Test ImGui Window
-	if (bShowExample)
-		ImGui::ShowTestWindow();
+		// Test ImGui Window
+		if (show_example)
+			ImGui::ShowTestWindow();
 
-	// Random Generator Window
-	if (bShowRandomWindow)
-		RandomWindow();
+		// Random Generator Window
+		if (show_random)
+			RandomWindow();
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -301,10 +308,10 @@ void ModuleEditor::LoadEdiConfig()
 {
 	if (App->configJSON != nullptr)
 	{
-		bShowConsole = App->configJSON->GetInfoBool("editor.console");
-		bShowApplication = App->configJSON->GetInfoBool("editor.appli");
-		bShowExample = App->configJSON->GetInfoBool("editor.example");
-		bShowRandomWindow = App->configJSON->GetInfoBool("editor.random");
+		show_console = App->configJSON->GetInfoBool("editor.console");
+		show_application = App->configJSON->GetInfoBool("editor.appli");
+		show_example = App->configJSON->GetInfoBool("editor.example");
+		show_random = App->configJSON->GetInfoBool("editor.random");
 	}
 }
 

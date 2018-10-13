@@ -20,11 +20,13 @@ private:
 
 	EngineConsole console;
 
-	bool show_properties;
-	bool bShowExample;
-	bool bShowApplication;
-	bool bShowRandomWindow;
-	bool bShowConsole;
+	bool show_ui = false;
+
+	bool show_properties = false;
+	bool show_example = false;
+	bool show_application = false;
+	bool show_random = false;
+	bool show_console = false;
 
 public:
 
