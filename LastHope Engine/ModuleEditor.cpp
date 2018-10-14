@@ -238,15 +238,32 @@ void ModuleEditor::RegisterLog(const char * log)
 
 void ModuleEditor::ShowEngineConsole(bool* show)
 {
-	ImGui::SetNextWindowPos(ImVec2(App->window->screen_surface->w / 4, (App->window->screen_surface->h / 4) * 3));
-	ImGui::SetNextWindowSize(ImVec2((App->window->screen_surface->w / 4) * 2, App->window->screen_surface->h / 4));
+	if (show_application && show_properties)
+	{
+		ImGui::SetNextWindowPos(ImVec2(App->window->screen_surface->w / 4, (App->window->screen_surface->h / 4) * 3));
+		ImGui::SetNextWindowSize(ImVec2((App->window->screen_surface->w / 4) * 2, App->window->screen_surface->h / 4));
+	}
+	else if (show_application && show_properties == false)
+	{
+		ImGui::SetNextWindowPos(ImVec2(0, (App->window->screen_surface->h / 4) * 3));
+		ImGui::SetNextWindowSize(ImVec2((App->window->screen_surface->w / 4) * 3, App->window->screen_surface->h / 4));
+	}
+	else if (show_application == false && show_properties)
+	{
+		ImGui::SetNextWindowPos(ImVec2(App->window->screen_surface->w / 4, (App->window->screen_surface->h / 4) * 3));
+		ImGui::SetNextWindowSize(ImVec2((App->window->screen_surface->w / 4) * 3, App->window->screen_surface->h / 4));
+	}
+	else if (show_application == false && show_properties == false)
+	{
+		ImGui::SetNextWindowPos(ImVec2(0, (App->window->screen_surface->h / 4) * 3));
+		ImGui::SetNextWindowSize(ImVec2((App->window->screen_surface->w), App->window->screen_surface->h / 4));
+	}
 
 	console.Draw("LastHope Engine Console", show);
 }
 
 void ModuleEditor::ApplicationWindow()
 {
-	
 	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	ImGui::Begin("Configuration", 0, ImVec2(0.f, 0.f), 0.8f, flag);
 	{
