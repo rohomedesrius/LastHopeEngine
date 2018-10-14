@@ -19,6 +19,7 @@
         "appli": true,
         "example": false,
         "random": false,
-        "prop": true
+        "prop": true,
+        "style": 1
     }
 }

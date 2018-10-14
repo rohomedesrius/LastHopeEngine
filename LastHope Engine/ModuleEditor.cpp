@@ -35,8 +35,7 @@ bool ModuleEditor::Start()
 	SDL_GLContext gl_context = SDL_GL_CreateContext(App->window->GetWindow());
 	
 	InitStyles();
-	style_blue.active = true;
-	SetStyle(style_blue);
+	HandleStyle();
 
 	ImGui_ImplSdlGL3_Init(App->window->GetWindow());
 
@@ -68,6 +67,7 @@ void ModuleEditor::DrawUI()
 			ImGui::StyleColorsClassic();
 			style_classic.active = true;
 			style_blue.active = style_dark.active = style_forest.active = false;
+			current_style = 0;
 		}
 
 		if (ImGui::Checkbox("Set Forest Style", &style_forest.active))
@@ -75,6 +75,7 @@ void ModuleEditor::DrawUI()
 			SetStyle(style_forest);
 			style_forest.active = true;
 			style_blue.active = style_dark.active = style_classic.active = false;
+			current_style = 1;
 		}
 
 		if (ImGui::Checkbox("Set Blue Style", &style_blue.active))
@@ -82,6 +83,7 @@ void ModuleEditor::DrawUI()
 			SetStyle(style_blue);
 			style_blue.active = true;
 			style_forest.active = style_dark.active = style_classic.active = false;
+			current_style = 2;
 		}
 
 		if (ImGui::Checkbox("Set Dark Style", &style_dark.active))
@@ -89,6 +91,7 @@ void ModuleEditor::DrawUI()
 			ImGui::StyleColorsDark();
 			style_dark.active = true;
 			style_forest.active = style_blue.active = style_classic.active = false;
+			current_style = 3;
 		}
 	}
 }
@@ -100,6 +103,7 @@ void ModuleEditor::LoadConfig(JSONFile * file)
 	show_example = file->GetInfoBool("editor.example");
 	show_random = file->GetInfoBool("editor.random");
 	show_properties = file->GetInfoBool("editor.prop");
+	current_style = file->GetInfoNum("editor.style");
 }
 
 void ModuleEditor::SaveConfig(JSONFile * file)
@@ -109,6 +113,7 @@ void ModuleEditor::SaveConfig(JSONFile * file)
 	file->SetInfoBool("editor.example", show_example);
 	file->SetInfoBool("editor.random", show_random);
 	file->SetInfoBool("editor.prop", show_properties);
+	file->SetInfoNum("editor.style", current_style);
 }
 
 // Update
@@ -470,4 +475,30 @@ void ModuleEditor::InitStyles()
 	style_forest.c_area = { 47 / 255.f,  47 / 255.f,  47 / 255.f, 0.f };
 	style_forest.c_body = { 64 / 255.f,  64 / 255.f,  64 / 255.f, 0.f };
 	style_forest.c_pop = { 30 / 255.f,  30 / 255.f,  30 / 255.f, 0.f };
+}
+
+void ModuleEditor::HandleStyle()
+{
+	switch (current_style)
+	{
+	case 0: 
+		style_classic.active = true;
+		ImGui::StyleColorsClassic();
+		break;
+	
+	case 1: 
+		style_forest.active = true;
+		SetStyle(style_forest);
+		break;
+	
+	case 2: 
+		style_blue.active = true;
+		SetStyle(style_blue);
+		break;
+	
+	case 3: 
+		style_dark.active = true;
+		ImGui::StyleColorsDark();
+		break;
+	}
 }

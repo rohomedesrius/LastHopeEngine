@@ -42,6 +42,8 @@ private:
 	Style style_forest;
 	Style style_dark;
 
+	int current_style = 0;
+
 	bool show_ui = true;
 
 	bool show_properties = false;
@@ -60,6 +62,8 @@ public:
 	void RegisterLog(const char* log);
 
 	void ManageUI();
+
+	void HandleStyle();
 
 private:
 
