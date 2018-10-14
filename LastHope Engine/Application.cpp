@@ -182,7 +182,7 @@ void Application::DrawAllModules()
 void Application::DrawUI()
 {
 	// FPS
-	if (!bFreeze)
+	if (!freeze_his)
 	{
 		for (int i = 0; i <= 99; i++)
 		{
@@ -211,7 +211,7 @@ void Application::DrawUI()
 		if (ImGui::InputText("App Name", input, size))
 		{
 			name.assign(input);
-	
+			SetAppTitle(name.c_str());
 		}
 
 		sprintf_s(input, size, "%s", organization.c_str());
@@ -233,7 +233,7 @@ void Application::DrawUI()
 		// Memory
 		sMStats stats = m_getMemoryStatistics();
 
-		if (!bFreeze)
+		if (!freeze_his)
 		{
 			for (int i = 0; i <= 99; i++)
 			{
@@ -248,7 +248,7 @@ void Application::DrawUI()
 		ImGui::PlotHistogram("##memory", memory, sizeof(memory) / sizeof(float), 0, title, 0.0f, (float)stats.peakReportedMemory * 1.2f, ImVec2(310, 100));
 
 		// Freeze Displays
-		ImGui::Checkbox(" Freeze Histograms", &bFreeze);
+		ImGui::Checkbox(" Freeze Histograms", &freeze_his);
 	}
 }
 
@@ -302,10 +302,9 @@ void Application::SetAppTitle(const char* title)
 {
 	if (title != nullptr)
 	{
-		if (name != title)
-		{
-			name = title;
-		}
+		
+		name = title;
+		window->SetTitle(title);
 	}
 }
 

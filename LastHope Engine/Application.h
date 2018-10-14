@@ -58,7 +58,7 @@ private:
 	float fpsArr[100] = {};
 	float msArr[100] = {};
 	float fps = 60.0f;
-	bool bFreeze = false;
+	bool freeze_his = false;
 
 	// Memory
 	float memory[100] = {};
