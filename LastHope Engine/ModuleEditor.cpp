@@ -34,6 +34,7 @@ bool ModuleEditor::Start()
 
 	SDL_GLContext gl_context = SDL_GL_CreateContext(App->window->window);
 	
+	InitStyles();
 
 	ImGui_ImplSdlGL3_Init(App->window->window);
 
@@ -54,6 +55,40 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplSdlGL3_Shutdown();
 
 	return true;
+}
+
+void ModuleEditor::DrawUI()
+{
+	if (ImGui::CollapsingHeader("Editor"))
+	{
+		if (ImGui::Checkbox("ImGui Classic Style", &style_classic.active))
+		{
+			ImGui::StyleColorsClassic();
+			style_classic.active = true;
+			style_blue.active = style_dark.active = style_forest.active = false;
+		}
+
+		if (ImGui::Checkbox("Set Forest Style", &style_forest.active))
+		{
+			SetStyle(style_forest);
+			style_forest.active = true;
+			style_blue.active = style_dark.active = style_classic.active = false;
+		}
+
+		if (ImGui::Checkbox("Set Blue Style", &style_blue.active))
+		{
+			SetStyle(style_blue);
+			style_blue.active = true;
+			style_forest.active = style_dark.active = style_classic.active = false;
+		}
+
+		if (ImGui::Checkbox("Set Dark Style", &style_dark.active))
+		{
+			ImGui::StyleColorsDark();
+			style_dark.active = true;
+			style_forest.active = style_blue.active = style_classic.active = false;
+		}
+	}
 }
 
 // Update
@@ -328,4 +363,82 @@ void ModuleEditor::ManageUI()
 	// Random Generator Window
 	if (show_random)
 		RandomWindow();
+}
+
+void ModuleEditor::SetStyle(Style style)
+{
+	ImGuiStyle &current = ImGui::GetStyle();
+
+	ImGui::StyleColorsLight();
+	current.AntiAliasedLines = true;
+
+	current.WindowPadding = ImVec2(10, 10);
+	current.WindowRounding = 6;
+	current.FramePadding = ImVec2(3, 3);
+	current.FrameRounding = 2.6f;
+	current.ItemSpacing = ImVec2(12, 4);
+	current.ItemInnerSpacing = ImVec2(5, 5);
+
+	current.ScrollbarSize = 24;
+	current.ScrollbarRounding = 4;
+	current.WindowRounding = 5.3f;
+
+	current.Colors[ImGuiCol_Text] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 1.00f);
+	current.Colors[ImGuiCol_TextDisabled] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 0.58f);
+	current.Colors[ImGuiCol_TextSelectedBg] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 1.00f);
+	current.Colors[ImGuiCol_WindowBg] = ImVec4(style.c_body.x, style.c_body.y, style.c_body.z, 0.95f);
+	current.Colors[ImGuiCol_ChildWindowBg] = ImVec4(style.c_area.x, style.c_area.y, style.c_area.z, 0.58f);
+	current.Colors[ImGuiCol_Border] = ImVec4(style.c_body.x, style.c_body.y, style.c_body.z, 0.00f);
+	current.Colors[ImGuiCol_BorderShadow] = ImVec4(style.c_body.x, style.c_body.y, style.c_body.z, 0.00f);
+	current.Colors[ImGuiCol_FrameBg] = ImVec4(style.c_area.x, style.c_area.y, style.c_area.z, 1.00f);
+	current.Colors[ImGuiCol_FrameBgHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.78f);
+	current.Colors[ImGuiCol_FrameBgActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_TitleBg] = ImVec4(style.c_area.x, style.c_area.y, style.c_area.z, 1.00f);
+	current.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(style.c_area.x, style.c_area.y, style.c_area.z, 0.75f);
+	current.Colors[ImGuiCol_TitleBgActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_MenuBarBg] = ImVec4(style.c_area.x, style.c_area.y, style.c_area.z, 0.47f);
+	current.Colors[ImGuiCol_ScrollbarBg] = ImVec4(style.c_area.x, style.c_area.y, style.c_area.z, 1.00f);
+	current.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.21f);
+	current.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.78f);
+	current.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_CheckMark] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.80f);
+	current.Colors[ImGuiCol_SliderGrab] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.50f);
+	current.Colors[ImGuiCol_SliderGrabActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_Button] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.50f);
+	current.Colors[ImGuiCol_ButtonHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.86f);
+	current.Colors[ImGuiCol_ButtonActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_Header] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.76f);
+	current.Colors[ImGuiCol_HeaderHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.86f);
+	current.Colors[ImGuiCol_HeaderActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_Column] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.32f);
+	current.Colors[ImGuiCol_ColumnHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.78f);
+	current.Colors[ImGuiCol_ColumnActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_ResizeGrip] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.15f);
+	current.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.78f);
+	current.Colors[ImGuiCol_ResizeGripActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_CloseButton] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 0.16f);
+	current.Colors[ImGuiCol_CloseButtonHovered] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 0.39f);
+	current.Colors[ImGuiCol_CloseButtonActive] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 1.00f);
+	current.Colors[ImGuiCol_PlotLines] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 0.63f);
+	current.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_PlotHistogram] = ImVec4(style.c_text.x, style.c_text.y, style.c_text.z, 0.63f);
+	current.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
+	current.Colors[ImGuiCol_TextSelectedBg] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.43f);
+	current.Colors[ImGuiCol_PopupBg] = ImVec4(style.c_pop.x, style.c_pop.y, style.c_pop.y, 0.92f);
+	current.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(style.c_area.x, style.c_area.y, style.c_area.z, 0.73f);
+}
+
+void ModuleEditor::InitStyles()
+{
+	style_blue.c_text = { 236 / 255.f, 240 / 255.f, 241 / 255.f, 0.f };
+	style_blue.c_head = { 41 / 255.f, 128 / 255.f, 185 / 255.f, 0.f };
+	style_blue.c_area = { 57 / 255.f,  79 / 255.f, 105 / 255.f, 0.f };
+	style_blue.c_body = { 44 / 255.f,  62 / 255.f,  80 / 255.f, 0.f };
+	style_blue.c_pop = { 33 / 255.f,  46 / 255.f,  60 / 255.f, 0.f };
+
+	style_forest.c_text = { 211 / 255.f, 211 / 255.f, 211 / 255.f, 0.f };
+	style_forest.c_head = { 95 / 255.f, 142 / 255.f,  85 / 255.f, 0.f };
+	style_forest.c_area = { 47 / 255.f,  47 / 255.f,  47 / 255.f, 0.f };
+	style_forest.c_body = { 64 / 255.f,  64 / 255.f,  64 / 255.f, 0.f };
+	style_forest.c_pop = { 30 / 255.f,  30 / 255.f,  30 / 255.f, 0.f };
 }
