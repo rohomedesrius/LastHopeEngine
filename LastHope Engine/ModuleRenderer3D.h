@@ -77,6 +77,5 @@ private:
 
 	// Antisotropic Filtering
 	GLuint g_sampler = NULL;
-	GLuint current_sampler = NULL;
 	void SetSampler(const int number);
 };

@@ -195,8 +195,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	if (enable_checkers)
 		LoadCheckers();
 
+	// We just use 1 texture unit
+	GLuint texture_unit = 0;
 	if (enable_antisotropic)
-		glBindSampler(NULL, current_sampler);
+		glBindSampler(texture_unit, g_sampler);
 
 	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
@@ -245,7 +247,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		if (enable_antisotropic)
-			glBindSampler(NULL, 0);
+			glBindSampler(texture_unit, 0);
 
 		glDisableClientState(GL_VERTEX_ARRAY);
 		glDisableClientState(GL_NORMAL_ARRAY);
@@ -671,6 +673,7 @@ void ModuleRenderer3D::LoadCheckers()
 
 void ModuleRenderer3D::SetSampler(const int number)
 {
+	glGenSamplers(1, &g_sampler);
 	glSamplerParameteri(g_sampler, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glSamplerParameteri(g_sampler, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
