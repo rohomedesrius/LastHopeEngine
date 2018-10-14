@@ -384,20 +384,30 @@ void ModuleRenderer3D::DrawProperties()
 						// Transform Position
 						ImGui::Text("Position: "); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, col);
-						ImGui::Text("%.1f, %.1f, %.1f", meshes[a]->transform.position.x, meshes[a]->transform.position.y, meshes[a]->transform.position.z);
+						if (meshes[0]->transform.position.x)
+							ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.position.x, meshes[0]->transform.position.y, meshes[0]->transform.position.z);
+						else
+							ImGui::Text("-");
 						ImGui::PopStyleColor();
 
 						// Transform Scale
 						ImGui::Text("Scale: "); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, col);
-						ImGui::Text("%.1f, %.1f, %.1f", meshes[a]->transform.scale.x, meshes[a]->transform.scale.y, meshes[a]->transform.scale.z);
+						if (meshes[0]->transform.scale.x)
+							ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.scale.x, meshes[0]->transform.scale.y, meshes[0]->transform.scale.z);
+						else
+							ImGui::Text("-");
 						ImGui::PopStyleColor();
 
 						// Transform Rotation
 						ImGui::Text("Rotation: "); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, col);
-						ImGui::Text("%.1f, %.1f, %.1f", meshes[a]->transform.rotation.x, meshes[a]->transform.rotation.y, meshes[a]->transform.rotation.z);
+						if (meshes[0]->transform.rotation.x)
+							ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.rotation.x, meshes[0]->transform.rotation.y, meshes[0]->transform.rotation.z);
+						else
+							ImGui::Text("-");
 						ImGui::PopStyleColor();
+
 
 						ImGui::TreePop();
 					}
@@ -518,19 +528,24 @@ void ModuleRenderer3D::CleanScene()
 }
 
 void ModuleRenderer3D::SetAABB()
-{	
-	std::vector<float3> meshes_aabb_corners;
-
-	for (int i = 0; i < meshes.size(); i++)
+{
+	if (meshes.size() >= 1)
 	{
-		meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.minPoint);
-		meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.maxPoint);
+		std::vector<float3> meshes_aabb_corners;
+
+		for (int i = 0; i < meshes.size(); i++)
+		{
+			meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.minPoint);
+			meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.maxPoint);
+		}
+
+		LOG("Created AABB for %i meshes", meshes_aabb_corners.size() / 2);
+
+		model_aabb.SetNegativeInfinity();
+		model_aabb.Enclose(meshes_aabb_corners.data(), meshes_aabb_corners.size());
 	}
-
-	LOG("Created AABB for %i meshes", meshes_aabb_corners.size()/2);
-
-	model_aabb.SetNegativeInfinity();
-	model_aabb.Enclose(meshes_aabb_corners.data(), meshes_aabb_corners.size());
+	else
+		LOG("Error! there were no meshes to create an AABB!");
 }
 
 void ModuleRenderer3D::EnableVSync(bool enable)
