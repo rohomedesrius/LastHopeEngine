@@ -70,5 +70,5 @@ private:
 	int mouse_z;
 	int mouse_x_motion;
 	int mouse_y_motion;
-	char* file_path = NULL;
+	char* file_path = nullptr;
 };
