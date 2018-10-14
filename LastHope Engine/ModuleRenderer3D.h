@@ -48,9 +48,9 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context = nullptr;
-	float3x3 NormalMatrix;
-	float4x4 ModelMatrix, ViewMatrix;
-	mat4x4 ProjectionMatrix;
+	float3x3 normal_matrix;
+	float4x4 model_matrix, view_matrix;
+	mat4x4 projection_matrix;
 
 	// MODEL
 	std::vector<Mesh*> meshes = {};
