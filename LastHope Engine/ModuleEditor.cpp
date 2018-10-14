@@ -35,6 +35,8 @@ bool ModuleEditor::Start()
 	SDL_GLContext gl_context = SDL_GL_CreateContext(App->window->window);
 	
 	InitStyles();
+	style_blue.active = true;
+	SetStyle(style_blue);
 
 	ImGui_ImplSdlGL3_Init(App->window->window);
 
@@ -61,7 +63,7 @@ void ModuleEditor::DrawUI()
 {
 	if (ImGui::CollapsingHeader("Editor"))
 	{
-		if (ImGui::Checkbox("ImGui Classic Style", &style_classic.active))
+		if (ImGui::Checkbox("ImGui's Classic Style", &style_classic.active))
 		{
 			ImGui::StyleColorsClassic();
 			style_classic.active = true;
@@ -241,7 +243,7 @@ void ModuleEditor::ShowEngineConsole(bool* show)
 void ModuleEditor::ApplicationWindow()
 {
 	
-	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize;
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	ImGui::Begin("Configuration", 0, ImVec2(0.f, 0.f), 0.8f, flag);
 	{
 		ImGui::SetWindowPos(ImVec2((App->window->screen_surface->w / 4)*3, 19));
@@ -255,7 +257,7 @@ void ModuleEditor::ApplicationWindow()
 
 void ModuleEditor::PropertiesWindow()
 {
-	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize;
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	ImGui::Begin("Properties", 0, flag);
 	{
 		ImGui::SetWindowPos(ImVec2(0, 19));
@@ -269,7 +271,7 @@ void ModuleEditor::PropertiesWindow()
 
 void ModuleEditor::RandomWindow()
 {
-	ImGui::Begin("Random Generator", 0, ImVec2(300.f, 125.f), 0.8f, ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Random Generator", 0, ImVec2(300.f, 125.f), 0.8f, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoFocusOnAppearing);
 	{
 
 		if (ImGui::TreeNodeEx("Integer within Min & Max", ImGuiTreeNodeFlags_DefaultOpen))
@@ -372,12 +374,12 @@ void ModuleEditor::SetStyle(Style style)
 	ImGui::StyleColorsLight();
 	current.AntiAliasedLines = true;
 
-	current.WindowPadding = ImVec2(10, 10);
+	/*current.WindowPadding = ImVec2(10, 10);
 	current.WindowRounding = 6;
 	current.FramePadding = ImVec2(3, 3);
 	current.FrameRounding = 2.6f;
 	current.ItemSpacing = ImVec2(12, 4);
-	current.ItemInnerSpacing = ImVec2(5, 5);
+	current.ItemInnerSpacing = ImVec2(5, 5);*/
 
 	current.ScrollbarSize = 24;
 	current.ScrollbarRounding = 4;
@@ -401,7 +403,7 @@ void ModuleEditor::SetStyle(Style style)
 	current.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.21f);
 	current.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.78f);
 	current.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
-	current.Colors[ImGuiCol_CheckMark] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.80f);
+	current.Colors[ImGuiCol_CheckMark] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.95f);
 	current.Colors[ImGuiCol_SliderGrab] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.50f);
 	current.Colors[ImGuiCol_SliderGrabActive] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 1.00f);
 	current.Colors[ImGuiCol_Button] = ImVec4(style.c_head.x, style.c_head.y, style.c_head.z, 0.50f);
