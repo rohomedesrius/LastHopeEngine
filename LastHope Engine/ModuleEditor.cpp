@@ -93,6 +93,15 @@ void ModuleEditor::DrawUI()
 	}
 }
 
+void ModuleEditor::LoadConfig(JSONFile * file)
+{
+	show_console = file->GetInfoBool("editor.console");
+	show_application = file->GetInfoBool("editor.appli");
+	show_example = file->GetInfoBool("editor.example");
+	show_random = file->GetInfoBool("editor.random");
+	show_properties = file->GetInfoBool("editor.prop");
+}
+
 // Update
 update_status ModuleEditor::Update(float dt)
 {
@@ -350,18 +359,6 @@ void ModuleEditor::RandomWindow()
 	}
 
 	ImGui::End();
-}
-
-void ModuleEditor::LoadEdiConfig()
-{
-	if (App->configJSON != nullptr)
-	{
-		show_console = App->configJSON->GetInfoBool("editor.console");
-		show_application = App->configJSON->GetInfoBool("editor.appli");
-		show_example = App->configJSON->GetInfoBool("editor.example");
-		show_random = App->configJSON->GetInfoBool("editor.random");
-		show_properties = App->configJSON->GetInfoBool("editor.prop");
-	}
 }
 
 void ModuleEditor::ManageUI()

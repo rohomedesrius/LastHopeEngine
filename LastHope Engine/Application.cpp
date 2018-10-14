@@ -281,9 +281,13 @@ void Application::LoadConfig()
 		SetAppTitle(title);
 		SetAppOrg(org);
 
+		std::vector<Module*>::iterator item = list_modules.begin();
+
 		//Next modules
-		window->LoadWinConfig();
-		editor->LoadEdiConfig();
+		for (item = list_modules.begin(); item != list_modules.end(); item++)
+		{
+			(*item)->LoadConfig(configJSON);
+		}
 	}
 }
 

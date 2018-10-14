@@ -22,7 +22,7 @@ public:
 
 	void SetTitle(const char* title);
 
-	void LoadWinConfig();
+	void LoadConfig(JSONFile * file);
 
 	SDL_Window* GetWindow() const;
 

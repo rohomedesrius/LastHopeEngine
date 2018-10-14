@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Parson/parson.h"
+
 class Application;
+
+class JSONFile;
 
 class Module
 {
@@ -70,6 +74,11 @@ public:
 	}
 
 	virtual void DrawUI()
+	{
+
+	}
+
+	virtual void LoadConfig(JSONFile* file)
 	{
 
 	}

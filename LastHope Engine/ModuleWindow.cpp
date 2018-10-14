@@ -186,19 +186,16 @@ void ModuleWindow::SetTitle(const char* title)
 	SDL_SetWindowTitle(window, title);
 }
 
-void ModuleWindow::LoadWinConfig()
+void ModuleWindow::LoadConfig(JSONFile * file)
 {
-	if (App->configJSON != nullptr)
-	{
-		width = App->configJSON->GetInfoNum("window.width");
-		height = App->configJSON->GetInfoNum("window.height");
+	width = file->GetInfoNum("window.width");
+	height = file->GetInfoNum("window.height");
 
-		fullscreen = App->configJSON->GetInfoBool("window.fullscreen");
-		fullscreen_desktop = App->configJSON->GetInfoBool("window.win_fullscreen");
-		borderless = App->configJSON->GetInfoBool("window.borderless");
-		maximize = App->configJSON->GetInfoBool("window.maximize");
-		resizable = App->configJSON->GetInfoBool("window.resizable");
-	}
+	fullscreen = file->GetInfoBool("window.fullscreen");
+	fullscreen_desktop = file->GetInfoBool("window.win_fullscreen");
+	borderless = file->GetInfoBool("window.borderless");
+	maximize = file->GetInfoBool("window.maximize");
+	resizable = file->GetInfoBool("window.resizable");
 }
 
 SDL_Window * ModuleWindow::GetWindow() const

@@ -30,6 +30,8 @@ public:
 
 	void DrawUI();
 
+	void LoadConfig(JSONFile * file);
+
 private:
 
 	EngineConsole console;
@@ -57,8 +59,6 @@ public:
 	void RegisterLog(const char* log);
 
 	void ManageUI();
-
-	void LoadEdiConfig();
 
 private:
 
