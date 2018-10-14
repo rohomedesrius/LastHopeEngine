@@ -298,6 +298,13 @@ void Application::SaveConfig()
 		configJSON->SetInfoString("app.title", App->name.c_str());
 		configJSON->SetInfoString("app.org", App->organization.c_str());
 
+		std::vector<Module*>::iterator item = list_modules.begin();
+
+		for (item = list_modules.begin(); item != list_modules.end(); item++)
+		{
+			(*item)->SaveConfig(configJSON);
+		}
+
 		configJSON->SaveInfo();
 	}	
 }
@@ -306,7 +313,6 @@ void Application::SetAppTitle(const char* title)
 {
 	if (title != nullptr)
 	{
-		
 		name = title;
 		window->SetTitle(title);
 	}

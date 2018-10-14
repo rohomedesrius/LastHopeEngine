@@ -23,6 +23,7 @@ public:
 	void SetTitle(const char* title);
 
 	void LoadConfig(JSONFile * file);
+	void SaveConfig(JSONFile * file);
 
 	SDL_Window* GetWindow() const;
 

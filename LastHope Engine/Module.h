@@ -82,4 +82,9 @@ public:
 	{
 
 	}
+
+	virtual void SaveConfig(JSONFile* file)
+	{
+
+	}
 };

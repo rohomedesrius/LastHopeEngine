@@ -198,6 +198,18 @@ void ModuleWindow::LoadConfig(JSONFile * file)
 	resizable = file->GetInfoBool("window.resizable");
 }
 
+void ModuleWindow::SaveConfig(JSONFile * file)
+{
+	file->SetInfoNum("window.width", width);
+	file->SetInfoNum("window.height", height);
+
+	file->SetInfoBool("window.fullscreen", fullscreen);
+	file->SetInfoBool("window.win_fullscreen", fullscreen_desktop);
+	file->SetInfoBool("window.borderless", borderless);
+	file->SetInfoBool("window.maximize", maximize);
+	file->SetInfoBool("window.resizable", resizable);
+}
+
 SDL_Window * ModuleWindow::GetWindow() const
 {
 	return window;

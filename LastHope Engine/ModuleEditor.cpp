@@ -102,6 +102,15 @@ void ModuleEditor::LoadConfig(JSONFile * file)
 	show_properties = file->GetInfoBool("editor.prop");
 }
 
+void ModuleEditor::SaveConfig(JSONFile * file)
+{
+	file->SetInfoBool("editor.console", show_console);
+	file->SetInfoBool("editor.appli", show_application);
+	file->SetInfoBool("editor.example", show_example);
+	file->SetInfoBool("editor.random", show_random);
+	file->SetInfoBool("editor.prop", show_properties);
+}
+
 // Update
 update_status ModuleEditor::Update(float dt)
 {

@@ -31,6 +31,7 @@ public:
 	void DrawUI();
 
 	void LoadConfig(JSONFile * file);
+	void SaveConfig(JSONFile * file);
 
 private:
 
