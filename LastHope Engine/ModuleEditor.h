@@ -5,6 +5,18 @@
 
 class GameObject;
 
+struct Style
+{
+	bool active = false;
+
+	// c stands for Color
+	ImVec4 c_text = {};
+	ImVec4 c_head = {};
+	ImVec4 c_area = {};
+	ImVec4 c_body = {};
+	ImVec4 c_pop = {};
+};
+
 class ModuleEditor : public Module
 {
 public:
@@ -16,9 +28,16 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	void DrawUI();
+
 private:
 
 	EngineConsole console;
+
+	Style style_classic;
+	Style style_blue;
+	Style style_forest;
+	Style style_dark;
 
 	bool show_ui = true;
 
@@ -27,6 +46,9 @@ private:
 	bool show_application = false;
 	bool show_random = false;
 	bool show_console = false;
+
+	void SetStyle(Style style);
+	void InitStyles();
 
 public:
 
