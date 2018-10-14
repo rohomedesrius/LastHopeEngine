@@ -17,7 +17,6 @@
     "editor": {
         "console": true,
         "appli": true,
-        "example": false,
         "random": false,
         "prop": true,
         "style": 1

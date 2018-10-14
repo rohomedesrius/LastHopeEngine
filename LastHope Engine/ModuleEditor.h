@@ -47,7 +47,6 @@ private:
 	bool show_ui = true;
 
 	bool show_properties = false;
-	bool show_example = false;
 	bool show_application = false;
 	bool show_random = false;
 	bool show_console = false;

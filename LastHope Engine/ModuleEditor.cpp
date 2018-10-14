@@ -100,7 +100,6 @@ void ModuleEditor::LoadConfig(JSONFile * file)
 {
 	show_console = file->GetInfoBool("editor.console");
 	show_application = file->GetInfoBool("editor.appli");
-	show_example = file->GetInfoBool("editor.example");
 	show_random = file->GetInfoBool("editor.random");
 	show_properties = file->GetInfoBool("editor.prop");
 	current_style = file->GetInfoNum("editor.style");
@@ -110,7 +109,6 @@ void ModuleEditor::SaveConfig(JSONFile * file)
 {
 	file->SetInfoBool("editor.console", show_console);
 	file->SetInfoBool("editor.appli", show_application);
-	file->SetInfoBool("editor.example", show_example);
 	file->SetInfoBool("editor.random", show_random);
 	file->SetInfoBool("editor.prop", show_properties);
 	file->SetInfoNum("editor.style", current_style);
@@ -147,7 +145,6 @@ update_status ModuleEditor::Update(float dt)
 			
 			if (ImGui::Checkbox("Random Generator", &show_random));
 
-			if (ImGui::Checkbox("ImGui Test Window", &show_example));
 			ImGui::EndMenu();
 		}
 
@@ -373,6 +370,7 @@ void ModuleEditor::RandomWindow()
 	}
 
 	ImGui::End();
+	
 }
 
 void ModuleEditor::ManageUI()
@@ -389,10 +387,6 @@ void ModuleEditor::ManageUI()
 	// Engine Console
 	if (show_console)
 		ShowEngineConsole(&show_console);
-
-	// Test ImGui Window
-	if (show_example)
-		ImGui::ShowTestWindow();
 
 	// Random Generator Window
 	if (show_random)
