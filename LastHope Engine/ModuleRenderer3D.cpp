@@ -416,6 +416,7 @@ void ModuleRenderer3D::DrawProperties()
 					sprintf_s(title, sizeof(title), "Geometry ##%i", a);
 					if (ImGui::TreeNodeEx(title, ImGuiTreeNodeFlags_DefaultOpen))
 					{
+						ImGui::Text("Num Index: %i", (*it)->numIndex);
 						ImGui::Text("Triangle Count: %i", (*it)->numIndex / 3);
 						ImGui::TreePop();
 					}
@@ -506,6 +507,8 @@ void ModuleRenderer3D::LoadFBX(char* path)
 	}
 
 	SetAABB();
+
+	App->camera->FocusGeometry();
 }
 
 void ModuleRenderer3D::LoadImages(char * path)
