@@ -4,7 +4,7 @@ In this repository you will be able to find a newly-created 3D game engine.
 It's been created for educational purposes, as we are 2 students from the Videogames development and design degree at CITM, Terrassa UPC.
 
 ## Example Scene:
-![](https://gyazo.com/82ccf3b067e6bf32eb97bae917f19f02)
+![](https://i.gyazo.com/82ccf3b067e6bf32eb97bae917f19f02.png)
 
 # FEATURES
 - You can load a 3D model (FBX) + Texture dragging and dropping it to the engine's window.
@@ -19,7 +19,6 @@ It's been created for educational purposes, as we are 2 students from the Videog
   * ALT + Left-Click focuses and orbits the 3D model on the X axis. 
   * F focuses the 3D model. 
  - Some of the main engine's information is stored in a configuration (JSON) file, so it is not lost in further executions. 
- - 
   
 # Innovation: Antisotropic Filter
 
