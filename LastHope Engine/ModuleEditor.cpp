@@ -32,20 +32,20 @@ bool ModuleEditor::Start()
 	LOG("Loading Editor");
 	bool ret = true;
 
-	SDL_GLContext gl_context = SDL_GL_CreateContext(App->window->window);
+	SDL_GLContext gl_context = SDL_GL_CreateContext(App->window->GetWindow());
 	
 	InitStyles();
 	style_blue.active = true;
 	SetStyle(style_blue);
 
-	ImGui_ImplSdlGL3_Init(App->window->window);
+	ImGui_ImplSdlGL3_Init(App->window->GetWindow());
 
 	return ret;
 }
 
 update_status ModuleEditor::PreUpdate(float dt)
 {
-	ImGui_ImplSdlGL3_NewFrame(App->window->window);
+	ImGui_ImplSdlGL3_NewFrame(App->window->GetWindow());
 
 	return UPDATE_CONTINUE;
 }
@@ -225,7 +225,7 @@ update_status ModuleEditor::Update(float dt)
 	return UPDATE_CONTINUE;
 }
 
-void ModuleEditor::Draw()
+void ModuleEditor::Draw() const
 {
 	// Rendering
 	ImGui::Render();
@@ -366,7 +366,7 @@ void ModuleEditor::LoadEdiConfig()
 
 void ModuleEditor::ManageUI()
 {
-	App->window->screen_surface = SDL_GetWindowSurface(App->window->window);
+	App->window->screen_surface = SDL_GetWindowSurface(App->window->GetWindow());
 
 	// Application Window
 	if (show_application)

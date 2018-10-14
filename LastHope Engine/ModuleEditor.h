@@ -52,7 +52,7 @@ private:
 
 public:
 
-	void Draw();
+	void Draw() const;
 
 	void RegisterLog(const char* log);
 
