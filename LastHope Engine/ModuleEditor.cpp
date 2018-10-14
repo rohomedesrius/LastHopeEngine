@@ -131,7 +131,11 @@ update_status ModuleEditor::Update(float dt)
 		// WINDOW
 		if (ImGui::BeginMenu("About.."))
 		{
-			ImGui::Text("Last Hope Engine");
+			if (ImGui::MenuItem("Last Hope Engine"))
+			{
+				App->RequestBrowser("https://github.com/rohomedesrius/LastHopeEngine");
+			}
+
 			ImGui::Separator();
 
 			ImGui::Text("3D engine for educational purposes");
@@ -204,7 +208,7 @@ update_status ModuleEditor::Update(float dt)
 
 			if (ImGui::MenuItem("License"))
 			{
-				//App->RequestBrowser("");
+				App->RequestBrowser("https://github.com/rohomedesrius/LastHopeEngine/blob/master/LICENSE");
 			}
 
 			ImGui::EndMenu();
