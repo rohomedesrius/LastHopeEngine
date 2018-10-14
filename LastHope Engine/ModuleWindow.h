@@ -36,6 +36,9 @@ public:
 
 private:
 
+	int slider_width = NULL;
+	int slider_height = NULL;
+
 	bool fullscreen = false;
 	bool fullscreen_desktop = false;
 	bool maximize = false;
