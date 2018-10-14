@@ -35,14 +35,14 @@ public:
 
 private:
 
-	bool fullscreen;
-	bool fullscreen_desktop;
-	bool maximize;
-	bool borderless;
-	bool resizable;
+	bool fullscreen = false;
+	bool fullscreen_desktop = false;
+	bool maximize = false;
+	bool borderless = false;
+	bool resizable = false;
 
-	int width = 0;
-	int height = 0;
+	int width = 1280;
+	int height = 1024;
 };
 
 #endif // __ModuleWindow_H__
