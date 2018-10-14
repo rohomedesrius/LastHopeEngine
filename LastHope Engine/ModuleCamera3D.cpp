@@ -42,7 +42,9 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	// Implement a debug camera with keys and mouse
+
+	float camera_speed = 0.5f;
+	float sens = 0.25f;
 
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) camera_speed *= 2.0f;
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) camera_speed *= 0.5f;
@@ -69,7 +71,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 			if (dx != 0)
 			{
-				float DeltaX = (float)dx * sensitivity;
+				float DeltaX = (float)dx * sens;
 
 				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
@@ -77,6 +79,23 @@ update_status ModuleCamera3D::Update(float dt)
 			}
 
 			position = reference + Z * length(position);
+		}
+		else if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		{
+			int dx = -App->input->GetMouseXMotion() * sens;
+			int dy = -App->input->GetMouseYMotion() * sens;
+
+			if (dx != 0)
+			{
+				new_cam_pos += (Z * camera_speed * dx);
+			}
+			if (dy != 0)
+			{
+				new_cam_pos -= (Z * camera_speed * dy);
+			}
+
+			position += new_cam_pos;
+			reference += new_cam_pos;
 		}
 	}
 	else
@@ -104,7 +123,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 			if (dx != 0)
 			{
-				float DeltaX = (float)dx * sensitivity;
+				float DeltaX = (float)dx * sens;
 
 				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
@@ -113,7 +132,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 			if (dy != 0)
 			{
-				float DeltaY = (float)dy * sensitivity;
+				float DeltaY = (float)dy * sens;
 
 				Y = rotate(Y, DeltaY, X);
 				Z = rotate(Z, DeltaY, X);

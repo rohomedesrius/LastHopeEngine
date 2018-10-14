@@ -34,6 +34,4 @@ private:
 
 	mat4x4 view_matrix, view_matrix_inverse;
 	vec3 movement, new_cam_pos;
-	float camera_speed = 0.5f;
-	float sensitivity = 0.25f;
 };
