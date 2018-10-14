@@ -384,28 +384,19 @@ void ModuleRenderer3D::DrawProperties()
 						// Transform Position
 						ImGui::Text("Position: "); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, col);
-						if (meshes[0]->transform.position.x)
-							ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.position.x, meshes[0]->transform.position.y, meshes[0]->transform.position.z);
-						else
-							ImGui::Text("-");
+						ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.position.x, meshes[0]->transform.position.y, meshes[0]->transform.position.z);
 						ImGui::PopStyleColor();
 
 						// Transform Scale
 						ImGui::Text("Scale: "); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, col);
-						if (meshes[0]->transform.scale.x)
-							ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.scale.x, meshes[0]->transform.scale.y, meshes[0]->transform.scale.z);
-						else
-							ImGui::Text("-");
+						ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.scale.x, meshes[0]->transform.scale.y, meshes[0]->transform.scale.z);
 						ImGui::PopStyleColor();
 
 						// Transform Rotation
 						ImGui::Text("Rotation: "); ImGui::SameLine();
 						ImGui::PushStyleColor(ImGuiCol_Text, col);
-						if (meshes[0]->transform.rotation.x)
-							ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.rotation.x, meshes[0]->transform.rotation.y, meshes[0]->transform.rotation.z);
-						else
-							ImGui::Text("-");
+						ImGui::Text("%.1f, %.1f, %.1f", meshes[0]->transform.rotation.x, meshes[0]->transform.rotation.y, meshes[0]->transform.rotation.z);
 						ImGui::PopStyleColor();
 
 

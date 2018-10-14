@@ -225,11 +225,12 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 			}
 
 			// ROOT TRANSFORM
-			aiVector3D translation;
-			aiVector3D scaling;
-			aiQuaternion rotation;
+			aiVector3D translation = { 0.f, 0.f, 0.f };
+			aiVector3D scaling = { 0.f, 0.f, 0.f };
+			aiQuaternion rotation = { 0.f, 0.f, 0.f };
 
-			scene->mRootNode->mTransformation.Decompose(scaling, rotation, translation);
+			if (scene->mRootNode != nullptr)
+				scene->mRootNode->mTransformation.Decompose(scaling, rotation, translation);
 
 			mesh->transform.position = float3(translation.x, translation.y, translation.z);
 			mesh->transform.scale = float3(scaling.x, scaling.y, scaling.z);
