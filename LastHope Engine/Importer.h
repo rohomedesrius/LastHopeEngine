@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __IMPORTER_H__
+#define __IMPORTER_H__
 
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
@@ -70,3 +71,5 @@ public:
 
 	ImVec2 image_dimensions;
 };
+
+#endif //__IMPORTER_H__

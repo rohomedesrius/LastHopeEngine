@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __RENDERER_H__
+#define __RENDERER_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
@@ -79,3 +81,5 @@ private:
 	GLuint g_sampler = NULL;
 	void SetSampler(const int number);
 };
+
+#endif //__RENDERER_H__

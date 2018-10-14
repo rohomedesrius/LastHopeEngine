@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __CAMERA_3D_H__
+#define __CAMERA_3D_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib/include/MathGeoLib.h"
@@ -34,3 +36,5 @@ private:
 	mat4x4 view_matrix, view_matrix_inverse;
 	vec3 movement, new_cam_pos;
 };
+
+#endif //__CAMERA_3D_H__

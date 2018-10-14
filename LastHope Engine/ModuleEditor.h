@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __EDITOR_H__
+#define __EDITOR_H__
 
 #include "Module.h"
 #include "Console.h"
@@ -71,3 +72,5 @@ private:
 	void PropertiesWindow();
 	void RandomWindow();
 };
+
+#endif //__EDITOR_H__

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __INPUT_H__
+#define __INPUT_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -72,3 +74,5 @@ private:
 	int mouse_y_motion;
 	char* file_path = nullptr;
 };
+
+#endif //__INPUT_H__

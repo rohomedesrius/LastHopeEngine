@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __FILESYSTEM_H__
+#define __FILESYSTEM_H__
 
 #include "Module.h"
 
@@ -40,3 +41,5 @@ public:
 
 	void DrawUI();
 };
+
+#endif //__FILESYSTEM_H__

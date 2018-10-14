@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __CONSOLE_H__
+#define __CONSOLE_H__
 
 #include "Globals.h"
 #include "ImGui/imgui.h"
@@ -34,3 +35,5 @@ private:
 	int     TextEditCallback(ImGuiTextEditCallbackData* data);
 
 };
+
+#endif //__CONSOLE_H__

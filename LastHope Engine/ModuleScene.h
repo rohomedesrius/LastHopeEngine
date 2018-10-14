@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MODULE_H__
+#define __MODULE_H__
 
 #include "Module.h"
 
@@ -20,3 +21,5 @@ public:
 
 	void DrawGrid(int size);
 };
+
+#endif //__MODULE_H__
