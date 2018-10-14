@@ -298,7 +298,7 @@ void ModuleEditor::ApplicationWindow()
 
 void ModuleEditor::PropertiesWindow()
 {
-	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	ImGui::Begin("Properties", 0, flag);
 	{
 		ImGui::SetWindowPos(ImVec2(0, 19));
@@ -312,7 +312,7 @@ void ModuleEditor::PropertiesWindow()
 
 void ModuleEditor::RandomWindow()
 {
-	ImGui::Begin("Random Generator", 0, ImVec2(300.f, 125.f), 0.8f, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoFocusOnAppearing);
+	ImGui::Begin("Random Generator", 0, ImVec2(300.f, 125.f), 0.8f, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize);
 	{
 
 		if (ImGui::TreeNodeEx("Integer within Min & Max", ImGuiTreeNodeFlags_DefaultOpen))
