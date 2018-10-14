@@ -151,6 +151,8 @@ bool Application::CleanUp()
 	//JSON Save Config
 	SaveConfig();
 
+	delete(configJSON);
+
 	LOG("Starting CleanUP: Closing Console");
 	console_enabled = false;
 
@@ -271,7 +273,7 @@ void Application::LoadConfig()
 {
 	configJSON = json->LoadJSON("config.json");
 
-	if (configJSON != nullptr)
+	if (configJSON->Exists())
 	{
 		const char* title = configJSON->GetInfoString("app.title");
 		const char* org = configJSON->GetInfoString("app.org");
@@ -287,31 +289,33 @@ void Application::LoadConfig()
 
 void Application::SaveConfig()
 {
-	if (configJSON != nullptr)
+	if (configJSON->Exists())
 	{
 		configJSON->SetInfoString("app.title", App->name.c_str());
 		configJSON->SetInfoString("app.org", App->organization.c_str());
 
-		//Next modules
-		//window->LoadWinConfig();
-		//editor->LoadEdiConfig();
-	}
-
-	configJSON->SaveInfo();
+		configJSON->SaveInfo();
+	}	
 }
 
 void Application::SetAppTitle(const char* title)
 {
-	if (name != title)
+	if (title != nullptr)
 	{
-		name = title;
+		if (name != title)
+		{
+			name = title;
+		}
 	}
 }
 
 void Application::SetAppOrg(const char* org) 
 {
-	if (organization != org)
+	if (org != nullptr)
 	{
-		organization = org;
+		if (organization != org)
+		{
+			organization = org;
+		}
 	}
 }
