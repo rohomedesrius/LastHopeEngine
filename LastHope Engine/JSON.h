@@ -26,6 +26,9 @@ public:
 	//Save Information
 	void SaveInfo();
 
+	//Management
+	bool Exists();
+
 private:
 	JSON_Value*  value = nullptr;
 	JSON_Object* info = nullptr;

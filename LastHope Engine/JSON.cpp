@@ -82,3 +82,11 @@ void JSONFile::SaveInfo()
 {
 	json_serialize_to_file_pretty(value, path);
 }
+
+bool JSONFile::Exists()
+{
+	if (value == nullptr)
+		return false;
+	else
+		return true;
+}
