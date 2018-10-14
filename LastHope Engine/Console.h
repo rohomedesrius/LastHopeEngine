@@ -6,12 +6,12 @@
 class EngineConsole
 {
 public:
-	char                  InputBuf[256];
-	ImVector<char*>       Items;
-	bool                  ScrollToBottom;
-	ImVector<char*>       History;
-	int                   HistoryPos;    // -1: new line, 0..History.Size-1 browsing history.
-	ImVector<const char*> Commands;
+	char                  input_buff[256];
+	ImVector<char*>       items;
+	bool                  scroll_to_bottom;
+	ImVector<char*>       history;
+	int                   history_pos;    // -1: new line, 0..History.Size-1 browsing history.
+	ImVector<const char*> commands;
 
 	EngineConsole();
 	~EngineConsole();

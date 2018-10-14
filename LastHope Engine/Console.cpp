@@ -4,12 +4,12 @@
 EngineConsole::EngineConsole()
 {
 	ClearLog();
-	memset(InputBuf, 0, sizeof(InputBuf));
-	HistoryPos = -1;
-	Commands.push_back("HELP");
-	Commands.push_back("HISTORY");
-	Commands.push_back("CLEAR");
-	Commands.push_back("QUIT");
+	memset(input_buff, 0, sizeof(input_buff));
+	history_pos = -1;
+	commands.push_back("HELP");
+	commands.push_back("HISTORY");
+	commands.push_back("CLEAR");
+	commands.push_back("QUIT");
 	AddLog("LastHope Engine Console!");
 	AddLog("Type 'HELP' to view the list of commands.");
 }
@@ -17,16 +17,16 @@ EngineConsole::EngineConsole()
 EngineConsole::~EngineConsole()
 {
 	ClearLog();
-	for (int i = 0; i < History.Size; i++)
-		free(History[i]);
+	for (int i = 0; i < history.Size; i++)
+		free(history[i]);
 }
 
 void EngineConsole::ClearLog()
 {
-	for (int i = 0; i < Items.Size; i++)
-		free(Items[i]);
-	Items.clear();
-	ScrollToBottom = true;
+	for (int i = 0; i < items.Size; i++)
+		free(items[i]);
+	items.clear();
+	scroll_to_bottom = true;
 }
 
 void EngineConsole::AddLog(const char* fmt, ...) IM_FMTARGS(2)
@@ -38,8 +38,8 @@ void EngineConsole::AddLog(const char* fmt, ...) IM_FMTARGS(2)
 	vsnprintf(buf, IM_ARRAYSIZE(buf), fmt, args);
 	buf[IM_ARRAYSIZE(buf) - 1] = 0;
 	va_end(args);
-	Items.push_back(Strdup(buf));
-	ScrollToBottom = true;
+	items.push_back(Strdup(buf));
+	scroll_to_bottom = true;
 }
 
 void EngineConsole::Draw(const char * title, bool * p_open)
@@ -65,7 +65,7 @@ void EngineConsole::Draw(const char * title, bool * p_open)
 	ImGui::PopStyleColor();
 	if (ImGui::SmallButton("Separator")) { AddLog(" "); AddLog(" "); } ImGui::SameLine();
 	bool copy_to_clipboard = ImGui::SmallButton("Copy"); ImGui::SameLine();
-	if (ImGui::SmallButton("Scroll to bottom")) ScrollToBottom = true; 
+	if (ImGui::SmallButton("Scroll to bottom")) scroll_to_bottom = true; 
 	//static float t = 0.0f; if (ImGui::GetTime() - t > 0.02f) { t = ImGui::GetTime(); AddLog("Spam %f", t); }
 
 	ImGui::Separator();
@@ -105,9 +105,9 @@ void EngineConsole::Draw(const char * title, bool * p_open)
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
 	if (copy_to_clipboard)
 		ImGui::LogToClipboard();
-	for (int i = 0; i < Items.Size; i++)
+	for (int i = 0; i < items.Size; i++)
 	{
-		const char* item = Items[i];
+		const char* item = items[i];
 		if (!filter.PassFilter(item))
 			continue;
 		ImVec4 col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -127,21 +127,21 @@ void EngineConsole::Draw(const char * title, bool * p_open)
 	}
 	if (copy_to_clipboard)
 		ImGui::LogFinish();
-	if (ScrollToBottom)
+	if (scroll_to_bottom)
 		ImGui::SetScrollHere();
-	ScrollToBottom = false;
+	scroll_to_bottom = false;
 	ImGui::PopStyleVar();
 	ImGui::EndChild();
 	ImGui::Separator();
 
 	// Command-line
-	if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackHistory, &TextEditCallbackStub, (void*)this))
+	if (ImGui::InputText("Input", input_buff, IM_ARRAYSIZE(input_buff), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackHistory, &TextEditCallbackStub, (void*)this))
 	{
-		char* input_end = InputBuf + strlen(InputBuf);
-		while (input_end > InputBuf && input_end[-1] == ' ') { input_end--; } *input_end = 0;
-		if (InputBuf[0])
-			ExecCommand(InputBuf);
-		strcpy(InputBuf, "");
+		char* input_end = input_buff + strlen(input_buff);
+		while (input_end > input_buff && input_end[-1] == ' ') { input_end--; } *input_end = 0;
+		if (input_buff[0])
+			ExecCommand(input_buff);
+		strcpy(input_buff, "");
 	}
 
 	// Demonstrate keeping auto focus on the input box
@@ -156,15 +156,15 @@ void EngineConsole::ExecCommand(const char * command_line)
 	AddLog("# %s\n", command_line);
 
 	// Insert into history. First find match and delete it so it can be pushed to the back. This isn't trying to be smart or optimal.
-	HistoryPos = -1;
-	for (int i = History.Size - 1; i >= 0; i--)
-		if (Stricmp(History[i], command_line) == 0)
+	history_pos = -1;
+	for (int i = history.Size - 1; i >= 0; i--)
+		if (Stricmp(history[i], command_line) == 0)
 		{
-			free(History[i]);
-			History.erase(History.begin() + i);
+			free(history[i]);
+			history.erase(history.begin() + i);
 			break;
 		}
-	History.push_back(Strdup(command_line));
+	history.push_back(Strdup(command_line));
 
 	// Process command
 	if (Stricmp(command_line, "CLEAR") == 0)
@@ -174,14 +174,14 @@ void EngineConsole::ExecCommand(const char * command_line)
 	else if (Stricmp(command_line, "HELP") == 0)
 	{
 		AddLog("Commands:");
-		for (int i = 0; i < Commands.Size; i++)
-			AddLog("- %s", Commands[i]);
+		for (int i = 0; i < commands.Size; i++)
+			AddLog("- %s", commands[i]);
 	}
 	else if (Stricmp(command_line, "HISTORY") == 0)
 	{
-		int first = History.Size - 10;
-		for (int i = first > 0 ? first : 0; i < History.Size; i++)
-			AddLog("%3d: %s\n", i, History[i]);
+		int first = history.Size - 10;
+		for (int i = first > 0 ? first : 0; i < history.Size; i++)
+			AddLog("%3d: %s\n", i, history[i]);
 	}
 	else if (Stricmp(command_line, "QUIT") == 0)
 	{
@@ -207,25 +207,25 @@ int EngineConsole::TextEditCallback(ImGuiTextEditCallbackData * data)
 	if (data->EventFlag == ImGuiInputTextFlags_CallbackHistory)
 	{
 		// Example of HISTORY
-		const int prev_history_pos = HistoryPos;
+		const int prev_history_pos = history_pos;
 		if (data->EventKey == ImGuiKey_UpArrow)
 		{
-			if (HistoryPos == -1)
-				HistoryPos = History.Size - 1;
-			else if (HistoryPos > 0)
-				HistoryPos--;
+			if (history_pos == -1)
+				history_pos = history.Size - 1;
+			else if (history_pos > 0)
+				history_pos--;
 		}
 		else if (data->EventKey == ImGuiKey_DownArrow)
 		{
-			if (HistoryPos != -1)
-				if (++HistoryPos >= History.Size)
-					HistoryPos = -1;
+			if (history_pos != -1)
+				if (++history_pos >= history.Size)
+					history_pos = -1;
 		}
 
 		// A better implementation would preserve the data on the current input line along with cursor position.
-		if (prev_history_pos != HistoryPos)
+		if (prev_history_pos != history_pos)
 		{
-			data->CursorPos = data->SelectionStart = data->SelectionEnd = data->BufTextLen = (int)snprintf(data->Buf, (size_t)data->BufSize, "%s", (HistoryPos >= 0) ? History[HistoryPos] : "");
+			data->CursorPos = data->SelectionStart = data->SelectionEnd = data->BufTextLen = (int)snprintf(data->Buf, (size_t)data->BufSize, "%s", (history_pos >= 0) ? history[history_pos] : "");
 			data->BufDirty = true;
 		}
 	}
