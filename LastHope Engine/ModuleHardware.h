@@ -18,13 +18,13 @@ public:
 
 	std::string a;
 
-	char sdlVersion[10] = "";
-	int cpuCount = 0;
-	int cpuCache = 0;
-	float ramGb = 0.f;
+	char sdl_version[10] = "";
+	int cpu_count = 0;
+	int cpu_cache = 0;
+	float ram_gb = 0.f;
 	bool dddnow = false;
 	bool avx = false;
-	bool avx2 = false;
+	bool avx_2 = false;
 	bool altivec = false;
 	bool mmx = false;
 	bool rdtsc = false;

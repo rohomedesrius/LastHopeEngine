@@ -59,10 +59,10 @@ void ModuleHardware::DrawUI()
 			ImGui::SameLine();
 			ImGui::BeginGroup();
 			{
-				ImGui::Text(sdlVersion);
-				sprintf_s(label, 20, "%i (Cache: %ikb)", cpuCount, cpuCache);
+				ImGui::Text(sdl_version);
+				sprintf_s(label, 20, "%i (Cache: %ikb)", cpu_count, cpu_cache);
 				ImGui::Text(label);
-				sprintf_s(label, 20, "%.1fGb", ramGb);
+				sprintf_s(label, 20, "%.1fGb", ram_gb);
 				ImGui::Text(label);
 				ImGui::EndGroup();
 			}
@@ -138,10 +138,10 @@ void ModuleHardware::RefreshSpecs(bool all)
 		SDL_version version;
 		SDL_GetVersion(&version);
 
-		sprintf_s(sdlVersion, 10, "%i.%i.%i", version.major, version.minor, version.patch);
-		cpuCount = SDL_GetCPUCount();
-		cpuCache = SDL_GetCPUCacheLineSize();
-		ramGb = float(SDL_GetSystemRAM()) / 1024.f;
+		sprintf_s(sdl_version, 10, "%i.%i.%i", version.major, version.minor, version.patch);
+		cpu_count = SDL_GetCPUCount();
+		cpu_cache = SDL_GetCPUCacheLineSize();
+		ram_gb = float(SDL_GetSystemRAM()) / 1024.f;
 	}
 
 	dddnow = SDL_Has3DNow() == SDL_TRUE;
