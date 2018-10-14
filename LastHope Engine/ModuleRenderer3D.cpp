@@ -150,9 +150,6 @@ bool ModuleRenderer3D::Start()
 
 	importer.SetCallback();
 
-	// For Assigment 1
-	LoadFBX("Assets\\BakerHouse.fbx");
-
 	// Projection matrix for
 	OnResize(App->window->screen_surface->w, App->window->screen_surface->h);
 	

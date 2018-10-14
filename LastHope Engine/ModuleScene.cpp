@@ -18,10 +18,14 @@ bool ModuleScene::Start()
 {
 	LOG("Creating Main Scene");
 
+	// For Assigment 1
+	App->renderer3D->LoadFBX("Assets\\BakerHouse.fbx");
+
 	return false;
 }
 
 update_status ModuleScene::PreUpdate(float dt)
+
 {
 	return UPDATE_CONTINUE;
 }
