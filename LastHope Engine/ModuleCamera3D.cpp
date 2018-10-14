@@ -12,8 +12,9 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	Y = vec3(0.0f, 1.0f, 0.0f);
 	Z = vec3(0.0f, 0.0f, 1.0f);
 
-	Position = vec3(0.0f, 3.0f, 10.0f);
-	Reference = vec3(0.0f, 3.0f, 0.0f);
+	position = vec3(0.0f, 3.0f, 10.0f);
+	reference = vec3(0.0f, 3.0f, 0.0f);
+	
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -25,7 +26,7 @@ bool ModuleCamera3D::Start()
 	LOG("Setting up the camera");
 	bool ret = true;
 
-	Position = Reference + Z * length(Position);
+	position = reference + Z * length(position);
 
 	return ret;
 }
@@ -43,114 +44,67 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	// Implement a debug camera with keys and mouse
 
-	// OnKeys WASD keys -----------------------------------
-	float Speed = 5.0f;
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) camera_speed *= 2.0f;
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) camera_speed *= 0.5f;
 
-	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) Speed *= 2.0f;
-	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) Speed *= 0.5f;
+	float distance = camera_speed * dt;
 
-	float Distance = Speed * dt;
+	vec3 up(0.0f, 1.0f, 0.0f);
+	vec3 right = X;
+	vec3 forward = cross(up, right);
 
-	vec3 Up(0.0f, 1.0f, 0.0f);
-	vec3 Right = X;
-	vec3 Forward = cross(Up, Right);
-
-	Up *= Distance;
-	Right *= Distance;
-	Forward *= Distance;
-
-	vec3 Movement;
+	up *= distance;
+	right *= distance;
+	forward *= distance;
+	new_cam_pos = vec3(0.0f, 0.0f, 0.0f);
 
 	//ALT rotation-----------------------
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 		{
-			int dx = App->input->GetMouseXMotion();
-			int dy = App->input->GetMouseYMotion();
+			int dx = -App->input->GetMouseXMotion();
 
-			float Sensitivity = 0.25f;
-
-			Position -= Reference;
+			position -= reference;
 
 			if (dx != 0)
 			{
-				float DeltaX = (float)dx * Sensitivity;
+				float DeltaX = (float)dx * sensitivity;
 
 				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 			}
 
-			if (dy != 0)
-			{
-				float DeltaY = (float)dy * Sensitivity;
-
-				Y = rotate(Y, DeltaY, X);
-				Z = rotate(Z, DeltaY, X);
-
-				if (Y.y < 0.0f)
-				{
-					Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-					Y = cross(Z, X);
-				}
-			}
-
-			Position = Reference + Z * length(Position);
-		}
-
-		else if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
-		{
-			int dx = -App->input->GetMouseXMotion();
-			int dy = -App->input->GetMouseYMotion();
-
-			float Sensitivity = 0.25f;
-
-			Position -= Reference;
-			
-			//TEMPORAL
-			if (dx != 0)
-			{
-				if(dx > 0)
-					Movement += Up;
-				else
-					Movement -= Up;
-			}
-
-			if (dy != 0)
-			{
-				if (dy > 0)
-					Movement -= Up;
-				else
-					Movement += Up;
-			}
-
-			Position = Reference + Z * length(Position);
+			position = reference + Z * length(position);
 		}
 	}
 	else
 	{
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 		{
-			//Unity-Like WSAD
-			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) Movement += Forward;
-			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) Movement -= Forward;
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) Movement -= Right;
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) Movement += Right;
-			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) Movement += Up;
-			if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) Movement -= Up;
+			//Unity-Like WSAD----------------------------------------------------------
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+				new_cam_pos -= Z * camera_speed;
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+				new_cam_pos += Z * camera_speed;
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) 
+				new_cam_pos -= X * camera_speed;
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) 
+				new_cam_pos += X * camera_speed;
+			
+			position += new_cam_pos;
+			reference += new_cam_pos;
 			//------------------------------------------------------------------------
 
 			int dx = -App->input->GetMouseXMotion();
 			int dy = -App->input->GetMouseYMotion();
 
-			float Sensitivity = 0.25f;
-
-			Position -= Reference;
+			position -= reference;
 
 			if (dx != 0)
 			{
-				float DeltaX = (float)dx * Sensitivity;
+				float DeltaX = (float)dx * sensitivity;
 
 				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
@@ -159,7 +113,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 			if (dy != 0)
 			{
-				float DeltaY = (float)dy * Sensitivity;
+				float DeltaY = (float)dy * sensitivity;
 
 				Y = rotate(Y, DeltaY, X);
 				Z = rotate(Z, DeltaY, X);
@@ -171,35 +125,36 @@ update_status ModuleCamera3D::Update(float dt)
 				}
 			}
 
-			Position = Reference + Z * length(Position);
+			position = reference + Z * length(position);
 		}
 	}
 
 	//Focus on geometry-------------------
-	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
 		FocusGeometry();
 	}
+	//------------------------------------
 
-	// Mouse wheel -----------------------
-
+	//Mouse wheel Zoom-----------------------
 	float zDelta = (float)App->input->GetMouseZ();
 
-	Position -= Reference;
+	position -= reference;
 
-	if (zDelta < 0 && length(Position) < 500.0f)
+	if (zDelta < 0 && length(position) < 500.0f)
 	{
-		Position += Position * 0.1f;
+		position += position * 0.1f;
 	}
 
-	if (zDelta > 0 && length(Position) > 0.05f)
+	if (zDelta > 0 && length(position) > 0.05f)
 	{
-		Position -= Position * 0.1f;
+		position -= position * 0.1f;
 	}
 
-	Position += Reference;
-	Position += Movement;
-	Reference += Movement;
+	position += reference;
+	position += movement;
+	reference += movement;
+	//---------------------------------
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
@@ -210,8 +165,8 @@ update_status ModuleCamera3D::Update(float dt)
 // -----------------------------------------------------------------
 void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference)
 {
-	this->Position = Position;
-	this->Reference = Reference;
+	this->position = Position;
+	this->reference = Reference;
 
 	Z = normalize(Position - Reference);
 	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
@@ -219,8 +174,8 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 
 	if (!RotateAroundReference)
 	{
-		this->Reference = this->Position;
-		this->Position += Z * 0.05f;
+		this->reference = this->position;
+		this->position += Z * 0.05f;
 	}
 
 	CalculateViewMatrix();
@@ -229,8 +184,8 @@ void ModuleCamera3D::Look(const vec3 &Position, const vec3 &Reference, bool Rota
 // -----------------------------------------------------------------
 void ModuleCamera3D::Move(const vec3 &Movement)
 {
-	Position += Movement;
-	Reference += Movement;
+	position += Movement;
+	reference += Movement;
 
 	CalculateViewMatrix();
 }
@@ -238,14 +193,14 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 // -----------------------------------------------------------------
 float* ModuleCamera3D::GetViewMatrix()
 {
-	return &ViewMatrix;
+	return &view_matrix;
 }
 
 // -----------------------------------------------------------------
 void ModuleCamera3D::CalculateViewMatrix()
 {
-	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
-	ViewMatrixInverse = inverse(ViewMatrix);
+	view_matrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, position), -dot(Y, position), -dot(Z, position), 1.0f);
+	view_matrix_inverse = inverse(view_matrix);
 }
 
 void ModuleCamera3D::FocusGeometry()
@@ -253,8 +208,8 @@ void ModuleCamera3D::FocusGeometry()
 	vec3 box_center = vec3(App->renderer3D->model_aabb.CenterPoint().x, App->renderer3D->model_aabb.CenterPoint().y, App->renderer3D->model_aabb.CenterPoint().z);
 	vec3 box_size = vec3(App->renderer3D->model_aabb.Size().x, App->renderer3D->model_aabb.Size().y, App->renderer3D->model_aabb.Size().z);
 	
-	Reference = box_center;
-	Position = box_center + box_size;
+	reference = box_center;
+	position = box_center + box_size;
 
-	Position = Reference + Z * length(Position);
+	position = reference + Z * length(position);
 }
