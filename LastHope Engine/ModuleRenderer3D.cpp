@@ -209,38 +209,38 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		}
 		else
 		{
-			if (((*it)->buffTexture) > 0)
+			if (((*it)->buffer_texture) > 0)
 			{
 				glEnableClientState(GL_TEXTURE_2D);
-				glBindTexture(GL_TEXTURE_2D, (*it)->buffTexture);
+				glBindTexture(GL_TEXTURE_2D, (*it)->buffer_texture);
 			}
 		}
 
-		if (((*it)->buffVertex) > 0)
+		if (((*it)->buffer_vertex) > 0)
 		{
 			glEnableClientState(GL_VERTEX_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffVertex);
+			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffer_vertex);
 			glVertexPointer(3, GL_FLOAT, 0, NULL);
 		}
 
-		if (((*it)->buffNormals) > 0)
+		if (((*it)->buffer_normals) > 0)
 		{
 			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffNormals);
+			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffer_normals);
 			glNormalPointer(GL_FLOAT, 0, NULL);
 		}
 
-		if (((*it)->buffUv) > 0)
+		if (((*it)->buffer_uv) > 0)
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffUv);
+			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffer_uv);
 			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 		}
 
-		if (((*it)->buffIndex) > 0)
+		if (((*it)->buffer_index) > 0)
 		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->buffIndex);
-			glDrawElements(GL_TRIANGLES, (*it)->numIndex, GL_UNSIGNED_INT, NULL);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->buffer_index);
+			glDrawElements(GL_TRIANGLES, (*it)->num_index, GL_UNSIGNED_INT, NULL);
 		}
 
 		// CleanUp
@@ -407,8 +407,8 @@ void ModuleRenderer3D::DrawProperties()
 					sprintf_s(title, sizeof(title), "Geometry ##%i", a);
 					if (ImGui::TreeNodeEx(title, ImGuiTreeNodeFlags_DefaultOpen))
 					{
-						ImGui::Text("Num Index: %i", (*it)->numIndex);
-						ImGui::Text("Triangle Count: %i", (*it)->numIndex / 3);
+						ImGui::Text("Num Index: %i", (*it)->num_index);
+						ImGui::Text("Triangle Count: %i", (*it)->num_index / 3);
 						ImGui::TreePop();
 					}
 					ImGui::Spacing();
@@ -419,10 +419,10 @@ void ModuleRenderer3D::DrawProperties()
 						ImVec2 texScreenPos = ImGui::GetCursorScreenPos();
 						float texWidth = 200.f;
 						float texHeight = 200.f;
-						ImTextureID textureID = (ImTextureID)(*it)->buffTexture;
+						ImTextureID textureID = (ImTextureID)(*it)->buffer_texture;
 
 						ImGui::Text("Currently displaying resized texture, hover to zoom");
-						ImGui::Text("Dimensions: %.0fx%.0f", importer.imageDimensions.x, importer.imageDimensions.y);
+						ImGui::Text("Dimensions: %.0fx%.0f", importer.image_dimensions.x, importer.image_dimensions.y);
 						ImGui::Image(textureID, ImVec2(texWidth, texHeight), ImVec2(0, 0), ImVec2(1, 1), ImColor(255, 255, 255, 255), ImColor(255, 255, 255, 128));
 
 						if (ImGui::IsItemHovered())
@@ -507,7 +507,7 @@ void ModuleRenderer3D::LoadImages(char * path)
 	std::vector<Mesh*>::iterator it = meshes.begin();
 	for (; it != meshes.end(); it++)
 	{
-		(*it)->buffTexture = importer.LoadImageFile(path);
+		(*it)->buffer_texture = importer.LoadImageFile(path);
 	}
 }
 

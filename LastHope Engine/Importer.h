@@ -35,12 +35,12 @@ public:
 	std::vector<float3> normals;
 	std::vector<float3> vertex;
 
-	uint buffNormals = 0;
-	uint buffUv = 0;
-	uint buffVertex = 0;
-	uint buffIndex = 0;
-	uint numIndex = 0;
-	uint buffTexture = 0;
+	uint buffer_normals = 0;
+	uint buffer_uv = 0;
+	uint buffer_vertex = 0;
+	uint buffer_index = 0;
+	uint num_index = 0;
+	uint buffer_texture = 0;
 
 	math::AABB mesh_aabb;
 
@@ -64,9 +64,9 @@ public:
 
 private:
 
-	bool bDevilInit = false;
+	bool is_devil_init = false;
 
 public:
 
-	ImVec2 imageDimensions;
+	ImVec2 image_dimensions;
 };

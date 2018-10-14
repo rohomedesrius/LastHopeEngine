@@ -62,8 +62,6 @@ public:
 
 	const char* GetFileDropped();
 
-	float Sensitivity = 0.25f;
-
 private:
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];

@@ -19,7 +19,7 @@ Mesh::~Mesh()
 
 GLuint Importer::LoadImageFile(const char * file)
 {
-	if (!bDevilInit)
+	if (!is_devil_init)
 	{
 		ilInit();
 
@@ -31,7 +31,7 @@ GLuint Importer::LoadImageFile(const char * file)
 		}
 		LOG("Importer - GLEW intialized successfully. Current GLEW version: %s", glewGetString(GLEW_VERSION));
 
-		bDevilInit = true;
+		is_devil_init = true;
 	}
 
 	ILuint imageID = 0;
@@ -72,7 +72,7 @@ GLuint Importer::LoadImageFile(const char * file)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, GL_RGBA, GL_UNSIGNED_BYTE, ilGetData());
 
-		imageDimensions = ImVec2(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
+		image_dimensions = ImVec2(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
 	}
 	else
 	{
@@ -124,8 +124,8 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 
 			if (mesh->vertex.empty() != false)
 			{
-				glGenBuffers(1, (GLuint*) &(mesh->buffVertex));
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->buffVertex);
+				glGenBuffers(1, (GLuint*) &(mesh->buffer_vertex));
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_vertex);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * scene->mMeshes[i]->mNumVertices, mesh->vertex.data(), GL_STATIC_DRAW);
 
 				LOG("Importer - Loading %i vertex succesful!", scene->mMeshes[i]->mNumVertices);
@@ -139,8 +139,8 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 			{
 				mesh->normals.reserve(scene->mMeshes[i]->mNumVertices);
 				memcpy(mesh->normals.data(), scene->mMeshes[i]->mNormals, sizeof(float3)*scene->mMeshes[i]->mNumVertices);
-				glGenBuffers(1, (GLuint*) &(mesh->buffNormals));
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->buffNormals);
+				glGenBuffers(1, (GLuint*) &(mesh->buffer_normals));
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_normals);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * scene->mMeshes[i]->mNumVertices, mesh->normals.data(), GL_STATIC_DRAW);
 			}
 
@@ -154,8 +154,8 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 					uv[j * 2 + 1] = scene->mMeshes[i]->mTextureCoords[0][j].y;
 				}
 
-				glGenBuffers(1, (GLuint*) &(mesh->buffUv));
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->buffUv);
+				glGenBuffers(1, (GLuint*) &(mesh->buffer_uv));
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->buffer_uv);
 				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * scene->mMeshes[i]->mNumVertices * 2, uv, GL_STATIC_DRAW);
 
 				delete[] uv;
@@ -163,7 +163,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 
 			// INDEX
 			uint* index = new uint[scene->mMeshes[i]->mNumFaces * 3];
-			mesh->numIndex = scene->mMeshes[i]->mNumFaces * 3;
+			mesh->num_index = scene->mMeshes[i]->mNumFaces * 3;
 			for (uint j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
 			{
 				if (scene->mMeshes[i]->mFaces[j].mNumIndices != 3)
@@ -176,8 +176,8 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 				}
 			}
 
-			glGenBuffers(1, (GLuint*) &(mesh->buffIndex));
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffIndex);
+			glGenBuffers(1, (GLuint*) &(mesh->buffer_index));
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->buffer_index);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * scene->mMeshes[i]->mNumFaces * 3, index, GL_STATIC_DRAW);
 			LOG("Importer - Loading %i index succesful!", (uint)scene->mMeshes[i]->mNumFaces * 3);
 
@@ -209,7 +209,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 					{
 						if (FileExists(strPath.c_str()))
 						{
-							mesh->buffTexture = LoadImageFile(strPath.c_str());
+							mesh->buffer_texture = LoadImageFile(strPath.c_str());
 						}
 					}
 					else
@@ -217,7 +217,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 						LOG("Importer - ERROR Image not loaded");
 					}
 
-					if (mesh->buffTexture == -1)
+					if (mesh->buffer_texture == -1)
 					{
 						LOG("Importer - ERROR Creating buffer for Texture");
 					}
