@@ -20,7 +20,9 @@ It's been created for educational purposes, as we are 2 students from the Videog
   * F focuses the 3D model. 
  - Some of the main engine's information is stored in a configuration (JSON) file, so it is not lost in further executions. 
   
-# Innovation: Antisotropic Filter
+# Innovation: Antisotropic Filter 
+- You can activate Antisotropic Filter in the Configuration Panel  
+- There are up to 6 different modes: Nearest, Linear, Linear Mipmap Nearest, Linear Mipmap Linear, Low Antisotropic y Max Antisotropic.  
 
 # Libraries Used:
 - MathGeoLib -> http://clb.demon.fi/MathGeoLib/nightly/ 
