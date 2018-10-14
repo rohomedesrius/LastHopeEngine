@@ -65,6 +65,8 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 		{
+			FocusGeometry();
+
 			int dx = -App->input->GetMouseXMotion();
 
 			position -= reference;
