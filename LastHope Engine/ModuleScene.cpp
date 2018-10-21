@@ -66,3 +66,34 @@ void ModuleScene::DrawGrid(int size)
 
 	glEnd();
 }
+
+//Scene Management
+
+void ModuleScene::Play()
+{
+	if (game_state != RUNNING)
+	{
+		game_state = RUNNING;
+		game_pause = false;
+		game_play = true;
+	}
+}
+
+void ModuleScene::Pause()
+{
+	if (game_state == RUNNING && game_pause == false)
+	{
+		game_state = PAUSED;
+		game_pause = true;
+	}
+}
+
+void ModuleScene::Stop()
+{
+	if (game_state == RUNNING)
+	{
+		game_state = EDIT;
+		game_pause = false;
+		game_play = false;
+	}
+}
