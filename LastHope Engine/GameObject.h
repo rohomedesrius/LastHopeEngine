@@ -29,6 +29,8 @@ public:
 
 private:
 
+	AABB model_aabb;
+
 	GameObject* parent = nullptr;
 	std::vector<GameObject*> children;
 	std::vector<Component*> components;

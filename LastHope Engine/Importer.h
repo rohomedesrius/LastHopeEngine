@@ -18,6 +18,7 @@ enum FileExtensions
 	Unsupported
 };
 
+// To delete
 struct ModelTransform
 {
 	float3 position = {};
@@ -25,6 +26,7 @@ struct ModelTransform
 	Quat rotation = {};
 };
 
+// To delete
 class Mesh
 {
 public:
@@ -69,6 +71,7 @@ private:
 
 public:
 
+	// To delete
 	ImVec2 image_dimensions;
 };
 

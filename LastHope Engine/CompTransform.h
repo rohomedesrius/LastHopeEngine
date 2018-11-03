@@ -10,8 +10,11 @@ public:
 	CompTransform(GameObject* gameobject);
 	~CompTransform();
 
-	float3 positionLocal = { 0.f,0.f,0.f };
-	float3 scaleLocal = { 1.f,1.f,1.f };
+public:
+
+	float3 local_position = { 0.f,0.f,0.f };
+	float3 local_scale = { 1.f,1.f,1.f };
+	Quat local_rotation = {};
 
 private:
 
