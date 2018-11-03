@@ -12,6 +12,8 @@
 #define CHECKERS_SIZE 128
 #define MAX_LIGHTS 8
 
+class GameObject;
+
 class ModuleRenderer3D : public Module
 {
 public:
@@ -29,6 +31,8 @@ public:
 	void DrawProperties();
 
 	void OnResize(int width, int height);
+
+	void DrawGameObject(GameObject* go);
 
 	void Dropped();
 	void LoadFBX(char* path);
@@ -54,7 +58,7 @@ public:
 	float4x4 model_matrix, view_matrix;
 	mat4x4 projection_matrix;
 
-	// MODEL
+	// MODEL - To delete
 	std::vector<Mesh*> meshes = {};
 	AABB model_aabb;
 

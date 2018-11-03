@@ -2,6 +2,11 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 
+#include "GameObject.h"
+#include "CompTransform.h"
+#include "CompMesh.h"
+#include "CompMaterial.h"
+
 #include "glew/include/glew.h"
 #include "SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
@@ -414,6 +419,61 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::DrawGameObject(GameObject * go)
+{
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	CompMesh* mesh = (CompMesh*)go->FindComponent(ComponentType::MESH);
+	CompMaterial* material = (CompMaterial*)go->FindComponent(ComponentType::MATERIAL);
+	if (mesh == nullptr)
+	{
+		LOG("Renderer - Warning! No meshes found!");
+		return;
+	}
+	if (((material)->buffer_texture) > 0)
+	{
+		glEnableClientState(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, (material)->buffer_texture);
+	}
+
+	if (((mesh)->buffer_vertex) > 0)
+	{
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->buffer_vertex);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+	}
+
+	if (((mesh)->buffer_normals) > 0)
+	{
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->buffer_normals);
+		glNormalPointer(GL_FLOAT, 0, NULL);
+	}
+
+	if (((mesh)->buffer_uv) > 0)
+	{
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->buffer_uv);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+	}
+
+	if (((mesh)->buffer_index) > 0)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (mesh)->buffer_index);
+		glDrawElements(GL_TRIANGLES, (mesh)->num_index, GL_UNSIGNED_INT, NULL);
+	}
+
+	// CleanUp
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_TEXTURE_2D);
 }
 
 void ModuleRenderer3D::Dropped()
