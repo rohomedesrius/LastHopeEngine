@@ -1,12 +1,16 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleScene.h"
+#include "GameObject.h"
+#include "CompTransform.h"
 
 #include "glew/include/glew.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	
+	root = new GameObject("root", true, true, nullptr);
+
+	root->AddComponent(new CompTransform(root));
 }
 
 ModuleScene::~ModuleScene()

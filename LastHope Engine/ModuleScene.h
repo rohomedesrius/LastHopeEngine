@@ -34,6 +34,9 @@ public:
 	void Stop();
 
 private:
+
+	GameObject* root;
+
 	GameState game_state = EDIT;
 	bool game_pause = false;
 	bool game_play = false;
