@@ -4,6 +4,8 @@
 #include "Module.h"
 #include "Console.h"
 
+class GameObject;
+
 struct Style
 {
 	bool active = false;
