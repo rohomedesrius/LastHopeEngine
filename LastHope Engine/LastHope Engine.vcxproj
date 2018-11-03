@@ -112,7 +112,11 @@
     <ClInclude Include="Assimp\include\vector3.h" />
     <ClInclude Include="Assimp\include\version.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="CompCamera.h" />
+    <ClInclude Include="CompMaterial.h" />
+    <ClInclude Include="CompMesh.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="CompTransform.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="DevIL\include\config.h" />
     <ClInclude Include="DevIL\include\devil_internal_exports.h" />
@@ -220,7 +224,11 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="CompCamera.cpp" />
+    <ClCompile Include="CompMaterial.cpp" />
+    <ClCompile Include="CompMesh.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="CompTranform.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />

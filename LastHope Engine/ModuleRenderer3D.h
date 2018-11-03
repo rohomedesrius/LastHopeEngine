@@ -76,10 +76,6 @@ private:
 	// Checker Texture
 	GLuint checkers = NULL;
 	void LoadCheckers();
-
-	// Antisotropic Filtering
-	GLuint g_sampler = NULL;
-	void SetSampler(const int number);
 };
 
 #endif //__RENDERER_H__
