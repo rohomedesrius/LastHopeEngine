@@ -29,6 +29,8 @@ public:
 	bool IsActive() const;
 	void SetActive(bool value);
 
+	ComponentType GetType() const;
+
 protected:
 
 	bool active = true;

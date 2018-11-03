@@ -9,3 +9,8 @@ void Component::SetActive(bool value)
 {
 	active = value;
 }
+
+ComponentType Component::GetType() const
+{
+	return type;
+}

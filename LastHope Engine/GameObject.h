@@ -16,6 +16,7 @@ public:
 	void RemoveChild(GameObject* child);
 	void RemoveChildren();
 
+	Component* FindComponent(ComponentType type);
 	void AddComponent(Component* component);
 
 	void Enable();

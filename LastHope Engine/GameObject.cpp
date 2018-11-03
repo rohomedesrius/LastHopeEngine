@@ -50,8 +50,26 @@ void GameObject::RemoveChildren()
 	children.clear();
 }
 
+Component * GameObject::FindComponent(ComponentType type)
+{
+	if (components.empty() == false)
+	{
+		std::vector<Component*>::const_iterator comp = components.begin();
+		while (comp != components.end())
+		{
+			if ((*comp)->GetType() == type)
+			{
+				return (*comp);
+			}
+			++comp;
+		}
+	}
+	return nullptr;
+}
+
 void GameObject::AddComponent(Component * component)
 {
+	components.push_back(component);
 }
 
 void GameObject::Enable()
