@@ -687,3 +687,26 @@ void ModuleRenderer3D::LoadCheckers()
 	// CleanUp
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+//DEBUG DRAW SHAPES----------------
+void ModuleRenderer3D::DrawBox(float3* vertex, float4 color)
+{
+	glColor4f(color.x, color.y, color.z, color.w);
+
+	glBegin(GL_LINES);
+
+	glVertex3fv(vertex[0].ptr()); glVertex3fv(vertex[1].ptr());
+	glVertex3fv(vertex[0].ptr()); glVertex3fv(vertex[2].ptr());
+	glVertex3fv(vertex[0].ptr()); glVertex3fv(vertex[4].ptr());
+	glVertex3fv(vertex[3].ptr()); glVertex3fv(vertex[1].ptr());
+	glVertex3fv(vertex[3].ptr()); glVertex3fv(vertex[2].ptr());
+	glVertex3fv(vertex[3].ptr()); glVertex3fv(vertex[7].ptr());
+	glVertex3fv(vertex[5].ptr()); glVertex3fv(vertex[1].ptr());
+	glVertex3fv(vertex[5].ptr()); glVertex3fv(vertex[4].ptr());
+	glVertex3fv(vertex[5].ptr()); glVertex3fv(vertex[7].ptr());
+	glVertex3fv(vertex[6].ptr()); glVertex3fv(vertex[2].ptr());
+	glVertex3fv(vertex[6].ptr()); glVertex3fv(vertex[4].ptr());
+	glVertex3fv(vertex[6].ptr()); glVertex3fv(vertex[7].ptr());
+
+	glEnd();
+}

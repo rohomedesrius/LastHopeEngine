@@ -41,6 +41,9 @@ public:
 
 	void SetAABB();
 
+	//Debug Draw Shapes
+	void DrawBox(float3* vertex, float4 color = float4(1.0f, 1.0f, 0.6f, 1.0f));
+
 public:
 
 	void EnableVSync(bool enable);
