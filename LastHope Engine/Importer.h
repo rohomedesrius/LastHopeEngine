@@ -9,6 +9,11 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
+#include "Assimp/include/cimport.h"
+#include "Assimp/include/scene.h"
+#include "Assimp/include/postprocess.h"
+#include "Assimp/include/cfileio.h"
+
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
 enum FileExtensions
@@ -61,6 +66,7 @@ public:
 
 	FileExtensions GetExtension(const char* path);
 	bool FileExists(const std::string& name);
+	void FindAndReplace(std::string& source, std::string const& to_find, std::string const& replace);
 
 	GLuint LoadImageFile(const char* file);
 	std::vector<Mesh*> CreateMesh(const char* path);

@@ -4,10 +4,7 @@
 #include "DevIL/include/ilu.h"
 #include "DevIL/include/ilut.h"
 
-#include "Assimp/include/cimport.h"
-#include "Assimp/include/scene.h"
-#include "Assimp/include/postprocess.h"
-#include "Assimp/include/cfileio.h"
+#include "Application.h"
 
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma	comment (lib, "DevIL/libx86/ILU.lib")
@@ -80,8 +77,6 @@ GLuint Importer::LoadImageFile(const char * file)
 		LOG("Importer - Image loading failed! IL error: %i - %s", error, iluErrorString(error));
 		return -1;
 	}
-
-	//ilDeleteImages(1, &imageID);
 
 	LOG("Importer - Texture for mesh applied: %s", file);
 
@@ -279,4 +274,13 @@ bool Importer::FileExists(const std::string& name)
 {
 	struct stat buffer;
 	return (stat(name.c_str(), &buffer) == 0);
+}
+
+void Importer::FindAndReplace(std::string & source, std::string const & to_find, std::string const & replace)
+{
+	for (std::string::size_type i = 0; (i = source.find(to_find, i)) != std::string::npos;)
+	{
+		source.replace(i, to_find.length(), replace);
+		i += replace.length();
+	}
 }
