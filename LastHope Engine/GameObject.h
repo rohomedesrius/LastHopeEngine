@@ -31,6 +31,8 @@ public:
 	bool IsStatic() const;
 	bool IsActive() const;
 
+	AABB getAABB() const;
+
 public:
 
 	std::string name = "";

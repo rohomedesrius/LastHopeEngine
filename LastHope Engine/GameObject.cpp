@@ -154,3 +154,8 @@ bool GameObject::IsActive() const
 {
 	return is_active;
 }
+
+AABB GameObject::getAABB() const
+{
+	return model_aabb;
+}
