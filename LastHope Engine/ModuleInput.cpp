@@ -112,8 +112,8 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 
 			case SDL_QUIT:
-			App->ExitRequest();
 			LOG("Input(SDL): Requested to Exit");
+			App->ExitRequest();
 			break;
 
 			case SDL_WINDOWEVENT:
@@ -126,8 +126,8 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	if (keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 	{
-		App->ExitRequest();
 		LOG("Input(ESC): Requested to Exit");
+		App->ExitRequest();
 	}
 
 	return UPDATE_CONTINUE;
