@@ -2,7 +2,7 @@
 
 class GameObject;
 
-struct Material
+struct ResourceMaterial // TMP
 {
 	uint id = NULL;
 
@@ -22,7 +22,7 @@ public:
 	void Remove();
 	
 	uint material_id = NULL;
-	Material* material = nullptr;
+	ResourceMaterial* resource = nullptr;
 
 private:
 

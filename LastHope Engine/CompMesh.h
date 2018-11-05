@@ -2,7 +2,7 @@
 #include "MathGeoLib/include/MathGeoLib.h"
 class GameObject;
 
-struct Mesh
+struct ResourceMesh // Temporal
 {
 	uint id = NULL;
 
@@ -28,7 +28,7 @@ public:
 public:
 
 	uint mesh_id = NULL;
-	Mesh* mesh;
+	ResourceMesh* resource;
 
 	math::AABB mesh_aabb;
 

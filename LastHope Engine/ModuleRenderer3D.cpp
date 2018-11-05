@@ -432,37 +432,37 @@ void ModuleRenderer3D::DrawGameObject(GameObject * go)
 		LOG("Renderer - Warning! No meshes found!");
 		return;
 	}
-	if (((material)->buffer_texture) > 0)
+	if (((material)->resource->buffer_texture) > 0)
 	{
 		glEnableClientState(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, (material)->buffer_texture);
+		glBindTexture(GL_TEXTURE_2D, (material)->resource->buffer_texture);
 	}
 
-	if (((mesh)->buffer_vertex) > 0)
+	if (((mesh)->resource->buffer_vertex) > 0)
 	{
 		glEnableClientState(GL_VERTEX_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->buffer_vertex);
+		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->resource->buffer_vertex);
 		glVertexPointer(3, GL_FLOAT, 0, NULL);
 	}
 
-	if (((mesh)->buffer_normals) > 0)
+	if (((mesh)->resource->buffer_normals) > 0)
 	{
 		glEnableClientState(GL_NORMAL_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->buffer_normals);
+		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->resource->buffer_normals);
 		glNormalPointer(GL_FLOAT, 0, NULL);
 	}
 
-	if (((mesh)->buffer_uv) > 0)
+	if (((mesh)->resource->buffer_uv) > 0)
 	{
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->buffer_uv);
+		glBindBuffer(GL_ARRAY_BUFFER, (mesh)->resource->buffer_uv);
 		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 	}
 
-	if (((mesh)->buffer_index) > 0)
+	if (((mesh)->resource->buffer_index) > 0)
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (mesh)->buffer_index);
-		glDrawElements(GL_TRIANGLES, (mesh)->num_index, GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (mesh)->resource->buffer_index);
+		glDrawElements(GL_TRIANGLES, (mesh)->resource->num_index, GL_UNSIGNED_INT, NULL);
 	}
 
 	// CleanUp
