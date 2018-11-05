@@ -8,10 +8,10 @@ CompMesh::CompMesh(GameObject * gameobject) : Component(MESH, gameobject)
 
 CompMesh::~CompMesh()
 {
-	glDeleteBuffers(1, &buffer_normals);
-	glDeleteBuffers(1, &buffer_index);
-	glDeleteBuffers(1, &buffer_vertex);
-	glDeleteBuffers(1, &buffer_uv);
+	glDeleteBuffers(1, &mesh->buffer_normals);
+	glDeleteBuffers(1, &mesh->buffer_index);
+	glDeleteBuffers(1, &mesh->buffer_vertex);
+	glDeleteBuffers(1, &mesh->buffer_uv);
 }
 
 void CompMesh::Remove()

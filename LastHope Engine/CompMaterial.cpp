@@ -8,8 +8,8 @@ CompMaterial::CompMaterial(GameObject * gameobject) : Component(MATERIAL, gameob
 
 CompMaterial::~CompMaterial()
 {
-	glDeleteBuffers(1, &buffer_texture);
-	image_dimensions = ImVec2(NULL, NULL);
+	glDeleteBuffers(1, &material->buffer_texture);
+	material->image_dimensions = ImVec2(NULL, NULL);
 }
 
 void CompMaterial::Remove()
