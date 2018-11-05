@@ -74,6 +74,7 @@ public:
 	void FindAndReplace(std::string& source, std::string const& to_find, std::string const& replace);
 
 	GameObject* ImportFBX(const char* path);
+	void ImportTexture(const aiScene* scene, int texture_index, const char* path, CompMaterial*  material);
 
 	GLuint LoadImageFile(const char* file);
 	std::vector<Mesh*> CreateMesh(const char* path);

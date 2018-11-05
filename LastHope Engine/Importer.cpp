@@ -408,3 +408,46 @@ GameObject* Importer::ImportFBX(const char * path)
 
 	return ret;
 }
+
+
+void Importer::ImportTexture(const aiScene* scene, int texture_index, const char * path, CompMaterial*  material)
+{
+	if (scene->HasMaterials())
+	{
+		if (scene->mMaterials[scene->mMeshes[texture_index]->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+		{
+			aiString texture_path; // Path to the texture, from FBX directory
+			scene->mMaterials[scene->mMeshes[texture_index]->mMaterialIndex]->GetTexture(aiTextureType::aiTextureType_DIFFUSE, 0, &texture_path);
+			std::string texture_name = texture_path.C_Str();
+			std::string str_path = path;
+			material->resource->path = texture_path.C_Str();
+
+			for (uint i = strlen(path); i >= 0; i--)
+			{
+				if (path[i] == '\\')
+				{
+					str_path.resize(i + 1);
+					str_path += texture_name;
+					break;
+				}
+			}
+			if (str_path.c_str() != NULL)
+			{
+				if (FileExists(str_path.c_str()))
+				{
+					material->resource->buffer_texture = LoadImageFile(str_path.c_str());
+				}
+			}
+			else
+			{
+				LOG("Importer - ERROR Image not loaded");
+			}
+
+			if (material->resource->buffer_texture == -1)
+			{
+				LOG("ERROR Creating buffer for Texture");
+			}
+			material->resource->image_dimensions = ImVec2(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
+		}
+	}
+}
