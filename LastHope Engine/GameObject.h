@@ -22,7 +22,7 @@ public:
 	Component* FindComponent(ComponentType type);
 	void AddComponent(Component* component);
 
-	void DrawUI() {};
+	void DrawUI();
 
 	void Enable();
 	void Disable();
