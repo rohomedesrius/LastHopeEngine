@@ -451,3 +451,86 @@ void Importer::ImportTexture(const aiScene* scene, int texture_index, const char
 		}
 	}
 }
+
+ResourceMesh * Importer::ImportMesh(const aiScene * scene, int mesh_index)
+{
+	ResourceMesh* ret = new ResourceMesh();
+	int i = mesh_index;
+	ret->vertex.reserve(scene->mMeshes[i]->mNumVertices);
+	memcpy(ret->vertex.data(), scene->mMeshes[i]->mVertices, sizeof(float3)*scene->mMeshes[i]->mNumVertices);
+
+	if (ret->vertex.empty() != false)
+	{
+		glGenBuffers(1, (GLuint*) &(ret->buffer_vertex));
+		glBindBuffer(GL_ARRAY_BUFFER, ret->buffer_vertex);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * scene->mMeshes[i]->mNumVertices, ret->vertex.data(), GL_STATIC_DRAW);
+
+		LOG("Importer - Loading %i vertex succesful!", scene->mMeshes[i]->mNumVertices);
+	}
+	else
+	{
+		LOG("WARNING, the scene has 0 vertex!");
+	}
+	if (ret->vertex.size() == 0)
+	{
+		for (int j = 0; j < scene->mMeshes[i]->mNumVertices; j++)
+		{
+			ret->vertex.push_back(float3(scene->mMeshes[i]->mVertices[j].x, scene->mMeshes[i]->mVertices[j].y, scene->mMeshes[i]->mVertices[j].z));
+
+		}
+	}
+
+	if (scene->mMeshes[i]->HasNormals())
+	{
+		ret->normals.reserve(scene->mMeshes[i]->mNumVertices);
+		memcpy(ret->normals.data(), scene->mMeshes[i]->mNormals, sizeof(float3)*scene->mMeshes[i]->mNumVertices);
+		glGenBuffers(1, (GLuint*) &(ret->buffer_normals));
+		glBindBuffer(GL_ARRAY_BUFFER, ret->buffer_normals);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * scene->mMeshes[i]->mNumVertices, ret->normals.data(), GL_STATIC_DRAW);
+	}
+
+	if (scene->mMeshes[i]->HasTextureCoords(0))
+	{
+		float* uv = new float[scene->mMeshes[i]->mNumVertices * 2]; //BE
+																	//memcpy(uv, scene->mMeshes[i]->mTextureCoords, sizeof(float)*scene->mMeshes[i]->mNumVertices);
+		for (int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
+		{
+			uv[j * 2] = scene->mMeshes[i]->mTextureCoords[0][j].x;
+			uv[j * 2 + 1] = scene->mMeshes[i]->mTextureCoords[0][j].y;
+		}
+
+		glGenBuffers(1, (GLuint*) &(ret->buffer_uv));
+		glBindBuffer(GL_ARRAY_BUFFER, ret->buffer_uv);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * scene->mMeshes[i]->mNumVertices * 2, uv, GL_STATIC_DRAW);
+	}
+
+	ret->index.reserve(scene->mMeshes[i]->mNumFaces * 3);
+
+
+	uint* index = new uint[scene->mMeshes[i]->mNumFaces * 3];
+	ret->num_index = scene->mMeshes[i]->mNumFaces * 3;
+	for (uint j = 0; j < scene->mMeshes[i]->mNumFaces; j++)
+	{
+		if (scene->mMeshes[i]->mFaces[j].mNumIndices != 3)
+		{
+			LOG("WARNING, geometry face with != 3 indices!");
+		}
+		else
+		{
+			memcpy(&index[j * 3], scene->mMeshes[i]->mFaces[j].mIndices, sizeof(uint) * 3);
+			unsigned int * it = scene->mMeshes[i]->mFaces[j].mIndices;
+			ret->index.push_back(*it);
+			it++;
+			ret->index.push_back(*it);
+			it++;
+			ret->index.push_back(*it);
+		}
+	}
+
+	glGenBuffers(1, (GLuint*) &(ret->buffer_index));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ret->buffer_index);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * scene->mMeshes[i]->mNumFaces * 3, index, GL_STATIC_DRAW);
+	LOG("Importer - Loading %i index succesful!", (uint)scene->mMeshes[i]->mNumFaces * 3);
+
+	return ret;
+}

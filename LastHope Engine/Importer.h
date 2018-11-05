@@ -75,6 +75,7 @@ public:
 
 	GameObject* ImportFBX(const char* path);
 	void ImportTexture(const aiScene* scene, int texture_index, const char* path, CompMaterial*  material);
+	ResourceMesh* ImportMesh(const aiScene* scene, int mesh_index);
 
 	GLuint LoadImageFile(const char* file);
 	std::vector<Mesh*> CreateMesh(const char* path);
