@@ -18,6 +18,37 @@ GameObject::~GameObject()
 {
 }
 
+void GameObject::SetParent(GameObject * parent)
+{
+	if (parent == nullptr)
+		parent = App->scene->root;
+
+	if (this->parent != parent)
+	{
+		if (this->parent != nullptr)
+		{
+			this->parent->RemoveChild(this);
+		}
+
+		this->parent = parent;
+		parent->AddChild(this);
+	}
+}
+
+void GameObject::SetParentForChildren(GameObject * parent)
+{
+	if (parent == nullptr)
+		parent = App->scene->root;
+
+	std::vector<GameObject*>::iterator iter = children.begin();
+
+	while (iter != children.end())
+	{
+		(*iter)->SetParent(parent);
+		++iter;
+	}
+}
+
 void GameObject::AddChild(GameObject * child)
 {
 	if (child != nullptr)
@@ -36,7 +67,6 @@ void GameObject::RemoveChild(GameObject * child)
 		{
 			if (*item == child)
 			{
-				// modify child's parent
 				children.erase(item);
 				break;
 			}
@@ -85,4 +115,14 @@ void GameObject::Disable()
 void GameObject::SetStatic(bool set_static)
 {
 	is_static = set_static;
+}
+
+bool GameObject::IsStatic() const
+{
+	return is_static;
+}
+
+bool GameObject::IsActive() const
+{
+	return is_active;
 }

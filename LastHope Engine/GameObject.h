@@ -3,6 +3,7 @@
 
 #include "Globals.h"
 #include "Component.h"
+#include "MathGeoLib/include/MathGeoLib.h"
 
 class GameObject
 {
@@ -12,9 +13,11 @@ public:
 	GameObject(std::string name, bool is_active, bool is_static, GameObject* parent);
 	~GameObject();
 
+	void SetParent(GameObject* parent = nullptr);
+	void SetParentForChildren(GameObject* parent = nullptr);
 	void AddChild(GameObject* child);
-	void RemoveChild(GameObject* child);
-	void RemoveChildren();
+	void RemoveChild(GameObject* child); // Must Call SetParent() before!
+	void RemoveChildren(); // Must Call SetParentForChildren() before!
 
 	Component* FindComponent(ComponentType type);
 	void AddComponent(Component* component);
@@ -22,6 +25,9 @@ public:
 	void Enable();
 	void Disable();
 	void SetStatic(bool set_static);
+
+	bool IsStatic() const;
+	bool IsActive() const;
 
 public:
 
