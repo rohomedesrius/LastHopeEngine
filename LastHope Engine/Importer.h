@@ -16,6 +16,11 @@
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
+class GameObject;
+class CompMesh;
+class CompMaterial;
+struct ResourceMesh;
+
 enum FileExtensions
 {
 	Scene3D = 0,
@@ -67,6 +72,8 @@ public:
 	FileExtensions GetExtension(const char* path);
 	bool FileExists(const std::string& name);
 	void FindAndReplace(std::string& source, std::string const& to_find, std::string const& replace);
+
+	GameObject* ImportFBX(const char* path);
 
 	GLuint LoadImageFile(const char* file);
 	std::vector<Mesh*> CreateMesh(const char* path);

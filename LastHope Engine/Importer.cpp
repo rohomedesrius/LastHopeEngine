@@ -6,6 +6,12 @@
 
 #include "Application.h"
 
+#include "GameObject.h"
+#include "CompTransform.h"
+#include "CompMesh.h"
+#include "CompMaterial.h"
+#include <queue>
+
 #pragma comment (lib, "DevIL/libx86/DevIL.lib")
 #pragma	comment (lib, "DevIL/libx86/ILU.lib")
 #pragma	comment (lib, "DevIL/libx86/ILUT.lib")
@@ -283,4 +289,122 @@ void Importer::FindAndReplace(std::string & source, std::string const & to_find,
 		source.replace(i, to_find.length(), replace);
 		i += replace.length();
 	}
+}
+
+GameObject* Importer::ImportFBX(const char * path)
+{
+	GameObject* ret = new GameObject("import_fbx_tmp_name", true, false, nullptr);
+
+	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+	bool get_ret = true;
+
+	if (scene != nullptr && scene->HasMeshes())
+	{
+		std::queue<std::pair<aiNode*, GameObject*>> load_queue;
+		load_queue.push(std::pair<aiNode*, GameObject*>(scene->mRootNode, nullptr));
+		int num_meshes = 0;
+
+		while (load_queue.empty() == false)
+		{
+			GameObject* parent_go = load_queue.front().second;
+			aiNode* loading = load_queue.front().first;
+			
+			load_queue.pop();
+
+			GameObject* me = nullptr;
+
+			//
+			if (loading->mNumMeshes > 0)
+			{
+				for (int j = 0; j < loading->mNumMeshes; j++)
+				{
+					int i = loading->mMeshes[j];
+					// Use scene->mNumMeshes to iterate on scene->mMeshes array
+					GameObject* child_go = new GameObject(scene->mMeshes[i]->mName.data, true, false, parent_go);
+					if (child_go->name == "")
+					{
+						std::string number = std::to_string(num_meshes);
+						child_go->name.assign("default");
+						child_go->name += number;
+						num_meshes++;
+					}
+					me = child_go;
+
+					// LOAD TRANSFORM
+					CompTransform* transform = new CompTransform(child_go);
+					//float4x4 matrix = transform->GetGlobalMatrixTransf();
+
+					aiVector3D vectorScale;
+					aiQuaternion quaternionTransform;
+					aiVector3D vectorPosition;
+
+					loading->mTransformation.Decompose(vectorScale, quaternionTransform, vectorPosition);
+					transform->local_scale = { vectorScale.x , vectorScale.y , vectorScale.z };
+					transform->local_position = { vectorPosition.x , vectorPosition.y , vectorPosition.z };
+					transform->local_rotation = { quaternionTransform.x,quaternionTransform.y, quaternionTransform.z, quaternionTransform.w };
+					child_go->AddComponent(transform);
+
+					// LOAD MESH
+					CompMesh* mesh = new CompMesh(child_go);
+					//ImportMesh
+					child_go->AddComponent(mesh);
+
+					// LOAD MATERIAL
+					CompMaterial* material = new CompMaterial(child_go);
+					//ImportTexture(scene, i, path, material);
+					child_go->AddComponent(material);
+
+					if (get_ret)
+					{
+						ret = me;
+						get_ret = false;
+					}
+
+					if (parent_go != nullptr)
+					{
+						parent_go->AddChild(child_go);
+					}
+				}
+			}
+			else
+			{
+				GameObject* child_go = new GameObject(loading->mName.data, true, false, parent_go);
+				me = child_go;
+
+				// LOAD TRANSFORM
+				CompTransform* transform = new CompTransform(child_go);
+				aiVector3D vectorScale;
+				aiQuaternion quaternionTransform;
+				aiVector3D vectorPosition;
+				
+				loading->mTransformation.Decompose(vectorScale, quaternionTransform, vectorPosition);
+				transform->local_scale = { vectorScale.x , vectorScale.y , vectorScale.z };
+				transform->local_position = { vectorPosition.x , vectorPosition.y , vectorPosition.z };
+				transform->local_rotation = { quaternionTransform.x,quaternionTransform.y, quaternionTransform.z, quaternionTransform.w };
+				child_go->AddComponent(transform);
+
+				if (get_ret)
+				{
+					ret = me;
+					get_ret = false;
+				}
+
+				if (parent_go != nullptr)
+				{
+					parent_go->AddChild(child_go);
+				}
+			}
+
+			for (int i = 0; i < loading->mNumChildren; i++)
+			{
+				load_queue.push(std::pair<aiNode*, GameObject*>(loading->mChildren[i], me));
+			}
+		}
+
+		aiReleaseImport(scene);
+	}
+	else
+		LOG("Error loading scene %s", path);
+
+	return ret;
 }
