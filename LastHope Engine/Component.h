@@ -21,6 +21,8 @@ public:
 	virtual void Update() {};
 	virtual void Remove() {};
 
+	GameObject* GetGameObject() const;
+
 	virtual void Enable() {};
 	virtual void Disable() {};
 
