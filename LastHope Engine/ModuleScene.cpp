@@ -87,13 +87,13 @@ void ModuleScene::DrawGrid(int size)
 	glBegin(GL_LINES);
 	for (int i = -size; i <= size; i++)
 	{
-		glVertex3f(-size, 0, i);
-		glVertex3f(size, 0, i);
+		glVertex3f(-size, 0.f, i);
+		glVertex3f(size, 0.f, i);
 	}
 	for (int i = -size; i <= size; i++)
 	{
-		glVertex3f(i, 0, size);
-		glVertex3f(i, 0, -size);
+		glVertex3f(i, 0.f, size);
+		glVertex3f(i, 0.f, -size);
 	}
 
 	glEnd();

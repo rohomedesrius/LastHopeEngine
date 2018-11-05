@@ -54,7 +54,7 @@ private:
 	std::vector<Module*> list_modules;
 
 	// Config Temporal
-	int fps_cap = 60.0f;
+	int fps_cap = 60;
 
 	float fpsArr[100] = {};
 	float msArr[100] = {};
