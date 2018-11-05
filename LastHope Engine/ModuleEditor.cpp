@@ -9,6 +9,8 @@
 
 #include "PCG/pcg_basic.h"
 
+#include "GameObject.h"
+
 // Engine About Versions
 #include "SDL/include/SDL_version.h"
 #include "Assimp/include/version.h"
@@ -102,6 +104,7 @@ void ModuleEditor::LoadConfig(JSONFile * file)
 	show_application = file->GetInfoBool("editor.appli");
 	show_random = file->GetInfoBool("editor.random");
 	show_properties = file->GetInfoBool("editor.prop");
+	show_hierachy = file->GetInfoBool("editor.hier");
 	current_style = file->GetInfoNum("editor.style");
 }
 
@@ -111,6 +114,7 @@ void ModuleEditor::SaveConfig(JSONFile * file)
 	file->SetInfoBool("editor.appli", show_application);
 	file->SetInfoBool("editor.random", show_random);
 	file->SetInfoBool("editor.prop", show_properties);
+	file->SetInfoBool("editor.hier", show_hierachy);
 	file->SetInfoNum("editor.style", current_style);
 }
 
@@ -301,10 +305,24 @@ void ModuleEditor::PropertiesWindow()
 	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	ImGui::Begin("Properties", 0, flag);
 	{
-		ImGui::SetWindowPos(ImVec2(0, 19));
-		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w / 4, App->window->screen_surface->h - 19));
+		ImGui::SetWindowPos(ImVec2(0, App->window->screen_surface->h / 2));
+		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w / 4, (App->window->screen_surface->h / 2) - 19));
 
 		App->renderer3D->DrawProperties();
+	}
+
+	ImGui::End();
+}
+
+void ModuleEditor::HierachyWindow()
+{
+	ImGuiWindowFlags flag = ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	ImGui::Begin("Hierachy", 0, flag);
+	{
+		ImGui::SetWindowPos(ImVec2(0, 19));
+		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w / 4, App->window->screen_surface->h / 2));
+
+		App->scene->root->DrawUI();
 	}
 
 	ImGui::End();
@@ -381,8 +399,13 @@ void ModuleEditor::ManageUI()
 	if (show_application)
 		ApplicationWindow();
 
+	// Properties Window
 	if (show_properties)
 		PropertiesWindow();
+
+	// Hierachy Window
+	if (show_hierachy)
+		HierachyWindow();
 
 	// Engine Console
 	if (show_console)

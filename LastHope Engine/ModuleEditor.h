@@ -46,6 +46,7 @@ private:
 	bool show_ui = true;
 
 	bool show_properties = false;
+	bool show_hierachy = false;
 	bool show_application = false;
 	bool show_random = false;
 	bool show_console = false;
@@ -68,6 +69,7 @@ private:
 	void ShowEngineConsole(bool* show);
 	void ApplicationWindow();
 	void PropertiesWindow();
+	void HierachyWindow();
 	void RandomWindow();
 };
 
