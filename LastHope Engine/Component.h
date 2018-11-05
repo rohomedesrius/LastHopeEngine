@@ -19,7 +19,7 @@ public:
 	Component(ComponentType _type, GameObject* game_object) : type(_type), game_object(game_object) {};
 
 	virtual void Update() {};
-	virtual void Remove() {}; //Not virtual
+	virtual void Remove() {};
 
 	virtual void Enable() {};
 	virtual void Disable() {};

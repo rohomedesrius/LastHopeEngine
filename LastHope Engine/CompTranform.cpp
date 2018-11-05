@@ -9,3 +9,8 @@ CompTransform::~CompTransform()
 {
 
 }
+
+void CompTransform::Remove()
+{
+
+}

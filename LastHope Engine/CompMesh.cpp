@@ -13,3 +13,8 @@ CompMesh::~CompMesh()
 	glDeleteBuffers(1, &buffer_vertex);
 	glDeleteBuffers(1, &buffer_uv);
 }
+
+void CompMesh::Remove()
+{
+
+}

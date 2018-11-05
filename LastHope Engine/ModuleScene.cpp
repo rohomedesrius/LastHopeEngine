@@ -46,6 +46,9 @@ update_status ModuleScene::PostUpdate(float dt)
 
 bool ModuleScene::CleanUp()
 {
+	LOG("Cleaning Scene");
+	root->RemoveChildren(true);
+
 	return true;
 }
 

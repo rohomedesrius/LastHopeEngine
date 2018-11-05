@@ -17,7 +17,7 @@ public:
 	void SetParentForChildren(GameObject* parent = nullptr);
 	void AddChild(GameObject* child);
 	void RemoveChild(GameObject* child); // Must Call SetParent() before!
-	void RemoveChildren(); // Must Call SetParentForChildren() before!
+	void RemoveChildren(bool clean_up = false); // Must Call SetParentForChildren() before if clean_up == true!
 
 	Component* FindComponent(ComponentType type);
 	void AddComponent(Component* component);

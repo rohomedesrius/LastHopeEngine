@@ -10,6 +10,8 @@ public:
 
 public:
 
+	void Remove();
+	
 	uint buffer_texture = 0;
 	ImVec2 image_dimensions;
 	std::string path;

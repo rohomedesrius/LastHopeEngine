@@ -11,6 +11,8 @@ public:
 
 public:
 
+	void Remove();
+
 	std::vector<float3> normals;
 	std::vector<float3> vertex;
 

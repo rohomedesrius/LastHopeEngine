@@ -75,8 +75,24 @@ void GameObject::RemoveChild(GameObject * child)
 	}
 }
 
-void GameObject::RemoveChildren()
+void GameObject::RemoveChildren(bool clean_up)
 {
+	if (clean_up)
+	{
+		std::vector<GameObject*>::iterator item = children.begin();
+
+		while (item != children.end())
+		{
+			std::vector<Component*>::iterator comp = components.begin();
+			while (comp != components.end())
+			{
+				(*comp)->Remove();
+			}
+			(*item)->RemoveChildren(clean_up);
+			++item;
+		}
+	}
+
 	children.clear();
 }
 
