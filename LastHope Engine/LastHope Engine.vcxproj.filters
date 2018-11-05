@@ -501,6 +501,9 @@
     <ClInclude Include="Resources.h">
       <Filter>Sources\GameObjects\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -712,6 +715,9 @@
     </ClCompile>
     <ClCompile Include="ResMaterial.cpp">
       <Filter>Sources\GameObjects\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
