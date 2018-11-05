@@ -58,6 +58,9 @@
     <Filter Include="Sources\GameObjects\Components">
       <UniqueIdentifier>{c088fbe7-e92c-4ee4-bad3-6850c1936ddd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObjects\Resources">
+      <UniqueIdentifier>{82fe838d-42b7-4977-99b6-efc64f42222b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -489,6 +492,15 @@
     <ClInclude Include="CompCamera.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ResMesh.h">
+      <Filter>Sources\GameObjects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResMaterial.h">
+      <Filter>Sources\GameObjects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Sources\GameObjects\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -694,6 +706,12 @@
     </ClCompile>
     <ClCompile Include="CompCamera.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ResMesh.cpp">
+      <Filter>Sources\GameObjects\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResMaterial.cpp">
+      <Filter>Sources\GameObjects\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
