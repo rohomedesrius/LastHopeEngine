@@ -22,6 +22,8 @@ public:
 	Component* FindComponent(ComponentType type);
 	void AddComponent(Component* component);
 
+	void DrawUI() {};
+
 	void Enable();
 	void Disable();
 	void SetStatic(bool set_static);

@@ -102,6 +102,18 @@ void GameObject::AddComponent(Component * component)
 	components.push_back(component);
 }
 
+void GameObject::DrawUI()
+{
+	if (ImGui::CollapsingHeader(name.c_str()))
+	{
+		std::vector<GameObject*>::const_iterator child_iter = children.begin();
+		while (child_iter != children.end())
+		{
+			(*child_iter)->DrawUI();
+		}
+	}
+}
+
 void GameObject::Enable()
 {
 	is_active = false;
