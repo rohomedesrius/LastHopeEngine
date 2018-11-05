@@ -54,6 +54,31 @@ void ModuleScene::Draw()
 	DrawGrid(10);
 }
 
+void ModuleScene::HandleDrop()
+{
+	FileExtensions extension = importer.GetExtension(App->input->GetFileDropped());
+
+	switch (extension)
+	{
+	case FileExtensions::Scene3D:
+	{
+		LOG("Importing 3D Scene...");
+		LoadFBX((char*)App->input->GetFileDropped());
+		break;
+	}
+	case FileExtensions::Image:
+	{
+		LOG("Error! Can't import raw Images at the moment.");
+		break;
+	}
+	case FileExtensions::Unsupported:
+	{
+		LOG("Error: File Type not supported");
+		break;
+	}
+	}
+}
+
 void ModuleScene::DrawGrid(int size)
 {
 	glBegin(GL_LINES);
@@ -69,6 +94,13 @@ void ModuleScene::DrawGrid(int size)
 	}
 
 	glEnd();
+}
+
+void ModuleScene::LoadFBX(char* path)
+{
+	//GameObject* fbx = importer.ImportFBX(path);
+
+	//fbx->SetParent(root);
 }
 
 //Scene Management

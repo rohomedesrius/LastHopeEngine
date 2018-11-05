@@ -26,6 +26,9 @@ public:
 
 	void Draw();
 
+	void HandleDrop();
+	void LoadFBX(char* path);
+
 	void DrawGrid(int size);
 
 	//SCENE MANAGEMENT
@@ -33,13 +36,17 @@ public:
 	void Pause();
 	void Stop();
 
-private:
+public:
 
 	GameObject* root;
+
+private:
 
 	GameState game_state = EDIT;
 	bool game_pause = false;
 	bool game_play = false;
+
+	Importer importer;
 };
 
 #endif //__MODULE_H__
