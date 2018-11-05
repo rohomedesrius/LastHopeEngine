@@ -28,7 +28,7 @@ public:
 
 	void DebugDraw();
 
-	AABB GetBox();
+	//AABB GetBox();
 	//void SetBox(int n, float3 breakPoint);
 
 private:
@@ -36,25 +36,24 @@ private:
 	void Clean();
 };
 
-class QuadTree
+class myQuadTree
 {
 public:
-	QuadTree(float3 minPoint, float3 maxPoint);
-	~QuadTree();
+	myQuadTree(float3 minPoint, float3 maxPoint);
+	~myQuadTree();
 
 	void Add(GameObject* GO);
 	void Remove(GameObject* GO);
 
-	template <typename c>
-	std::vector<GameObject*> FilterCollisions(c col);
+	template <typename TYPE>
+	//std::vector<GameObject*> FilterCollisions(TYPE col);
 
-	void Draw();
+	void DebugDraw();
 
 private:
 	QuadNode root;
 };
 
-//QuadNode
 template<typename TYPE>
 inline std::vector<GameObject*> QuadNode::FilterCollisions(TYPE col)
 {
@@ -88,14 +87,5 @@ inline std::vector<GameObject*> QuadNode::FilterCollisions(TYPE col)
 	}
 	return ret;
 }
-
-/*
-//QuadTree
-template<typename c>
-inline std::vector<GameObject*> QuadTree::FilterCollisions(c col)
-{
-	return root.FilterCollisions(col);
-}
-*/
 
 #endif

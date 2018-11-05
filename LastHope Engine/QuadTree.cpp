@@ -3,13 +3,6 @@
 #include "GameObject.h"
 
 // QUADNODE --------------------------------------------------------------
-/*
-QuadNode::QuadNode(float3 minPoint, float3 maxPoint) : parent(nullptr)
-{
-	box.minPoint = minPoint;
-	box.maxPoint = maxPoint;
-}
-*/
 
 QuadNode::QuadNode(QuadNode* _parent) : parent(_parent)
 {
@@ -97,6 +90,99 @@ void QuadNode::DebugDraw()
 	}
 
 }
+
+void QuadNode::Divide()
+{
+	float3 centerPoint = float3::zero;
+	
+	float3 newCenterPoint = node_box.CenterPoint();
+
+	for (int n = 0; n < 4; n++)
+	{
+		childs.push_back(QuadNode(this));
+		childs.back().SetBox(n, newCenterPoint);
+	}
+
+	std::vector<GameObject*> tmp = game_objects;
+	game_objects.clear();
+
+	for (std::vector<GameObject*>::iterator it = tmp.begin(); it != tmp.end(); it++)
+	{
+		AddGO(*it);
+	}
+}
+
+void QuadNode::Clean()
+{
+	bool childsHaveChilds = false;
+	std::vector<GameObject*> childsGOs;
+	for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
+	{
+		if (it->childs.empty() == false)
+		{
+			//If a child has childs, we shouldn't erase any of them! Just in case
+			childsHaveChilds = true;
+			break;
+		}
+		for (std::vector<GameObject*>::iterator childIt = it->game_objects.begin(); childIt != it->game_objects.end(); childIt++)
+		{
+			childsGOs.push_back(*childIt);
+		}
+	}
+
+	if (childsHaveChilds == false)
+	{
+		if (childsGOs.empty() == true)
+		{
+			childs.clear();
+		}
+		else if (childsGOs.size() + game_objects.size() <= 1)
+		{
+			for (std::vector<GameObject*>::iterator it = childsGOs.begin(); it != childsGOs.end(); it++)
+			{
+				game_objects.push_back(*it);
+			}
+			childs.clear();
+		}
+
+		if (parent != nullptr)
+		{
+			parent->Clean();
+		}
+	}
+}
+
 QuadNode::~QuadNode()
 {
+}
+
+//QUADTREE-----------------------------------------------------------
+myQuadTree::myQuadTree(float3 minPoint, float3 maxPoint) : root(minPoint, maxPoint)
+{
+}
+
+myQuadTree::~myQuadTree()
+{
+}
+
+void myQuadTree::Add(GameObject * GO)
+{
+	if (GO->getAABB().IsFinite())
+	{
+		root.AddGO(GO);
+	}
+}
+
+void myQuadTree::Remove(GameObject * GO)
+{
+	if (GO->getAABB().IsFinite())
+	{
+		root.RemoveGO(GO);
+	}
+}
+
+
+void myQuadTree::DebugDraw()
+{
+	root.DebugDraw();
 }
