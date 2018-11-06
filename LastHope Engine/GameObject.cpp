@@ -18,6 +18,11 @@ GameObject::~GameObject()
 {
 }
 
+GameObject * GameObject::GetParent() const
+{
+	return parent;
+}
+
 void GameObject::SetParent(GameObject * parent)
 {
 	if (parent == nullptr)

@@ -13,6 +13,8 @@ public:
 	GameObject(std::string name, bool is_active, bool is_static, GameObject* parent);
 	~GameObject();
 
+	GameObject* GetParent() const;
+
 	void SetParent(GameObject* parent = nullptr);
 	void SetParentForChildren(GameObject* parent = nullptr);
 	void AddChild(GameObject* child);
