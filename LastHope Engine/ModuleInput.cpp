@@ -107,7 +107,7 @@ update_status ModuleInput::PreUpdate(float dt)
 			LOG("Input: Dropped File detected!");
 			file_path = e.drop.file;
 			App->renderer3D->Dropped();
-			//App->scene->HandleDrop();
+			App->scene->HandleDrop();
 			SDL_free(e.drop.file);
 			break;
 

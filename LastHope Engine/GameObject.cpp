@@ -87,9 +87,10 @@ void GameObject::RemoveChildren(bool clean_up)
 			while (comp != components.end())
 			{
 				(*comp)->Remove();
+				comp++;
 			}
 			(*item)->RemoveChildren(clean_up);
-			++item;
+			item++;
 		}
 	}
 
@@ -126,6 +127,7 @@ void GameObject::DrawUI()
 		while (child_iter != children.end())
 		{
 			(*child_iter)->DrawUI();
+			child_iter++;
 		}
 	}
 }

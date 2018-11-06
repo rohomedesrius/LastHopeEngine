@@ -19,6 +19,7 @@
         "appli": true,
         "random": false,
         "prop": true,
-        "style": 1
+        "style": 1,
+        "hier": true
     }
 }
