@@ -346,12 +346,12 @@ GameObject* Importer::ImportFBX(const char * path)
 
 					// LOAD MESH
 					CompMesh* mesh = new CompMesh(child_go);
-					//ImportMesh
+					mesh->resource = ImportMesh(scene, i);
 					child_go->AddComponent(mesh);
 
 					// LOAD MATERIAL
 					CompMaterial* material = new CompMaterial(child_go);
-					//ImportTexture(scene, i, path, material);
+					material->resource = ImportTexture(scene, i, path);
 					child_go->AddComponent(material);
 
 					if (get_ret)
@@ -409,9 +409,10 @@ GameObject* Importer::ImportFBX(const char * path)
 	return ret;
 }
 
-
-void Importer::ImportTexture(const aiScene* scene, int texture_index, const char * path, CompMaterial*  material)
+ResMaterial* Importer::ImportTexture(const aiScene* scene, int texture_index, const char * path)
 {
+	ResMaterial* ret = new ResMaterial(NULL); // NULL To Delete
+
 	if (scene->HasMaterials())
 	{
 		if (scene->mMaterials[scene->mMeshes[texture_index]->mMaterialIndex]->GetTextureCount(aiTextureType_DIFFUSE) > 0)
@@ -420,7 +421,7 @@ void Importer::ImportTexture(const aiScene* scene, int texture_index, const char
 			scene->mMaterials[scene->mMeshes[texture_index]->mMaterialIndex]->GetTexture(aiTextureType::aiTextureType_DIFFUSE, 0, &texture_path);
 			std::string texture_name = texture_path.C_Str();
 			std::string str_path = path;
-			material->resource->path = texture_path.C_Str();
+			ret->path.assign(texture_path.C_Str());
 
 			for (uint i = strlen(path); i >= 0; i--)
 			{
@@ -435,7 +436,7 @@ void Importer::ImportTexture(const aiScene* scene, int texture_index, const char
 			{
 				if (FileExists(str_path.c_str()))
 				{
-					material->resource->buffer_texture = LoadImageFile(str_path.c_str());
+					ret->buffer_texture = LoadImageFile(str_path.c_str());
 				}
 			}
 			else
@@ -443,13 +444,14 @@ void Importer::ImportTexture(const aiScene* scene, int texture_index, const char
 				LOG("Importer - ERROR Image not loaded");
 			}
 
-			if (material->resource->buffer_texture == -1)
+			if (ret->buffer_texture == -1)
 			{
 				LOG("ERROR Creating buffer for Texture");
 			}
-			material->resource->image_dimensions = ImVec2(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
+			ret->image_dimensions = ImVec2(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
 		}
 	}
+	return ret;
 }
 
 ResourceMesh * Importer::ImportMesh(const aiScene * scene, int mesh_index)

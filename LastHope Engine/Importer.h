@@ -19,7 +19,9 @@
 class GameObject;
 class CompMesh;
 class CompMaterial;
+class Resources;
 struct ResourceMesh;
+class ResMaterial;
 
 enum FileExtensions
 {
@@ -74,7 +76,7 @@ public:
 	void FindAndReplace(std::string& source, std::string const& to_find, std::string const& replace);
 
 	GameObject* ImportFBX(const char* path);
-	void ImportTexture(const aiScene* scene, int texture_index, const char* path, CompMaterial*  material);
+	ResMaterial* ImportTexture(const aiScene* scene, int texture_index, const char* path);
 	ResourceMesh* ImportMesh(const aiScene* scene, int mesh_index);
 
 	GLuint LoadImageFile(const char* file);

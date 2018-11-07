@@ -6,6 +6,7 @@
 #include "CompTransform.h"
 #include "CompMesh.h"
 #include "CompMaterial.h"
+#include "ResMaterial.h"
 
 #include "glew/include/glew.h"
 #include "SDL/include/SDL_opengl.h"

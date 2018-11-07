@@ -13,6 +13,7 @@
 #define MAX_LIGHTS 8
 
 class GameObject;
+class Mesh;
 
 class ModuleRenderer3D : public Module
 {
