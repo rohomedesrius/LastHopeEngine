@@ -10,6 +10,7 @@ class QuadNode
 public:
 	//QuadNode(float3 minPoint, float3 maxPoint);
 	QuadNode(QuadNode* parent);
+	QuadNode();
 	~QuadNode();
 
 private:
@@ -28,7 +29,7 @@ public:
 
 	void DebugDraw();
 
-	//AABB GetBox();
+	AABB GetBox();
 	//void SetBox(int n, float3 breakPoint);
 
 private:
@@ -39,13 +40,13 @@ private:
 class myQuadTree
 {
 public:
-	myQuadTree(float3 minPoint, float3 maxPoint);
+	myQuadTree();
 	~myQuadTree();
 
 	void Add(GameObject* GO);
 	void Remove(GameObject* GO);
 
-	template <typename TYPE>
+	//template <typename TYPE>
 	//std::vector<GameObject*> FilterCollisions(TYPE col);
 
 	void DebugDraw();

@@ -3,6 +3,9 @@
 #include "GameObject.h"
 
 // QUADNODE --------------------------------------------------------------
+QuadNode::QuadNode()
+{
+}
 
 QuadNode::QuadNode(QuadNode* _parent) : parent(_parent)
 {
@@ -100,7 +103,7 @@ void QuadNode::Divide()
 	for (int n = 0; n < 4; n++)
 	{
 		childs.push_back(QuadNode(this));
-		childs.back().SetBox(n, newCenterPoint);
+//		childs.back().SetBox(n, newCenterPoint);
 	}
 
 	std::vector<GameObject*> tmp = game_objects;
@@ -152,12 +155,17 @@ void QuadNode::Clean()
 	}
 }
 
+AABB QuadNode::GetBox()
+{
+	return node_box;
+}
+
 QuadNode::~QuadNode()
 {
 }
 
 //QUADTREE-----------------------------------------------------------
-myQuadTree::myQuadTree(float3 minPoint, float3 maxPoint) : root(minPoint, maxPoint)
+myQuadTree::myQuadTree()
 {
 }
 
