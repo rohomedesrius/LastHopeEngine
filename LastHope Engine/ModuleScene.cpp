@@ -23,7 +23,7 @@ bool ModuleScene::Start()
 	LOG("Creating Main Scene");
 
 	// For Assigment 1
-	App->renderer3D->LoadFBX("Assets\\BakerHouse.fbx");
+	//App->renderer3D->LoadFBX("Assets\\BakerHouse.fbx");
 
 	return false;
 }

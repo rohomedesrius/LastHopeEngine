@@ -690,9 +690,13 @@ void ModuleRenderer3D::LoadCheckers()
 }
 
 //DEBUG DRAW SHAPES----------------
-void ModuleRenderer3D::DrawBox(float3* vertex, float4 color)
+void ModuleRenderer3D::DrawBox(AABB &model_box, float4 color)
 {
 	glColor4f(color.x, color.y, color.z, color.w);
+
+	//Get Vertex
+	float3 vertex[8];
+	model_box.GetCornerPoints(vertex);
 
 	glBegin(GL_LINES);
 
