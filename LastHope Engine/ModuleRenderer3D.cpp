@@ -430,7 +430,6 @@ void ModuleRenderer3D::DrawGameObject(GameObject * go)
 	CompMaterial* material = (CompMaterial*)go->FindComponent(ComponentType::MATERIAL);
 	if (mesh == nullptr)
 	{
-		LOG("Renderer - Warning! No meshes found!");
 		return;
 	}
 	if (((material)->resource->buffer_texture) > 0)

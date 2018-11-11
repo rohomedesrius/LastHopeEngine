@@ -40,6 +40,9 @@ update_status ModuleScene::PreUpdate(float dt)
 
 update_status ModuleScene::Update(float dt)
 {
+	// Render All GameObjects
+	root->Draw();
+
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		GameObject* tmp = new GameObject("TEST", true, true, nullptr);

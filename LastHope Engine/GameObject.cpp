@@ -139,6 +139,17 @@ void GameObject::DrawUI()
 	}
 }
 
+void GameObject::Draw()
+{
+	App->renderer3D->DrawGameObject(this);
+	std::vector<GameObject*>::const_iterator child_iter = children.begin();
+	while (child_iter != children.end())
+	{
+		(*child_iter)->Draw();
+		child_iter++;
+	}
+}
+
 void GameObject::Enable()
 {
 	is_active = false;
