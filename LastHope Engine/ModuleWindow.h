@@ -27,6 +27,8 @@ public:
 
 	SDL_Window* GetWindow() const;
 
+	float GetAspectRatio();
+
 public:
 	//The window we'll be rendering to
 	SDL_Window* window;
@@ -47,6 +49,8 @@ private:
 
 	int width = 1280;
 	int height = 1024;
+
+	float aspect_ratio = 0.0f;
 };
 
 #endif // __ModuleWindow_H__

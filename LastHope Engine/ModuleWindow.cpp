@@ -215,3 +215,10 @@ SDL_Window * ModuleWindow::GetWindow() const
 {
 	return window;
 }
+
+float ModuleWindow::GetAspectRatio()
+{
+	aspect_ratio = (screen_surface->w / screen_surface->h);
+
+	return aspect_ratio;
+}
