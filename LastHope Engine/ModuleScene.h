@@ -36,9 +36,13 @@ public:
 	void Pause();
 	void Stop();
 
+	void SaveScene(const char* name) const;
+	void LoadScene(const char* name);
+
 public:
 
 	GameObject* root;
+	std::vector<GameObject*> scene_game_objects;
 
 private:
 

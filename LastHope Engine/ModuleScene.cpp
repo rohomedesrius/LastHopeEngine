@@ -6,11 +6,15 @@
 
 #include "glew/include/glew.h"
 
+#include "JSON.h"
+
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	root = new GameObject("root", true, true, nullptr);
 
 	root->AddComponent(new CompTransform(root));
+
+	scene_game_objects.push_back(root);
 }
 
 ModuleScene::~ModuleScene()
@@ -36,6 +40,16 @@ update_status ModuleScene::PreUpdate(float dt)
 
 update_status ModuleScene::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	{
+		GameObject* tmp = new GameObject("TEST", true, true, nullptr);
+		scene_game_objects.push_back(tmp);
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
+	{
+		GameObject* tmp = new GameObject("TEST 2", true, true, root);
+		scene_game_objects.push_back(tmp);
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -135,4 +149,18 @@ void ModuleScene::Stop()
 		game_pause = false;
 		game_play = false;
 	}
+}
+
+void ModuleScene::SaveScene(const char* name) const
+{
+	JSONFile new_scene;
+	//Saving main parameters
+	//new_scene.SetInfoString();
+
+
+}
+
+void ModuleScene::LoadScene(const char* name)
+{
+
 }
