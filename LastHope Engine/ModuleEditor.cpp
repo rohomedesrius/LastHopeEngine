@@ -126,6 +126,17 @@ update_status ModuleEditor::Update(float dt)
 		// FILE
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem(" Save", "	Ctrl + S"))
+			{
+				//SAVE SCENE
+				SaveLoadWindow(true);
+				LOG("Editor: Scene Saved");
+			}
+			if (ImGui::MenuItem(" Load", "	Ctrl + L"))
+			{
+				//OPEN LOAD WINDOW
+				SaveLoadWindow(false);
+			}
 			if (ImGui::MenuItem(" Exit", "	Esc"))
 			{
 				App->ExitRequest();
@@ -389,6 +400,20 @@ void ModuleEditor::RandomWindow()
 
 	ImGui::End();
 	
+}
+
+void ModuleEditor::SaveLoadWindow(bool is_saving)
+{
+	if (is_saving)
+	{
+		ImGui::Begin("Save Scene");
+		ImGui::End();
+	}
+	else
+	{
+		ImGui::Begin("Load Scene");
+		ImGui::End();
+	}
 }
 
 void ModuleEditor::ManageUI()

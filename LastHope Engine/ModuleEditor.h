@@ -71,6 +71,7 @@ private:
 	void PropertiesWindow();
 	void HierachyWindow();
 	void RandomWindow();
+	void SaveLoadWindow(bool is_saving);
 };
 
 #endif //__EDITOR_H__
