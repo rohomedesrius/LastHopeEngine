@@ -35,11 +35,15 @@ public:
 
 	AABB getAABB() const;
 
+	void GenerateUUID(std::string& uuid);
+
 public:
 
 	std::string name = "";
 
 private:
+
+	std::string uuid;
 
 	AABB model_aabb;
 

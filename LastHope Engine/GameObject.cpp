@@ -4,10 +4,12 @@
 
 GameObject::GameObject()
 {
+	GenerateUUID(this->uuid);
 }
 
 GameObject::GameObject(std::string name, bool is_active, bool is_static, GameObject * parent)
 {
+	GenerateUUID(this->uuid);
 	this->name = name;
 	this->is_active = is_active;
 	this->is_static = is_static;
@@ -165,4 +167,18 @@ bool GameObject::IsActive() const
 AABB GameObject::getAABB() const
 {
 	return model_aabb;
+}
+
+void GameObject::GenerateUUID(std::string& uuid)
+{
+	for (int i = 0; i < 36; i++)
+	{
+		if (i == 8 || i == 13 || i == 18 || i == 23)
+			uuid.push_back('-');
+		else
+		{
+			char value = VALUES[rand() % 37];
+			uuid.push_back(value);
+		}
+	}
 }

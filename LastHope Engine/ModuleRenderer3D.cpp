@@ -689,7 +689,7 @@ void ModuleRenderer3D::LoadCheckers()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-//DEBUG DRAW SHAPES----------------
+//DEBUG DRAW SHAPES----------------TOLEARN
 void ModuleRenderer3D::DrawBox(AABB &model_box, float4 color)
 {
 	glColor4f(color.x, color.y, color.z, color.w);

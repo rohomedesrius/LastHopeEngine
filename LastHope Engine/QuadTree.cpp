@@ -85,7 +85,7 @@ void QuadNode::DebugDraw()
 	float3 vertex[8];
 	node_box.GetCornerPoints(vertex);
 	
-	App->renderer3D->DrawBox(vertex);
+	//App->renderer3D->DrawBox(vertex);
 
 	for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
 	{
