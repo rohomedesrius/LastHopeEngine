@@ -12,6 +12,7 @@ enum ComponentType
 };
 
 class GameObject;
+class JSONFile;
 
 class Component
 {
@@ -32,6 +33,9 @@ public:
 	void SetActive(bool value);
 
 	ComponentType GetType() const;
+
+	virtual void OnSave(JSONFile& config) const {};
+	virtual void OnLoad(JSONFile* config) {};
 
 protected:
 
