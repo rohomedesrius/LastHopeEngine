@@ -78,15 +78,38 @@ bool JSONFile::GetInfoBool(const char* name)
 	return (json_object_dotget_boolean(info, name));
 }
 
+//Save Information----------------------------------
 void JSONFile::SaveInfo()
 {
 	json_serialize_to_file_pretty(value, path);
 }
 
+//Management----------------------------------------
 bool JSONFile::Exists()
 {
 	if (value == nullptr)
 		return false;
 	else
 		return true;
+}
+
+//Creation-----------------------------------------
+JSONFile* JSONFile::Create(const char* path)
+{
+	JSONFile* ret;
+
+	JSON_Value* init_value = json_value_init_object();
+
+	if (value == nullptr)
+	{
+		JSON_Object* root_object = json_value_get_object(init_value);
+	
+		JSONFile* new_json = new JSONFile(init_value, root_object, path);
+	
+		json_serialize_to_file(value, path);
+	
+		return new_json;
+	}
+
+	return ret;
 }

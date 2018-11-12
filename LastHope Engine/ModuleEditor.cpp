@@ -129,7 +129,7 @@ update_status ModuleEditor::Update(float dt)
 			if (ImGui::MenuItem(" Save", "	Ctrl + S"))
 			{
 				//SAVE SCENE
-				SaveLoadWindow(true);
+				want_to_save = true;
 				LOG("Editor: Scene Saved");
 			}
 			if (ImGui::MenuItem(" Load", "	Ctrl + L"))
@@ -450,6 +450,12 @@ void ModuleEditor::ManageUI()
 	// Random Generator Window
 	if (show_random)
 		RandomWindow();
+
+	if (want_to_save)
+	{
+		App->scene->SaveScene("Assets/TEMPORAL.json");
+		want_to_save = false;
+	}
 }
 
 void ModuleEditor::SetStyle(Style style)

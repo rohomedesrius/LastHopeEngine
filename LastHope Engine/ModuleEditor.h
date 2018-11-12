@@ -54,6 +54,8 @@ private:
 	void SetStyle(Style style);
 	void InitStyles();
 
+	bool want_to_save = false;
+
 public:
 
 	void Draw() const;
