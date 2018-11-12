@@ -154,13 +154,16 @@ void ModuleScene::Stop()
 	}
 }
 
-void ModuleScene::SaveScene(const char* name) const
+void ModuleScene::SaveScene(const char* name)
 {
 	JSONFile new_scene;
-	//Saving main parameters
-	//new_scene.SetInfoString();
 
+	std::vector<GameObject*>::iterator iter = scene_game_objects.begin();
 
+	while (iter != scene_game_objects.end())
+	{
+		(*iter)->SaveGO(new_scene);
+	}
 }
 
 void ModuleScene::LoadScene(const char* name)

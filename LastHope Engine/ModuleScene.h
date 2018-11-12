@@ -36,7 +36,7 @@ public:
 	void Pause();
 	void Stop();
 
-	void SaveScene(const char* name) const;
+	void SaveScene(const char* name);
 	void LoadScene(const char* name);
 
 public:
