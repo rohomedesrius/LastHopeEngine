@@ -364,6 +364,9 @@ GameObject* Importer::ImportFBX(const char * path)
 					{
 						parent_go->AddChild(child_go);
 					}
+
+					// Add to Vector
+					App->scene->scene_game_objects.push_back(child_go);
 				}
 			}
 			else
@@ -393,6 +396,9 @@ GameObject* Importer::ImportFBX(const char * path)
 				{
 					parent_go->AddChild(child_go);
 				}
+
+				// Add to Vector
+				App->scene->scene_game_objects.push_back(child_go);
 			}
 
 			for (int i = 0; i < loading->mNumChildren; i++)
