@@ -29,6 +29,9 @@ public:
 	//Management
 	bool Exists();
 
+	//Creation
+	JSONFile* Create(const char* path);
+
 private:
 	JSON_Value*  value = nullptr;
 	JSON_Object* info = nullptr;
