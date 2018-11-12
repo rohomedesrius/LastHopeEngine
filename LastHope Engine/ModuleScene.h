@@ -39,6 +39,8 @@ public:
 	void SaveScene(const char* name);
 	void LoadScene(const char* name);
 
+	void ClearScene();
+
 public:
 
 	GameObject* root;

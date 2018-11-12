@@ -40,9 +40,6 @@ update_status ModuleScene::PreUpdate(float dt)
 
 update_status ModuleScene::Update(float dt)
 {
-	// Render All GameObjects
-	root->Draw();
-
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		GameObject* tmp = new GameObject("TEST", true, true, nullptr);
@@ -64,7 +61,7 @@ update_status ModuleScene::PostUpdate(float dt)
 bool ModuleScene::CleanUp()
 {
 	LOG("Cleaning Scene");
-	root->RemoveChildren(true);
+	ClearScene();
 
 	return true;
 }
@@ -72,6 +69,9 @@ bool ModuleScene::CleanUp()
 void ModuleScene::Draw()
 {
 	DrawGrid(10);
+
+	// Render All GameObjects
+	root->Draw();
 }
 
 void ModuleScene::HandleDrop()
@@ -119,6 +119,12 @@ void ModuleScene::DrawGrid(int size)
 void ModuleScene::LoadFBX(char* path)
 {
 	GameObject* fbx = importer.ImportFBX(path);
+
+	ClearScene();
+
+	//SetAABB();
+
+	//App->camera->FocusGeometry();
 
 	fbx->SetParent(root);
 }
@@ -169,4 +175,11 @@ void ModuleScene::SaveScene(const char* name)
 void ModuleScene::LoadScene(const char* name)
 {
 
+}
+
+void ModuleScene::ClearScene()
+{
+	root->RemoveChildren(true);
+
+	scene_game_objects.clear();
 }
