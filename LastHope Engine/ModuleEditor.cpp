@@ -404,9 +404,20 @@ void ModuleEditor::RandomWindow()
 
 void ModuleEditor::SaveLoadWindow(bool is_saving)
 {
+	char input_name[256];
+
 	if (is_saving)
 	{
 		ImGui::Begin("Save Scene");
+
+		//if (ImGui::InputText("Scene Name:", input_name, IM_ARRAYSIZE(input_name), ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackHistory, &TextEditCallbackStub, (void*)this))
+		//{
+		//	char* input_end = input_name + strlen(input_name);
+		//	while (input_end > input_name && input_end[-1] == ' ') { input_end--; } *input_end = 0;
+		//	if (input_name[0])
+		//		App->scene->SaveScene(input_name);
+		//	strcpy(input_name, "");
+		//}
 		ImGui::End();
 	}
 	else
