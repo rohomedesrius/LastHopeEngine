@@ -15,7 +15,7 @@ QuadNode::QuadNode(QuadNode* _parent) : parent(_parent)
 bool QuadNode::AddGO(GameObject* game_object)
 {
 	bool ret = false;
-	if (node_box.Intersects(game_object->getAABB()))
+	if (node_box.Intersects(game_object->GetAABB()))
 	{
 		if (childs.empty() == true)
 		{
@@ -31,7 +31,7 @@ bool QuadNode::AddGO(GameObject* game_object)
 			std::vector<QuadNode*> collidedWith;
 			for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
 			{
-				if (it->node_box.Intersects(game_object->getAABB()))
+				if (it->node_box.Intersects(game_object->GetAABB()))
 				{
 					collidedWith.push_back(&*it);
 				}
@@ -175,7 +175,7 @@ myQuadTree::~myQuadTree()
 
 void myQuadTree::Add(GameObject * GO)
 {
-	if (GO->getAABB().IsFinite())
+	if (GO->GetAABB().IsFinite())
 	{
 		root.AddGO(GO);
 	}
@@ -183,7 +183,7 @@ void myQuadTree::Add(GameObject * GO)
 
 void myQuadTree::Remove(GameObject * GO)
 {
-	if (GO->getAABB().IsFinite())
+	if (GO->GetAABB().IsFinite())
 	{
 		root.RemoveGO(GO);
 	}

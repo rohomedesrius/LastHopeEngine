@@ -1,6 +1,8 @@
 #include "GameObject.h"
 #include "Application.h"
 
+#include "CompMesh.h"
+
 #include "JSON.h"
 
 GameObject::GameObject()
@@ -176,9 +178,29 @@ bool GameObject::IsActive() const
 	return is_active;
 }
 
-AABB GameObject::getAABB() const
+AABB GameObject::GetAABB() const
 {
 	return model_aabb;
+}
+
+void GameObject::SetAABB()
+{
+	if (FindComponent(ComponentType::MESH) != nullptr)
+	{
+		// TO DO
+		/*std::vector<float3> meshes_aabb_corners;
+
+		meshes_aabb_corners.push_back(->mesh_aabb.minPoint);
+		meshes_aabb_corners.push_back(->mesh_aabb.maxPoint);
+
+		LOG("Created AABB for %i meshes", meshes_aabb_corners.size() / 2);
+
+		model_aabb.SetNegativeInfinity();
+		model_aabb.Enclose(meshes_aabb_corners, meshes_aabb_corners.size());
+		*/
+	}
+	else
+		LOG("Error! there were no meshes to create an AABB!");
 }
 
 void GameObject::GenerateUUID(std::string& uuid)

@@ -34,7 +34,8 @@ public:
 	bool IsStatic() const;
 	bool IsActive() const;
 
-	AABB getAABB() const;
+	AABB GetAABB() const;
+	void SetAABB(); // WIP
 
 	void GenerateUUID(std::string& uuid);
 
