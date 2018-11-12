@@ -54,10 +54,6 @@ public:
 	float4x4 model_matrix, view_matrix;
 	mat4x4 projection_matrix;
 
-	// MODEL - To delete
-	std::vector<Mesh*> meshes = {};
-	AABB model_aabb;
-
 private:
 
 	bool vsync = true;

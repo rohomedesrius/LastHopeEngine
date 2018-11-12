@@ -225,6 +225,7 @@ void ModuleCamera3D::CalculateViewMatrix()
 
 void ModuleCamera3D::FocusGeometry()
 {
+	/* Not Working
 	vec3 box_center = vec3(App->renderer3D->model_aabb.CenterPoint().x, App->renderer3D->model_aabb.CenterPoint().y, App->renderer3D->model_aabb.CenterPoint().z);
 	vec3 box_size = vec3(App->renderer3D->model_aabb.Size().x, App->renderer3D->model_aabb.Size().y, App->renderer3D->model_aabb.Size().z);
 	
@@ -232,4 +233,5 @@ void ModuleCamera3D::FocusGeometry()
 	position = box_center + box_size;
 
 	position = reference + Z * length(position);
+	*/
 }

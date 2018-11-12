@@ -347,10 +347,12 @@ GameObject* Importer::ImportFBX(const char * path)
 					child_go->AddComponent(mesh);
 
 					// SET AABB
-					child_go->GetAABB().SetNegativeInfinity();
+					mesh->resource->mesh_aabb.SetNegativeInfinity();
+					// Without Transform atm
+					mesh->resource->mesh_aabb.Enclose(mesh->resource->vertex.data(), scene->mMeshes[i]->mNumVertices);
 					
-					OBB obb = mesh->resource->mesh_aabb.Transform(matrix);
-					child_go->GetAABB().Enclose(obb);
+					//OBB obb = mesh->resource->mesh_aabb.Transform(matrix);
+					//mesh->resource->mesh_aabb.Enclose(obb);
 
 					// LOAD MATERIAL
 					CompMaterial* material = new CompMaterial(child_go);

@@ -420,6 +420,9 @@ void ModuleRenderer3D::DrawGameObject(GameObject * go)
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_TEXTURE_2D);
+
+	// AABB
+	DrawBox(mesh->resource->mesh_aabb, float4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
 void ModuleRenderer3D::EnableVSync(bool enable)
