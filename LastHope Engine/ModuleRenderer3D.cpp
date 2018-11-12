@@ -201,60 +201,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	if (enable_checkers)
 		LoadCheckers();
 
-	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
-	{
-		if (enable_checkers)
-		{
-			glBindTexture(GL_TEXTURE_2D, checkers);
-		}
-		else
-		{
-			if (((*it)->buffer_texture) > 0)
-			{
-				glEnableClientState(GL_TEXTURE_2D);
-				glBindTexture(GL_TEXTURE_2D, (*it)->buffer_texture);
-			}
-		}
-
-		if (((*it)->buffer_vertex) > 0)
-		{
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffer_vertex);
-			glVertexPointer(3, GL_FLOAT, 0, NULL);
-		}
-
-		if (((*it)->buffer_normals) > 0)
-		{
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffer_normals);
-			glNormalPointer(GL_FLOAT, 0, NULL);
-		}
-
-		if (((*it)->buffer_uv) > 0)
-		{
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, (*it)->buffer_uv);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-		}
-
-		if (((*it)->buffer_index) > 0)
-		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*it)->buffer_index);
-			glDrawElements(GL_TRIANGLES, (*it)->num_index, GL_UNSIGNED_INT, NULL);
-		}
-
-		// CleanUp
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glDisableClientState(GL_VERTEX_ARRAY);
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_TEXTURE_2D);
-
-	}
-
 	// Render Scene
 	App->scene->Draw();
 
@@ -269,8 +215,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Cleaning up 3D Renderer");
-
-	CleanScene();
 
 	importer.CleanCallback();
 
@@ -320,6 +264,7 @@ void ModuleRenderer3D::DrawUI()
 	}
 }
 
+/* REFERENCE
 void ModuleRenderer3D::DrawProperties()
 {
 
@@ -408,6 +353,7 @@ void ModuleRenderer3D::DrawProperties()
 		}
 	}
 }
+*/
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
@@ -474,88 +420,6 @@ void ModuleRenderer3D::DrawGameObject(GameObject * go)
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_TEXTURE_2D);
-}
-
-void ModuleRenderer3D::Dropped()
-{
-	FileExtensions extension = importer.GetExtension(App->input->GetFileDropped());
-
-	switch (extension)
-	{
-	case FileExtensions::Scene3D:
-	{
-		LOG("Importing 3D Scene...");
-		LoadFBX((char*)App->input->GetFileDropped());
-		break;
-	}
-	case FileExtensions::Image:
-	{
-		LOG("Importing Image...");
-		LoadImages((char*)App->input->GetFileDropped());
-		break;
-	}
-	case FileExtensions::Unsupported:
-	{
-		LOG("Error: File Type not supported");
-		break;
-	}
-	}
-}
-
-void ModuleRenderer3D::LoadFBX(char* path)
-{
-	CleanScene();
-
-	std::vector<Mesh*> tmp = importer.CreateMesh(path);
-
-	for (std::vector<Mesh*>::iterator it = tmp.begin(); it != tmp.end(); it++)
-	{
-		meshes.push_back(*it);
-	}
-
-	SetAABB();
-
-	App->camera->FocusGeometry();
-}
-
-void ModuleRenderer3D::LoadImages(char * path)
-{
-	std::vector<Mesh*>::iterator it = meshes.begin();
-	for (; it != meshes.end(); it++)
-	{
-		(*it)->buffer_texture = importer.LoadImageFile(path);
-	}
-}
-
-void ModuleRenderer3D::CleanScene()
-{
-	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++)
-	{
-		if ((*it) != nullptr)
-			delete (*it);
-	}
-	meshes.clear();
-}
-
-void ModuleRenderer3D::SetAABB()
-{
-	if (meshes.size() >= 1)
-	{
-		std::vector<float3> meshes_aabb_corners;
-
-		for (int i = 0; i < meshes.size(); i++)
-		{
-			meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.minPoint);
-			meshes_aabb_corners.push_back(meshes[i]->mesh_aabb.maxPoint);
-		}
-
-		LOG("Created AABB for %i meshes", meshes_aabb_corners.size() / 2);
-
-		model_aabb.SetNegativeInfinity();
-		model_aabb.Enclose(meshes_aabb_corners.data(), meshes_aabb_corners.size());
-	}
-	else
-		LOG("Error! there were no meshes to create an AABB!");
 }
 
 void ModuleRenderer3D::EnableVSync(bool enable)

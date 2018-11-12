@@ -30,39 +30,6 @@ enum FileExtensions
 	Unsupported
 };
 
-// To delete
-struct ModelTransform
-{
-	float3 position = {};
-	float3 scale = {};
-	Quat rotation = {};
-};
-
-// To delete
-class Mesh
-{
-public:
-
-	~Mesh();
-
-	ModelTransform transform;
-
-	std::vector<float3> normals;
-	std::vector<float3> vertex;
-
-	uint buffer_normals = 0;
-	uint buffer_uv = 0;
-	uint buffer_vertex = 0;
-	uint buffer_index = 0;
-	uint num_index = 0;
-	uint buffer_texture = 0;
-
-	math::AABB mesh_aabb;
-
-private:
-
-};
-
 class Importer
 {
 
@@ -80,16 +47,11 @@ public:
 	ResourceMesh* ImportMesh(const aiScene* scene, int mesh_index);
 
 	GLuint LoadImageFile(const char* file);
-	std::vector<Mesh*> CreateMesh(const char* path);
 
 private:
 
 	bool is_devil_init = false;
 
-public:
-
-	// To delete
-	ImVec2 image_dimensions;
 };
 
 #endif //__IMPORTER_H__

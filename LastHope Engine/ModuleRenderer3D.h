@@ -29,18 +29,10 @@ public:
 	bool CleanUp();
 
 	void DrawUI();
-	void DrawProperties();
 
 	void OnResize(int width, int height);
 
 	void DrawGameObject(GameObject* go);
-
-	void Dropped();
-	void LoadFBX(char* path);
-	void LoadImages(char * path);
-	void CleanScene();
-
-	void SetAABB();
 
 	//Debug Draw Shapes
 	void DrawBox(AABB &model_bo, float4 color = float4(1.0f, 1.0f, 0.6f, 1.0f));

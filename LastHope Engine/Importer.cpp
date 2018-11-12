@@ -16,10 +16,6 @@
 #pragma	comment (lib, "DevIL/libx86/ILU.lib")
 #pragma	comment (lib, "DevIL/libx86/ILUT.lib")
 
-Mesh::~Mesh()
-{
-}
-
 GLuint Importer::LoadImageFile(const char * file)
 {
 	if (!is_devil_init)
@@ -75,7 +71,6 @@ GLuint Importer::LoadImageFile(const char * file)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, GL_RGBA, GL_UNSIGNED_BYTE, ilGetData());
 
-		image_dimensions = ImVec2(ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT));
 	}
 	else
 	{
@@ -106,6 +101,7 @@ void Importer::CleanCallback()
 	aiDetachAllLogStreams();
 }
 
+/* REFERENCE
 std::vector<Mesh*> Importer::CreateMesh(const char * path)
 {
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
@@ -247,6 +243,7 @@ std::vector<Mesh*> Importer::CreateMesh(const char * path)
 
 	return ret;
 }
+*/
 
 FileExtensions Importer::GetExtension(const char *path)
 {

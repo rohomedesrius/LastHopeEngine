@@ -319,7 +319,7 @@ void ModuleEditor::PropertiesWindow()
 		ImGui::SetWindowPos(ImVec2(0, App->window->screen_surface->h / 2));
 		ImGui::SetWindowSize(ImVec2(App->window->screen_surface->w / 4, (App->window->screen_surface->h / 2) - 19));
 
-		App->renderer3D->DrawProperties();
+		//App->renderer3D->DrawProperties();
 	}
 
 	ImGui::End();
