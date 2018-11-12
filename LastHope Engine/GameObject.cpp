@@ -205,6 +205,7 @@ void GameObject::SetAABB()
 	}
 	else
 		LOG("Error! there were no meshes to create an AABB!");
+		// Maybe Set small AABB
 }
 
 void GameObject::GenerateUUID(std::string& uuid)

@@ -118,11 +118,11 @@ void ModuleScene::DrawGrid(int size)
 
 void ModuleScene::LoadFBX(char* path)
 {
-	GameObject* fbx = importer.ImportFBX(path);
-
 	ClearScene();
 
-	//SetAABB();
+	GameObject* fbx = importer.ImportFBX(path);
+
+	fbx->SetAABB();
 
 	//App->camera->FocusGeometry();
 
