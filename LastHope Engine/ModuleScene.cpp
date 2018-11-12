@@ -169,7 +169,10 @@ void ModuleScene::SaveScene(const char* name)
 	while (iter != scene_game_objects.end())
 	{
 		(*iter)->SaveGO(new_scene);
+		iter++;
 	}
+
+	new_scene.Create(name);
 }
 
 void ModuleScene::LoadScene(const char* name)
