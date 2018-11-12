@@ -329,7 +329,7 @@ GameObject* Importer::ImportFBX(const char * path)
 
 					// LOAD TRANSFORM
 					CompTransform* transform = new CompTransform(child_go);
-					//float4x4 matrix = transform->GetGlobalMatrixTransf();
+					float4x4 matrix = transform->GetGlobalMatrixTransf();
 
 					aiVector3D vectorScale;
 					aiQuaternion quaternionTransform;
@@ -345,6 +345,12 @@ GameObject* Importer::ImportFBX(const char * path)
 					CompMesh* mesh = new CompMesh(child_go);
 					mesh->resource = ImportMesh(scene, i);
 					child_go->AddComponent(mesh);
+
+					// SET AABB
+					child_go->GetAABB().SetNegativeInfinity();
+					
+					OBB obb = mesh->resource->mesh_aabb.Transform(matrix);
+					child_go->GetAABB().Enclose(obb);
 
 					// LOAD MATERIAL
 					CompMaterial* material = new CompMaterial(child_go);

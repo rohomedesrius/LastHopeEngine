@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include "CompMesh.h"
+#include "CompTransform.h"
 
 #include "JSON.h"
 
@@ -185,19 +186,22 @@ AABB GameObject::GetAABB() const
 
 void GameObject::SetAABB()
 {
-	if (FindComponent(ComponentType::MESH) != nullptr)
-	{
-		// TO DO
-		/*std::vector<float3> meshes_aabb_corners;
+	CompMesh* comp = (CompMesh*)FindComponent(ComponentType::MESH);
 
-		meshes_aabb_corners.push_back(->mesh_aabb.minPoint);
-		meshes_aabb_corners.push_back(->mesh_aabb.maxPoint);
+	if (comp != nullptr)
+	{
+		std::vector<float3> meshes_aabb_corners;
+
+		meshes_aabb_corners.push_back(comp->resource->mesh_aabb.minPoint);
+		meshes_aabb_corners.push_back(comp->resource->mesh_aabb.maxPoint);
 
 		LOG("Created AABB for %i meshes", meshes_aabb_corners.size() / 2);
 
+		CompTransform* trans = (CompTransform*)FindComponent(ComponentType::TRANSFORM);
+
 		model_aabb.SetNegativeInfinity();
-		model_aabb.Enclose(meshes_aabb_corners, meshes_aabb_corners.size());
-		*/
+		model_aabb.Transform(trans->GetGlobalMatrixTransf());
+		model_aabb.Enclose(meshes_aabb_corners.data(), meshes_aabb_corners.size());
 	}
 	else
 		LOG("Error! there were no meshes to create an AABB!");
