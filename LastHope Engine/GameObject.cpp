@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Application.h"
 
+#include "JSON.h"
 
 GameObject::GameObject()
 {
@@ -191,5 +192,23 @@ void GameObject::GenerateUUID(std::string& uuid)
 			char value = VALUES[rand() % 37];
 			uuid.push_back(value);
 		}
+	}
+}
+
+void GameObject::SaveGO(JSONFile& scene_file)
+{
+	if (!children.empty())
+	{
+		std::vector<GameObject*>::iterator iter = children.begin();
+
+		while (iter != children.end())
+		{
+			(*iter)->SaveGO(scene_file);
+		}
+	}
+	else
+	{
+		//Saving main parameters
+		scene_file.SetInfoString("Go.name", name.c_str());
 	}
 }

@@ -38,6 +38,8 @@ public:
 
 	void GenerateUUID(std::string& uuid);
 
+	void SaveGO(JSONFile& scene_file);
+
 public:
 
 	std::string name = "";
