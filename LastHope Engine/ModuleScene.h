@@ -3,6 +3,8 @@
 
 #include "Module.h"
 
+class myQuadTree;
+
 enum GameState
 {
 	EDIT,
@@ -46,6 +48,8 @@ public:
 	GameObject* root;
 	std::vector<GameObject*> scene_game_objects;
 
+	myQuadTree* my_quad_tree;
+
 private:
 
 	GameState game_state = EDIT;
@@ -53,6 +57,10 @@ private:
 	bool game_play = false;
 
 	Importer importer;
+
+private:
+	void ManageQuadTree();
+	int current_gos = 0;
 };
 
 #endif //__MODULE_H__

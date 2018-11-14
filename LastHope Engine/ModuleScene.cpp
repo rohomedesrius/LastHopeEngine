@@ -8,6 +8,8 @@
 
 #include "JSON.h"
 
+#include "QuadTree.h"
+
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	root = new GameObject("root", true, true, nullptr);
@@ -29,12 +31,22 @@ bool ModuleScene::Start()
 	// For Assigment 1
 	//App->renderer3D->LoadFBX("Assets\\BakerHouse.fbx");
 
+	AABB box(vec(4, 2, 4), vec(-4, -2, -4));
+	my_quad_tree = new myQuadTree(box);
+
+	//QuadTree management
+	current_gos = scene_game_objects.size();
+
 	return false;
 }
 
 update_status ModuleScene::PreUpdate(float dt)
-
 {
+	if (current_gos != scene_game_objects.size())
+	{
+		ManageQuadTree();
+		current_gos = scene_game_objects.size();
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -50,11 +62,14 @@ update_status ModuleScene::Update(float dt)
 		GameObject* tmp = new GameObject("TEST 2", true, true, root);
 		scene_game_objects.push_back(tmp);
 	}
+
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleScene::PostUpdate(float dt)
 {
+	my_quad_tree->DebugDraw();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -164,12 +179,12 @@ void ModuleScene::SaveScene(const char* name)
 {
 	JSONFile new_scene;
 
-	std::vector<GameObject*>::iterator iter = scene_game_objects.begin();
+	std::vector<GameObject*>::iterator it = scene_game_objects.begin();
 
-	while (iter != scene_game_objects.end())
+	while (it != scene_game_objects.end())
 	{
-		(*iter)->SaveGO(new_scene);
-		iter++;
+		(*it)->SaveGO(new_scene);
+		it++;
 	}
 
 	new_scene.Create(name);
@@ -185,4 +200,19 @@ void ModuleScene::ClearScene()
 	root->RemoveChildren(true);
 
 	scene_game_objects.clear();
+}
+
+//QuadTreeManagement
+void ModuleScene::ManageQuadTree()
+{
+	std::vector<GameObject*>::iterator it = scene_game_objects.begin();
+
+	while (it != scene_game_objects.end())
+	{
+		if (!my_quad_tree->CheckGOs(*it))
+		{
+			my_quad_tree->AddGO(*it);
+			it++;
+		}
+	}
 }
