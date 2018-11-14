@@ -422,7 +422,7 @@ void ModuleRenderer3D::DrawGameObject(GameObject * go)
 	glDisableClientState(GL_TEXTURE_2D);
 
 	// AABB
-	DrawBox(mesh->resource->mesh_aabb, float4(1.0f, 1.0f, 1.0f, 1.0f));
+	DrawBox(mesh->resource->mesh_aabb);
 }
 
 void ModuleRenderer3D::EnableVSync(bool enable)
@@ -556,10 +556,8 @@ void ModuleRenderer3D::LoadCheckers()
 }
 
 //DEBUG DRAW SHAPES----------------TOLEARN
-void ModuleRenderer3D::DrawBox(AABB &model_box, float4 color)
+void ModuleRenderer3D::DrawBox(AABB &model_box)
 {
-	glColor4f(color.x, color.y, color.z, color.w);
-
 	//Get Vertex
 	float3 vertex[8];
 	model_box.GetCornerPoints(vertex);

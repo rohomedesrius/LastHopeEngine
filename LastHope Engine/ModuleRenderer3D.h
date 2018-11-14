@@ -35,7 +35,7 @@ public:
 	void DrawGameObject(GameObject* go);
 
 	//Debug Draw Shapes
-	void DrawBox(AABB &model_bo, float4 color = float4(1.0f, 1.0f, 0.6f, 1.0f));
+	void DrawBox(AABB &model_bo);
 
 public:
 
