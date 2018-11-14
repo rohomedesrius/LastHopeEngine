@@ -9,8 +9,9 @@ class QuadNode
 {
 public:
 	//QuadNode(float3 minPoint, float3 maxPoint);
-	QuadNode(QuadNode* parent);
 	QuadNode();
+	QuadNode(QuadNode* parent);
+	QuadNode(float3 min, float3 max);
 	~QuadNode();
 
 private:
@@ -29,22 +30,27 @@ public:
 
 	void DebugDraw();
 
-	AABB GetBox();
-	//void SetBox(int n, float3 breakPoint);
+	AABB GetBox() const ;
+	void SetBox(AABB& node_box);
+
+	bool CheckGOs(GameObject* GO);
 
 private:
-	void Divide();
-	void Clean();
+	void DivideNode();
+	void CleanNode();
+	std::vector<AABB> DivideNodeBox(AABB& node_box);
 };
 
 class myQuadTree
 {
 public:
-	myQuadTree();
+	myQuadTree(AABB& root_box);
 	~myQuadTree();
 
-	void Add(GameObject* GO);
-	void Remove(GameObject* GO);
+	void AddGO(GameObject* GO);
+	void RemoveGO(GameObject* GO);
+
+	bool CheckGOs(GameObject* GO);
 
 	//template <typename TYPE>
 	//std::vector<GameObject*> FilterCollisions(TYPE col);

@@ -5,6 +5,14 @@
 // QUADNODE --------------------------------------------------------------
 QuadNode::QuadNode()
 {
+
+}
+
+QuadNode::QuadNode(float3 min, float3 max)
+{
+	parent = nullptr;
+	node_box.minPoint = min;
+	node_box.maxPoint = max;
 }
 
 QuadNode::QuadNode(QuadNode* _parent) : parent(_parent)
@@ -12,98 +20,103 @@ QuadNode::QuadNode(QuadNode* _parent) : parent(_parent)
 	node_box = parent->GetBox();
 }
 
-bool QuadNode::AddGO(GameObject* game_object)
+bool QuadNode::AddGO(GameObject* GO)
 {
-	bool ret = false;
-	if (node_box.Intersects(game_object->GetAABB()))
+	bool ret = true;
+	if (node_box.Intersects(GO->GetAABB()))
 	{
-		if (childs.empty() == true)
+		if (childs.empty())
 		{
-			game_objects.push_back(game_object);
-
-			if (game_objects.size() > 1)
+			if (game_objects.size() > 4)
 			{
-				Divide();
+				DivideNode();
 			}
+			else
+			{
+				game_objects.push_back(GO);
+
+				if (game_objects.size() == 4)
+					DivideNode();
+			}
+				
 		}
 		else
 		{
-			std::vector<QuadNode*> collidedWith;
+			//Checking which childs do collide------
+			std::vector<QuadNode> chillds_colliding;
 			for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
 			{
-				if (it->node_box.Intersects(game_object->GetAABB()))
+				if (it->node_box.Intersects(GO->GetAABB()))
 				{
-					collidedWith.push_back(&*it);
+					chillds_colliding.push_back(&(*it));
 				}
 			}
-			if (collidedWith.size() == 1)
+
+			//Checking if we can push the go to any child----
+			for (std::vector<QuadNode>::iterator it_2 = chillds_colliding.begin(); it_2 != chillds_colliding.end(); it_2++)
 			{
-				collidedWith.front()->AddGO(game_object);
-			}
-			else if (collidedWith.size() > 1)
-			{
-				game_objects.push_back(game_object);
+				if (it_2->game_objects.size() < 4)
+				{
+					it_2->AddGO(GO);
+					return ret;
+				}
 			}
 		}
-		ret = true;
 	}
 	return ret;
 }
 
-bool QuadNode::RemoveGO(GameObject *go)
+bool QuadNode::RemoveGO(GameObject* GO)
 {
 	bool ret = false;
-	if (game_objects.empty() == false)
+
+	if (!game_objects.empty())
 	{
 		for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); it++)
 		{
-			if ((*it) == go)
+			if ((*it) == GO)
 			{
 				game_objects.erase(it);
-				Clean();
+				CleanNode();
 				return true;
 			}
 		}
 	}
 
-	if (childs.empty() == false)
+	if (!childs.empty())
 	{
 		for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
 		{
-			ret = it->RemoveGO(go);
-			if (ret == true)
+			if (it->RemoveGO(GO))
 			{
-				break;
+				return true;
 			}
 		}
 	}
+
 	return ret;
 }
 
 void QuadNode::DebugDraw()
-{
-	float3 vertex[8];
-	node_box.GetCornerPoints(vertex);
-	
-	//App->renderer3D->DrawBox(vertex);
+{	
+	App->renderer3D->DrawBox(node_box);
 
 	for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
 	{
 		it->DebugDraw();
 	}
-
 }
 
-void QuadNode::Divide()
+void QuadNode::DivideNode()
 {
+	std::vector<AABB> boxes = DivideNodeBox(this->node_box);
 	float3 centerPoint = float3::zero;
-	
 	float3 newCenterPoint = node_box.CenterPoint();
 
-	for (int n = 0; n < 4; n++)
+	for (int i = 0; i < 4; i++)
 	{
 		childs.push_back(QuadNode(this));
-//		childs.back().SetBox(n, newCenterPoint);
+
 	}
 
 	std::vector<GameObject*> tmp = game_objects;
@@ -115,10 +128,22 @@ void QuadNode::Divide()
 	}
 }
 
-void QuadNode::Clean()
+std::vector<AABB> QuadNode::DivideNodeBox(AABB& node_box)
+{
+	std::vector<AABB> new_boxes;
+
+	float3 main_box_center = node_box.CenterPoint();
+
+	//Creating First AABB------
+
+	return new_boxes;
+}
+
+void QuadNode::CleanNode()
 {
 	bool childsHaveChilds = false;
 	std::vector<GameObject*> childsGOs;
+
 	for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
 	{
 		if (it->childs.empty() == false)
@@ -150,14 +175,46 @@ void QuadNode::Clean()
 
 		if (parent != nullptr)
 		{
-			parent->Clean();
+			parent->CleanNode();
 		}
 	}
 }
 
-AABB QuadNode::GetBox()
+bool QuadNode::CheckGOs(GameObject* GO)
+{
+	bool ret = false;
+
+	if (!game_objects.empty())
+	{
+		for (std::vector<GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); it++)
+		{
+			if ((*it) == GO)
+				return true;
+		}
+	}
+
+	if (!childs.empty())
+	{
+		for (std::vector<QuadNode>::iterator it = childs.begin(); it != childs.end(); it++)
+		{
+			if (it->CheckGOs(GO))
+			{
+				return true;
+			}
+		}
+	}
+
+	return ret;
+}
+
+AABB QuadNode::GetBox() const
 {
 	return node_box;
+}
+
+void QuadNode::SetBox(AABB& node_box)
+{
+	this->node_box = node_box;
 }
 
 QuadNode::~QuadNode()
@@ -165,32 +222,31 @@ QuadNode::~QuadNode()
 }
 
 //QUADTREE-----------------------------------------------------------
-myQuadTree::myQuadTree()
+myQuadTree::myQuadTree(AABB& root_box)
 {
+	root.SetBox(root_box);
 }
 
 myQuadTree::~myQuadTree()
 {
 }
 
-void myQuadTree::Add(GameObject * GO)
+void myQuadTree::AddGO(GameObject* GO)
 {
-	if (GO->GetAABB().IsFinite())
-	{
-		root.AddGO(GO);
-	}
+	root.AddGO(GO);
 }
 
-void myQuadTree::Remove(GameObject * GO)
+void myQuadTree::RemoveGO(GameObject* GO)
 {
-	if (GO->GetAABB().IsFinite())
-	{
-		root.RemoveGO(GO);
-	}
+	root.RemoveGO(GO);
 }
-
 
 void myQuadTree::DebugDraw()
 {
 	root.DebugDraw();
+}
+
+bool myQuadTree::CheckGOs(GameObject* GO)
+{
+	return root.CheckGOs(GO);
 }
